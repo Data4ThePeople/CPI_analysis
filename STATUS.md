@@ -6,14 +6,14 @@ Process: ~/.claude/d4tp-process/PROCESS.md
 ## Current
 
 Post: none yet
-Step: 1
+Step: 2a (not started; needs a slug)
 Since: 2026-10-14
 
 ## Steps
 
 | Step | What | Confirmed | Notes |
 |---|---|---|---|
-| 1  | Exploration and analysis | | |
+| 1  | Exploration and analysis | 2026-10-14 | Sep 2026 balloon, charts 01-04, what-if; monthly animated balloon Oct 2016-Sep 2026 |
 | 2a | Draft with brackets resolved | | |
 | 2b | Eric's edit, Claude's look-over | | |
 | 2c | Slice markup | | |
@@ -41,3 +41,6 @@ None.
   published) as dist/over-time.html. All months pass the per-month tie-out.
   A second independent tie-out reproduced the output; method text in
   DATASETS.md corrected to match the code where it differed.
+- 2026-10-14 Step 1 confirmed by Eric. The animated balloon keeps one shared
+  altitude scale across all months so it visibly rises and falls; the scale
+  must not change per month.
