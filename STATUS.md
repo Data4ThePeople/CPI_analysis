@@ -6,7 +6,7 @@ Process: ~/.claude/d4tp-process/PROCESS.md
 ## Current
 
 Post: cpi-september-2026
-Step: 2b (Eric editing POST.md)
+Step: 2c (not started)
 Since: 2026-10-14
 
 ## Steps
@@ -15,7 +15,7 @@ Since: 2026-10-14
 |---|---|---|---|
 | 1  | Exploration and analysis | 2026-10-14 | Sep 2026 balloon, charts 01-04, what-if; monthly animated balloon Oct 2016-Sep 2026 |
 | 2a | Draft with brackets resolved | 2026-10-14 | Brackets resolved, closing in; 8 charts incl. tie-out and headline/core waterfalls |
-| 2b | Eric's edit, Claude's look-over | | |
+| 2b | Eric's edit, Claude's look-over | 2026-10-14 | 8 findings: 6 applied, title and subtitle set, publish date Oct 15 kept |
 | 2c | Slice markup | | |
 | 2d | Hero 1680x1080 + alt text | | |
 | 2e | SEO | | |
@@ -53,3 +53,5 @@ None.
 - 2026-10-14 Step 2a confirmed by Eric. Core waterfall added (chart 03, later
   charts 04-08); health insurance method notes replaced by a link to
   cpi-merry-go-round, method-mix caveat kept in limits; closing in.
+- 2026-10-14 Step 2b confirmed by Eric. Viz retitled "The CPI Hot Air Balloon";
+  post title the same; subtitle set. Publishes October 15, 2026.

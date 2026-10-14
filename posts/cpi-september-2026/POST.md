@@ -1,6 +1,6 @@
 ---
-title:
-subtitle:
+title: The CPI Hot Air Balloon
+subtitle: Consumer prices rose 3.7% in the 12 months to September 2026, and gasoline and shelter together did more than half the lifting. Our new tool shows every item in the CPI, every month, back to 2016.
 slug: cpi-september-2026
 date: 2026-10-15
 section: Data 4 Thought
@@ -16,7 +16,7 @@ caption_spacer: 20px
 dividers: false
 ---
 
-# Title
+# The CPI Hot Air Balloon
 
 Yesterday, the Bureau of Labor Statistics released the Consumer Price Index (CPI) for September 2026. This is “the inflation report” that all eyes are on to understand the consumer’s experience of inflation.
 
