@@ -6,7 +6,7 @@ Process: ~/.claude/d4tp-process/PROCESS.md
 ## Current
 
 Post: what-is-driving-cpi
-Step: 2e (SEO; front matter drafted, text proposals with Eric)
+Step: 2f (not started)
 Since: 2026-10-14
 
 ## Steps
@@ -18,7 +18,7 @@ Since: 2026-10-14
 | 2b | Eric's edit, Claude's look-over | 2026-10-14 | 8 findings: 6 applied, title and subtitle set, publish date Oct 15 kept |
 | 2c | Slice markup | 2026-10-14 | 38 slices: 1 drop cap, 15 text, 14 spacers, 5 images, 1 carousel (3), 1 embed, 1 divider |
 | 2d | Hero 1680x1080 + alt text | 2026-10-14 | Re-confirmed: data balloon over Eric's Gemini dawn-town backdrop, composited by build.py; alt 411 chars |
-| 2e | SEO | | |
+| 2e | SEO | 2026-10-14 | Meta 54/152 chars, 8 keywords, Dataset + WebApplication + 10 FAQ; slug what-is-driving-cpi |
 | 2f | Pushed to Prismic (draft) | | |
 | 2g | Mailchimp teaser | | |
 
@@ -68,3 +68,4 @@ None.
 - 2026-10-14 Slug changed in 2e from cpi-september-2026 to what-is-driving-cpi
   (the page will be updated monthly). Folder and image names follow; entries
   above keep the old name.
+- 2026-10-14 Step 2e confirmed by Eric.
