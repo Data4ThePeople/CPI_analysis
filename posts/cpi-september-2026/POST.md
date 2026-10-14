@@ -3,6 +3,7 @@ title: The CPI Hot Air Balloon
 subtitle: Consumer prices rose 3.7% in the 12 months to September 2026, and gasoline and shelter together did more than half the lifting. Our new tool shows every item in the CPI, every month, back to 2016.
 slug: cpi-september-2026
 date: 2026-10-15
+time: 06:30:00-04:00
 section: Data 4 Thought
 hero: images/cpi-september-2026-hero-1680x1080.png
 hero_alt:
