@@ -169,9 +169,10 @@ def hero():
         return
     bg = Image.open(backdrop).convert("RGB")
     w0, h0 = bg.size
-    tw = int(h0 * 1680 / 1080)                      # center crop to 1680x1080's shape
-    bg = bg.crop(((w0 - tw) // 2, 0, (w0 - tw) // 2 + tw, h0)).resize((1680, 1080), Image.LANCZOS)
-    h = 560                                         # balloon height on the hero; sandbag clears the horizon
+    ch = int(h0 * 0.72)                             # zoom in: keep the sky and a strip of town below the horizon
+    tw = int(ch * 1680 / 1080)                      # centered, in 1680x1080's shape
+    bg = bg.crop(((w0 - tw) // 2, 0, (w0 - tw) // 2 + tw, ch)).resize((1680, 1080), Image.LANCZOS)
+    h = 720                                         # balloon height on the hero; sandbag clears the horizon
     w = int(cut.width * h / cut.height)
     cut = cut.resize((w, h), Image.LANCZOS)
     pad = 60                                        # soft shadow, down and to the right
@@ -180,7 +181,7 @@ def hero():
     shadow = Image.new("RGBA", alpha.size, (0, 0, 0, 0))
     shadow.putalpha(alpha)
     shadow = shadow.filter(ImageFilter.GaussianBlur(12))
-    x, y = (1680 - w) // 2, 48
+    x, y = (1680 - w) // 2, 36
     im = bg.convert("RGBA")
     im.alpha_composite(shadow, (x - pad + 12, y - pad + 16))
     im.alpha_composite(cut, (x, y))
