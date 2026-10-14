@@ -79,6 +79,8 @@ body.series #timeline{display:flex}
 body.series #note{display:block;min-height:16px}
 @container (max-width:620px){
   #when{min-width:84px;font-size:13px}
+  #timeline{flex-wrap:wrap;row-gap:4px}
+  #strip{flex:1 1 100%;order:3;height:46px}
   #play{min-width:0;padding:7px 10px}
   header h1{font-size:18px}
   header p{font-size:12.5px}
@@ -112,6 +114,11 @@ body.series #note{display:block;min-height:16px}
   </div>
   <div id="timeline">
     <button id="play" type="button">Play</button>
+    <div class="seg" id="speed" role="group" aria-label="Speed">
+      <button data-speed="1" aria-pressed="true">1x</button>
+      <button data-speed="2" aria-pressed="false">2x</button>
+      <button data-speed="5" aria-pressed="false">5x</button>
+    </div>
     <div id="when" aria-live="polite"></div>
     <svg id="strip" role="slider" tabindex="0" aria-label="Month"></svg>
   </div>
@@ -165,7 +172,8 @@ const $ = s => document.querySelector(s);
 const svg = $('#chart');
 const hm = location.hash.match(/month=(\d{4}-\d{2})/);
 const state = { month: hm && DATA.months[hm[1]] ? hm[1] : DATA.order[DATA.order.length - 1],
-  view: /view=core/.test(location.hash) ? 'core' : 'headline', mode: 'balloon', playing: false };
+  view: /view=core/.test(location.hash) ? 'core' : 'headline', mode: 'balloon', playing: false,
+  speed: +((location.hash.match(/speed=(1|2|5)\b/) || [])[1] || 1) };
 document.querySelectorAll('[data-view]').forEach(x => x.setAttribute('aria-pressed', x.dataset.view === state.view));
 const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 function el(tag, attrs, parent) { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; }
@@ -409,7 +417,7 @@ function render() {
   const baseY = yOf(V.published);
   const prev = svg.dataset.lastY ? +svg.dataset.lastY : baseY;
   mover.style.transition = 'none';
-  const glide = state.playing ? '0.55s' : '';
+  const glide = state.playing ? (0.55 / state.speed).toFixed(2) + 's' : '';
   mover.style.transform = `translate(0px, ${prev - baseY}px)`;
   const g = el('g', {}, mover);
   const envTop = baseY - envH - ropeH;
@@ -552,11 +560,18 @@ function setPlaying(on) {
       const i = DATA.order.indexOf(state.month);
       if (i >= DATA.order.length - 1) { setPlaying(false); return; }
       go(DATA.order[i + 1]);
-    }, 700);
+    }, 700 / state.speed);
   }
 }
 if (SERIES) {
   $('#play').addEventListener('click', () => setPlaying(!state.playing));
+  const speeds = document.querySelectorAll('[data-speed]');
+  speeds.forEach(x => x.setAttribute('aria-pressed', +x.dataset.speed === state.speed));
+  speeds.forEach(b => b.addEventListener('click', () => {
+    state.speed = +b.dataset.speed;
+    speeds.forEach(x => x.setAttribute('aria-pressed', x === b));
+    if (state.playing) setPlaying(true);           // restart the timer at the new speed, from the current month
+  }));
   let dragging = false;
   strip.addEventListener('pointerdown', e => { dragging = true; strip.setPointerCapture(e.pointerId); setPlaying(false); go(nearest(e.clientX)); });
   strip.addEventListener('pointermove', e => { if (dragging) go(nearest(e.clientX)); });
