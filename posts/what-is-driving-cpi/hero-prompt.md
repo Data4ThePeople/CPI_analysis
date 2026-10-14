@@ -1,7 +1,7 @@
 # Hero image prompts: The CPI Hot Air Balloon
 
 Target: 1680x1080 landscape. Generate wide (3:2 or 16:10). The backdrop is
-only the scene; our data balloon (`images/cpi-september-2026-balloon-cutout.png`,
+only the scene; our data balloon (`images/what-is-driving-cpi-balloon-cutout.png`,
 transparent) is laid over the empty sky in the center afterward, so the
 prompt asks for open sky in the middle and no balloon there.
 
@@ -27,8 +27,8 @@ Calm and still. Natural colors, 24mm lens. No text, no signs, no logos.
 
 ## Chosen
 
-Prompt 1, generated in Gemini by Eric. Backdrop: images/cpi-september-2026-hero-source.jpg
+Prompt 1, generated in Gemini by Eric. Backdrop: images/what-is-driving-cpi-hero-source.jpg
 (2752x1536). scripts/build.py center-crops it to 1680x1080 and lays the
-balloon cutout (images/cpi-september-2026-balloon-cutout.png) over the sky,
+balloon cutout (images/what-is-driving-cpi-balloon-cutout.png) over the sky,
 650px tall, centered, with a soft shadow, after cropping to the top 82% of the photo (sky plus a strip of town).
 Alt (under 500 characters): see hero_alt in POST.md.

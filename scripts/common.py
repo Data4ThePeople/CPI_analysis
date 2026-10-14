@@ -16,7 +16,7 @@ load_env()
 ROOT = Path(__file__).resolve().parents[1]
 RAW = ROOT / "data" / "raw"
 PROCESSED = ROOT / "data" / "processed"
-SLUG = "cpi-september-2026"
+SLUG = "what-is-driving-cpi"
 CHARTS = ROOT / "posts" / SLUG / "images"
 DIST = ROOT / "dist"
 

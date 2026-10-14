@@ -5,7 +5,7 @@ Process: ~/.claude/d4tp-process/PROCESS.md
 
 ## Current
 
-Post: cpi-september-2026
+Post: what-is-driving-cpi
 Step: 2e (SEO; front matter drafted, text proposals with Eric)
 Since: 2026-10-14
 
@@ -65,3 +65,6 @@ None.
   dataset schema) is drafted in POST.md and resumes after 2d.
 - 2026-10-14 Step 2d re-confirmed by Eric (photo backdrop, top 82% crop,
   balloon 650px). Back to 2e.
+- 2026-10-14 Slug changed in 2e from cpi-september-2026 to what-is-driving-cpi
+  (the page will be updated monthly). Folder and image names follow; entries
+  above keep the old name.

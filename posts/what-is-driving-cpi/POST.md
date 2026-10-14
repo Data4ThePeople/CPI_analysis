@@ -1,11 +1,11 @@
 ---
 title: The CPI Hot Air Balloon
 subtitle: Consumer prices rose 3.7% in the 12 months to September 2026, and gasoline and shelter together did more than half the lifting. Our new tool shows every item in the CPI, every month, back to 2016.
-slug: cpi-september-2026
+slug: what-is-driving-cpi
 date: 2026-10-15
 time: 06:30:00-04:00
 section: Data 4 Thought
-hero: images/cpi-september-2026-hero-1680x1080.png
+hero: images/what-is-driving-cpi-hero-1680x1080.png
 hero_alt: A hot air balloon made of data floats in a dawn sky over a small American town of houses, trees in fall color and a lit gas station on the main road. The balloon is a patchwork of red boxes, one for each item whose price rose in the 12 months to September 2026; the largest are gasoline, up 34.2%, and owners' equivalent rent, up 3.3%. Below the basket hangs a sandbag of blue boxes for items whose prices fell.
 meta_title: What's driving CPI? Every item, every month since 2016
 description: See which of 204 items are driving CPI inflation, every month since 2016. In September 2026, gasoline and shelter added 60% of the 3.7% rise. Free tool.
@@ -49,6 +49,8 @@ And the other meaning of the double entendre? This data, in our view, is largely
 
 ## How to read the balloon
 
+The CPI Hot Air Balloon is free to use. It breaks the Consumer Price Index for All Urban Consumers (CPI-U) into its 204 most detailed items and shows how much each one added to or took away from 12-month inflation, every month from October 2016 to September 2026. You can also [open it full screen](https://data4thepeople.github.io/CPI_analysis/dist/over-time.html).
+
 Each box in the balloon is one item in the CPI, such as gasoline, rent or airline fares. There are 204 of them, the most detailed items BLS publishes weights for. The size of a box is how much that item added to the 12-month inflation rate, in percentage points. Its color is how much the item's own price changed over those 12 months, from blue (prices fell) to red (prices rose).
 
 Items whose prices fell hang below the basket as sandbags, sized the same way. The top of the basket sits at that month's inflation rate on the scale at the left, and the dashed green line marks the Federal Reserve's 2% target.
@@ -67,14 +69,14 @@ The data comes from the Bureau of Labor Statistics: the monthly price index for 
 
 ### Do the pieces add up?
 
-A breakdown like this is only useful if the pieces add back up to the number BLS publishes. We checked every month, for both headline and core. The chart below compares the 12-month rate BLS publishes (the line) with the sum of our 204 items (the dots).
+Yes. In every month, for both headline and core, our 204 items add up to within 0.0013 percentage points of the rate BLS publishes. The chart below compares the published rate (the line) with the sum of our items (the dots).
 
 ![Two line charts, headline CPI on top and core CPI below, October 2016 to September 2026. In each, a gray line shows the 12-month inflation rate BLS publishes and orange dots show the sum of our item contributions. The dots sit on the line in every month, including the rise to a 9.1% headline peak in June 2022. There is a break at October 2025, which BLS did not publish.](images/01-tieout.png)
 *Source: BLS CPI-U, U.S. city average, not seasonally adjusted; item contributions computed by Data 4 The People.*
 
-In every month, our items add up to within 0.0013 percentage points of the published rate. That is far smaller than the 0.1 point BLS rounds to, and every month matches the rate BLS reports at one decimal. Every check we ran, with the numbers, is in [TIEOUT.md](https://github.com/Data4ThePeople/CPI_analysis/blob/main/TIEOUT.md).
+That gap is far smaller than the 0.1 point BLS rounds to, and every month matches the rate BLS reports at one decimal. Every check we ran, with the numbers, is in [TIEOUT.md](https://github.com/Data4ThePeople/CPI_analysis/blob/main/TIEOUT.md).
 
-## September 2026: what moved inflation
+## What drove CPI in September 2026
 
 In September 2026, headline CPI was 3.7% higher than a year earlier, and core CPI was up 2.6%. The chart below starts at zero and adds the six items that pushed inflation up the most, then the other 194 items together, then the four items that pulled it down the most.
 
@@ -127,14 +129,14 @@ Over those 10 years, health insurance rose an average of 3.55% a year and prescr
 
 We have written before about [how the CPI measures health insurance](https://www.data4thepeople.com/p/cpi-merry-go-round), so we won't repeat it here. But look: health insurance down 9.0% and prescription drugs down 4.5% over the past year. How do these numbers jibe with your experience?
 
-### What if they had risen at their usual pace?
+### What if health insurance and prescription drugs had risen at their usual pace?
 
-To see how much these two items moved the September numbers, we swapped each one's actual 12-month change for its 10-year average and left every other item as published. The chart below compares the result with the published rates.
+Headline CPI would have been 3.9% instead of 3.7%, and core 2.8% instead of 2.6%. To find this, we swapped each one's actual 12-month change for its 10-year average and left every other item as published. The chart below compares the result with the published rates.
 
 ![A bar chart comparing published inflation with a what-if for September 2026. Headline CPI was 3.74% as published and would be 3.91% if health insurance and prescription drugs had risen at their 10-year averages. Core CPI was 2.56% as published and would be 2.78%.](images/08-whatif.png)
 *What-if: health insurance at +3.55% and prescription drugs at +1.71%, all other items as published. Source: BLS; calculation by Data 4 The People.*
 
-Headline CPI would have been 3.91% instead of 3.74%, and core would have been 2.78% instead of 2.56%. Rounded the way BLS reports it, headline would be 3.9% rather than 3.7%, and core 2.8% rather than 2.6%. Health insurance accounts for 0.11 points of the headline difference and prescription drugs for 0.06. For core, the two account for 0.14 and 0.08 points.
+In full, headline CPI would have been 3.91% instead of 3.74%, and core 2.78% instead of 2.56%. Health insurance accounts for 0.11 points of the headline difference and prescription drugs for 0.06. For core, the two account for 0.14 and 0.08 points.
 
 This is a simple swap, not a forecast. It shows how much these two items held down the September numbers. It does not say what their prices would have done.
 
@@ -157,3 +159,39 @@ Enjoy your analysis of the hot air. We’ll update this each month when BLS rele
 **Health insurance.** BLS changed how it measures health insurance during these 10 years, so its 10-year average mixes two methods.
 
 **What this does not tell you.** A contribution shows how much an item moved the published number. It does not explain why its price changed. The shares of spending are averages across urban consumers, so the mix of items in any one household's budget can look very different.
+
+**Download.** The monthly numbers for every item are free to download: [one row per month](https://raw.githubusercontent.com/Data4ThePeople/CPI_analysis/main/data/processed/monthly_summary.csv) and [one row per item and month](https://raw.githubusercontent.com/Data4ThePeople/CPI_analysis/main/data/processed/monthly_items.csv).
+
+## Common questions
+
+### What is driving CPI inflation right now?
+
+In September 2026, gasoline and shelter did most of the work. Gasoline, up 34.2% from a year earlier, added 1.09 points of the 3.7% rise in headline CPI. Shelter, mostly rent and owners' equivalent rent, added 1.14 points. Together they account for 60% of the increase.
+
+### What is driving core CPI?
+
+Shelter. In September 2026, shelter added 1.43 of the 2.56 points in core CPI, or 56%. Owners' equivalent rent alone added 1.02 points. Airline fares added 0.25 and hospital services 0.15.
+
+### What is pulling CPI down?
+
+In September 2026, motor vehicle insurance (down 5.0%), health insurance (down 9.0%), phones and similar devices (down 12.7%) and prescription drugs (down 4.5%) pulled headline CPI down the most, by 0.14, 0.08, 0.06 and 0.04 points. In all, 55 items with falling prices took 0.51 points off.
+
+### How much does gasoline add to CPI?
+
+In September 2026, gasoline added 1.09 percentage points to the 3.7% rise in headline CPI, or 29% of it. Gasoline is about 3% of consumer spending in the CPI, but its price was 34.2% higher than a year earlier.
+
+### What does an item's contribution to CPI mean?
+
+It is how many percentage points of the 12-month change in the CPI come from that item: its share of consumer spending times its own price change, adjusted for BLS's January weight update. The contributions of all 204 items add up to the published rate.
+
+### What is the difference between headline and core CPI?
+
+Headline CPI covers all items. Core CPI leaves out food and energy. In September 2026, headline CPI was up 3.7% and core was up 2.6%.
+
+### Why is there no October 2025?
+
+BLS did not collect prices or publish a CPI for October 2025 during the federal funding lapse. It resumed collecting prices on November 14, 2025.
+
+### How often is the CPI Hot Air Balloon updated?
+
+Each month, when BLS releases the CPI.
