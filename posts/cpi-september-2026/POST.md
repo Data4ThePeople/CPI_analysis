@@ -26,7 +26,7 @@ But, alas, so many people think CPI is real, that it has become a very real and 
 
 That said, we created a new tool to display CPI over time. We’re quite excited about this new tool, because we were able to work a fitting double entendre into the visualization itself. We have displayed CPI itself as a hot air balloon, with the air lifting the balloon up (items with year-over-year inflation), and the ballast pulling it down (items with year-over-year deflation). The items are sized by how much they added to the CPI number, and you can switch between “core” CPI and “headline” CPI (core being another fabricated concept, in our view, but one that many people care about).
 
-And then the other part of the double entendre? This data, in our view, is largely just hot air.
+And the other meaning of the double entendre? This data, in our view, is largely just hot air.
 
 <iframe src="https://data4thepeople.github.io/CPI_analysis/dist/over-time.html" width="100%" height="780" frameborder="0" scrolling="no" title="What moved inflation, October 2016 to September 2026"></iframe>
 ::: spacer 40px
