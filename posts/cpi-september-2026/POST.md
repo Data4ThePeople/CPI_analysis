@@ -20,11 +20,11 @@ dividers: false
 
 Yesterday, the Bureau of Labor Statistics released the Consumer Price Index (CPI) for September 2026. This is “the inflation report” that all eyes are on to understand the consumer’s experience of inflation.
 
-For the new D4TP readers, I will briefly indoctrinate you to my views on CPI – it reflects no one’s experience of inflation. We illustrated this just a couple weeks ago using gasoline costs. It is very much worth reading before attributing much meaning to CPI as a proxy for real people inflation.
+For the new D4TP readers, I will briefly indoctrinate you into my views on CPI – it reflects no one’s experience of inflation. We [illustrated this](https://www.data4thepeople.com/p/gasoline-share-of-income) three weeks ago using gasoline costs. It is very much worth reading before attributing much meaning to CPI as a proxy for the inflation real people feel.
 
-But, alas, so many people think CPI is real, that is has become a very real and important concept. And so, we can’t just dismiss this data. We can simultaneously understand that CPI is not inflation that you and I feel, but it is still extremely important.
+But, alas, so many people think CPI is real, that it has become a very real and important concept. And so, we can’t just dismiss this data. We can simultaneously understand that CPI is not inflation that you and I feel, but it is still extremely important.
 
-That said, we created a new tool to display CPI over time. We’re quite excited about this new tool, because we were able to work an appropriate double entendre analogy into the visualization itself. We have displayed CPI itself as a hit air balloon, with the air lifting the balloon up (items with year-over-year inflation), and the ballast pulling it down (items with year-over-year deflation). The items are sized by how much they added to the CPI number, and you can switch between “core” CPI and “headline” CPI (core being another fabricated concept, in our view, but one that many people care about).
+That said, we created a new tool to display CPI over time. We’re quite excited about this new tool, because we were able to work an appropriate double entendre analogy into the visualization itself. We have displayed CPI itself as a hot air balloon, with the air lifting the balloon up (items with year-over-year inflation), and the ballast pulling it down (items with year-over-year deflation). The items are sized by how much they added to the CPI number, and you can switch between “core” CPI and “headline” CPI (core being another fabricated concept, in our view, but one that many people care about).
 
 And then the other part of the double entendre? This data, in our view, is largely just hot air.
 
