@@ -135,4 +135,6 @@ This is a simple swap, not a forecast. It shows how much these two items held do
 
 **Precision.** A single item's price change is measured less precisely than the total. BLS publishes estimates of this sampling error, which we have not used here.
 
+**Health insurance.** BLS changed how it measures health insurance during these 10 years, so its 10-year average mixes two methods.
+
 **What this does not tell you.** A contribution shows how much an item moved the published number. It does not explain why its price changed. The shares of spending are averages across urban consumers, so the mix of items in any one household's budget can look very different.
