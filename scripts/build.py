@@ -73,7 +73,8 @@ def encode(months, order, title, notes=None):
     return {
         "title": title,
         "source": ("Source: BLS Consumer Price Index (CPI-U, U.S. city average, not seasonally adjusted) and "
-                   "relative importance tables. Contributions computed by Data 4 The People."),
+                   "relative importance tables. Contributions computed by Data 4 The People. "
+                   "The Federal Reserve's 2% goal is for the PCE price index, not the CPI; the line is shown for reference."),
         "axis": AXIS, "color": {"steps": STEPS},
         "highlight": ["Health insurance", "Prescription drugs"],
         "items": item_meta, "parents": parents, "order": order, "months": out,

@@ -445,7 +445,7 @@ function render() {
   }
   const ty = yOf(ax.target);
   el('line', { x1: axisX, x2: W, y1: ty, y2: ty, stroke: css('--target'), 'stroke-width': 1.2, 'stroke-dasharray': '5 4' }, ag);
-  const tl = el('text', { x: W - 4, y: ty - 5, 'text-anchor': 'end', fill: css('--target'), 'font-size': 11 }, ag); tl.textContent = W < 700 ? `${ax.target}% Fed target` : `${ax.target}% Federal Reserve target`;
+  const tl = el('text', { x: W - 4, y: ty - 5, 'text-anchor': 'end', fill: css('--target'), 'font-size': 11 }, ag); tl.textContent = W < 700 ? `${ax.target}% Fed target (PCE)` : `${ax.target}% Federal Reserve target (for PCE)`;
   if (!narrow) {
   const al = el('text', { x: 0, y: 0, class: 'axis-lab', transform: `translate(${narrow ? 9 : 14},${(yOf(ax.min) + yOf(ax.max)) / 2}) rotate(-90)`, 'text-anchor': 'middle' }, ag);
   al.textContent = '12-month change in prices';
