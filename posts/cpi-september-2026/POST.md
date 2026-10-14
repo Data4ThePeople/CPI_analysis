@@ -20,7 +20,7 @@ dividers: false
 
 Yesterday, the Bureau of Labor Statistics released the Consumer Price Index (CPI) for September 2026. This is “the inflation report” that all eyes are on to understand the consumer’s experience of inflation.
 
-For the new D4TP readers, I will briefly indoctrinate you into my views on CPI – it reflects no one’s experience of inflation. We [illustrated this](https://www.data4thepeople.com/p/gasoline-share-of-income) three weeks ago using gasoline costs. It is very much worth reading before attributing much meaning to CPI as a proxy for the inflation real people feel.
+For the new D4TP readers, I will briefly indoctrinate you into my views on CPI – it reflects no one’s experience of inflation. We [illustrated this](https://www.data4thepeople.com/p/gasoline-share-of-income) three weeks ago using gasoline costs. That post is very much worth reading before attributing much meaning to CPI as a proxy for the inflation real people feel.
 
 But, alas, so many people think CPI is real, that it has become a very real and important concept. And so, we can’t just dismiss this data. We can simultaneously understand that CPI is not inflation that you and I feel, but it is still extremely important.
 
@@ -41,7 +41,7 @@ How to use it:
 
 - Press **Play** to run through every month from October 2016 to September 2026. **1x**, **2x** and **5x** set the speed.
 - Click or drag on the timeline under the balloon to jump to a month. The arrow keys step one month at a time.
-- **All items** shows headline CPI. **Core** shows core CPI, which leaves out food and energy.
+- **All items** shows headline CPI. **Core (less food and energy)** shows core CPI.
 - **Table** shows the same numbers as a list, which is easier to read on a phone.
 - Hover over a box to see the item's share of spending, its price change and how much it added.
 
@@ -67,13 +67,13 @@ In September 2026, headline CPI was 3.7% higher than a year earlier, and core CP
 
 Gasoline added the most. Its price was 34.2% higher than a year earlier. Gasoline is about 3% of consumer spending in the CPI, but it added 1.09 of the 3.74 points, or 29% of the increase.
 
-Housing came next. Owners' equivalent rent, which is BLS's estimate of what homeowners would pay to rent their own home, added 0.82 points, and rent added 0.21. Counting hotels and other lodging, shelter added 1.14 points, or 31% of the increase.
+Shelter came next. Owners' equivalent rent, which is BLS's estimate of what homeowners would pay to rent their own home, added 0.82 points, and rent added 0.21. Counting hotels and other lodging, shelter added 1.14 points, or 31% of the increase.
 
 Taken as groups, energy (gasoline, electricity, fuel oil, natural gas and other fuels) added 1.35 points, or 36% of the increase. Food added 0.34 points, or 9%. Everything else, the items that make up core CPI, added 2.05 points, or 55%.
 
 Four items pulled the rate down the most. Motor vehicle insurance fell 5.0% and took 0.14 points off. Health insurance fell 9.0% (0.08 points), phones and similar devices fell 12.7% (0.06 points), and prescription drugs fell 4.5% (0.04 points).
 
-Core CPI tells a similar story without food and energy. The chart below builds up core the same way. Because core leaves out food and energy, each remaining item is a larger share of the total, so its contribution in points is larger than in the headline chart.
+Core CPI leaves out food and energy, so gasoline drops out and shelter leads. The chart below builds up core the same way. Because core leaves out food and energy, each remaining item is a larger share of the total, so its contribution in points is larger than in the headline chart.
 
 ![A waterfall chart of what added up to 2.6% core inflation in September 2026. Owners' equivalent rent added 1.02 percentage points, rent of primary residence 0.27, airline fares 0.25, hospital services 0.15, hotels and motels 0.07 and dental services 0.07. The other 130 core items added 1.13 points together. Motor vehicle insurance took away 0.17 points, health insurance 0.10, phones and other information devices 0.07 and prescription drugs 0.05. The total is 2.56 points.](images/03-waterfall-core.png)
 *Each bar is the item's contribution to the 12-month change in core CPI (less food and energy), in percentage points. Source: BLS; contributions computed by Data 4 The People.*
@@ -82,7 +82,7 @@ Shelter added 1.43 of the 2.56 points, or 56% of core inflation. Owners' equival
 
 ### The prices that rose the fastest
 
-The waterfall shows which items moved the total. A different question is which prices rose the fastest, whatever their size. The first slide below shows the 15 items with the largest 12-month price increases. The next two show the 15 items that added the most to inflation and the 15 that pulled it down the most.
+The waterfalls show which items moved the total. A different question is which prices rose the fastest, whatever their size. The first slide below shows the 15 items with the largest 12-month price increases. The next two show the 15 items that added the most to inflation and the 15 that pulled it down the most.
 
 ::: carousel
 ![A bar chart of the 15 items whose prices rose the most over the 12 months to September 2026. Fuel oil rose 74.2%, other motor fuels 60.9% and gasoline 34.2%, all energy items. Computer software and accessories rose 28.4% and airline fares 22.4%. The rest rose between 8.4% and 16.2%. Most are small shares of spending; gasoline (2.98%) and airline fares (0.88%) are the largest.](images/04-fastest-rising.png)
