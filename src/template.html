@@ -72,19 +72,6 @@ body.series #timeline{display:flex}
 #strip{flex:1;min-width:0;height:52px;display:block;cursor:pointer;touch-action:none}
 #note{display:none;font-size:11.5px;color:var(--muted);padding-top:3px}
 body.series #note{display:block;min-height:16px}
-/* Wide screens: playback controls in a left column, so the balloon gets the full height. */
-@container page (min-width:760px){
-  body.series #app{display:grid;grid-template-columns:184px minmax(0,1fr);grid-template-rows:auto auto minmax(0,1fr) auto;
-    grid-template-areas:"h h" "c c" "t s" "f f";column-gap:14px}
-  body.series header{grid-area:h} body.series #controls{grid-area:c} body.series #stage{grid-area:s} body.series footer{grid-area:f}
-  body.series #side{grid-area:t;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:18px}
-  body.series #timeline{flex-direction:column;align-items:stretch;gap:10px;padding-top:0}
-  body.series #when{order:-1;font-size:22px;min-width:0}
-  body.series #play{width:100%}
-  body.series #speed{align-self:stretch;display:flex} body.series #speed button{flex:1}
-  body.series #strip{flex:none;height:90px;width:100%}
-  body.series #note{padding-top:8px}
-}
 @container (max-width:620px){
   #when{min-width:84px;font-size:13px}
   #timeline{flex-wrap:wrap;row-gap:4px}
@@ -363,7 +350,7 @@ function render() {
   const axisX = narrow ? 34 : 54;
   // Fixed envelope size so later months are drawn at the same size.
   // The timeline version draws its largest balloon a bit smaller, leaving room for the altitude to move.
-  const envHMax = Math.min(H * (SERIES ? 0.46 : 0.48), (W - axisX - 30) / (2 * 0.43) * 0.98);
+  const envHMax = Math.min(H * (SERIES ? 0.44 : 0.48), (W - axisX - 30) / (2 * 0.43) * 0.98);
   const basketH = Math.max(18, envHMax * 0.07), basketW = envHMax * 0.22;
   const rank = RANK[state.view];
   const order = SERIES ? (a, b) => (rank[b.id] - rank[a.id]) || (b.v - a.v) : (a, b) => b.v - a.v;
