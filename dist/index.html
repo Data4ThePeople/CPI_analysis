@@ -77,6 +77,19 @@ body.series #timeline{display:flex}
 #strip{flex:1;min-width:0;height:52px;display:block;cursor:pointer;touch-action:none}
 #note{display:none;font-size:11.5px;color:var(--muted);padding-top:3px}
 body.series #note{display:block;min-height:16px}
+/* Wide screens: playback controls in a left column, so the balloon gets the full height. */
+@container page (min-width:760px){
+  body.series #app{display:grid;grid-template-columns:184px minmax(0,1fr);grid-template-rows:auto auto minmax(0,1fr) auto;
+    grid-template-areas:"h h" "c c" "t s" "f f";column-gap:14px}
+  body.series header{grid-area:h} body.series #controls{grid-area:c} body.series #stage{grid-area:s} body.series footer{grid-area:f}
+  body.series #side{grid-area:t;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:18px}
+  body.series #timeline{flex-direction:column;align-items:stretch;gap:10px;padding-top:0}
+  body.series #when{order:-1;font-size:22px;min-width:0}
+  body.series #play{width:100%}
+  body.series #speed{align-self:stretch;display:flex} body.series #speed button{flex:1}
+  body.series #strip{flex:none;height:90px;width:100%}
+  body.series #note{padding-top:8px}
+}
 @container (max-width:620px){
   #when{min-width:84px;font-size:13px}
   #timeline{flex-wrap:wrap;row-gap:4px}
@@ -112,6 +125,7 @@ body.series #note{display:block;min-height:16px}
     <svg id="chart" role="img" aria-labelledby="title dek"></svg>
     <div id="table-wrap"><table id="table"></table></div>
   </div>
+  <div id="side">
   <div id="timeline">
     <button id="play" type="button">Play</button>
     <div class="seg" id="speed" role="group" aria-label="Speed">
@@ -123,6 +137,7 @@ body.series #note{display:block;min-height:16px}
     <svg id="strip" role="slider" tabindex="0" aria-label="Month"></svg>
   </div>
   <div id="note"></div>
+  </div>
   <footer>
     <span id="source"></span>
     <span id="credit">Built by <a href="https://www.data4thepeople.com" target="_blank" rel="noopener">Data 4 The People</a></span>
@@ -356,7 +371,7 @@ function render() {
   const axisX = narrow ? 34 : 54;
   // Fixed envelope size so later months are drawn at the same size.
   // The timeline version draws its largest balloon a bit smaller, leaving room for the altitude to move.
-  const envHMax = Math.min(H * (SERIES ? 0.37 : 0.48), (W - axisX - 30) / (2 * 0.43) * 0.98);
+  const envHMax = Math.min(H * (SERIES ? 0.46 : 0.48), (W - axisX - 30) / (2 * 0.43) * 0.98);
   const basketH = Math.max(18, envHMax * 0.07), basketW = envHMax * 0.22;
   const rank = RANK[state.view];
   const order = SERIES ? (a, b) => (rank[b.id] - rank[a.id]) || (b.v - a.v) : (a, b) => b.v - a.v;
@@ -405,7 +420,7 @@ function render() {
   }
   const ty = yOf(ax.target);
   el('line', { x1: axisX, x2: W, y1: ty, y2: ty, stroke: css('--target'), 'stroke-width': 1.2, 'stroke-dasharray': '5 4' }, ag);
-  const tl = el('text', { x: W - 4, y: ty - 5, 'text-anchor': 'end', fill: css('--target'), 'font-size': 11 }, ag); tl.textContent = narrow ? `${ax.target}% Fed target` : `${ax.target}% Federal Reserve target`;
+  const tl = el('text', { x: W - 4, y: ty - 5, 'text-anchor': 'end', fill: css('--target'), 'font-size': 11 }, ag); tl.textContent = W < 700 ? `${ax.target}% Fed target` : `${ax.target}% Federal Reserve target`;
   if (!narrow) {
   const al = el('text', { x: 0, y: 0, class: 'axis-lab', transform: `translate(${narrow ? 9 : 14},${(yOf(ax.min) + yOf(ax.max)) / 2}) rotate(-90)`, 'text-anchor': 'middle' }, ag);
   al.textContent = '12-month change in prices';
@@ -459,7 +474,8 @@ function render() {
     el('polyline', { points: pts, fill: 'none', stroke: css('--ink'), 'stroke-width': 1.3 }, g);
     el('circle', { cx: mx, cy: my, r: 3.5, fill: css('--ink'), stroke: css('--bg'), 'stroke-width': 1.5 }, g);
     const anchor = side === 'R' ? 'start' : 'end';
-    const t = el('text', { x: tx, y: ty0 - 2, 'text-anchor': anchor, fill: css('--ink'), 'font-size': narrow ? 11.5 : 13 }, g);
+    const t = el('text', { x: tx, y: ty0 - 2, 'text-anchor': anchor, fill: css('--ink'), 'font-size': narrow ? 11.5 : 13,
+      stroke: css('--bg'), 'stroke-width': 4, 'stroke-linejoin': 'round', 'paint-order': 'stroke' }, g);   // halo keeps grid lines off the text
     const a = el('tspan', { x: tx, 'font-weight': 700 }, t); a.textContent = b.d.n;
     const c = el('tspan', { x: tx, dy: narrow ? 13 : 15, fill: css('--ink-2') }, t); c.textContent = `${fmtPct(b.d.y)} price, ${fmtPts(b.d.c)} pts`;
   }
