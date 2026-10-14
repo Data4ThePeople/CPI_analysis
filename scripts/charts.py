@@ -1,7 +1,7 @@
 """Static charts in the dark house palette, from data/processed/contrib.json.
 
 Every number drawn is read from contrib.json; the numbers behind each chart are
-also written to charts/numbers/*.csv for the tie-out.
+also written to posts/<slug>/images/numbers/*.csv for the tie-out.
 """
 from __future__ import annotations
 

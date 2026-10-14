@@ -16,7 +16,8 @@ load_env()
 ROOT = Path(__file__).resolve().parents[1]
 RAW = ROOT / "data" / "raw"
 PROCESSED = ROOT / "data" / "processed"
-CHARTS = ROOT / "charts"
+SLUG = "cpi-september-2026"
+CHARTS = ROOT / "posts" / SLUG / "images"
 DIST = ROOT / "dist"
 
 # download.bls.gov rejects bare agents; BLS asks callers to identify themselves.

@@ -5,8 +5,8 @@ Process: ~/.claude/d4tp-process/PROCESS.md
 
 ## Current
 
-Post: none yet
-Step: 2a (not started; needs a slug)
+Post: cpi-september-2026
+Step: 2a (waiting for Eric's draft)
 Since: 2026-10-14
 
 ## Steps
@@ -44,3 +44,6 @@ None.
 - 2026-10-14 Step 1 confirmed by Eric. The animated balloon keeps one shared
   altitude scale across all months so it visibly rises and falls; the scale
   must not change per month.
+- 2026-10-14 Step 2a opened. Slug cpi-september-2026. Created posts/cpi-september-2026/
+  with POST.md from the template; charts 01-04 moved from charts/ to
+  posts/cpi-september-2026/images/ (re-rendered, unchanged; tie-out 40 of 40).
