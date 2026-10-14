@@ -53,7 +53,9 @@ header p{margin:0;color:var(--ink-2);font-size:14px;line-height:1.4}
 table{border-collapse:collapse;width:100%;font-size:13px}
 th,td{padding:5px 8px;border-bottom:1px solid var(--grid);text-align:right;white-space:nowrap}
 th:first-child,td:first-child{text-align:left;white-space:normal}
-th{position:sticky;top:0;background:var(--bg);color:var(--ink-2);font-weight:600;cursor:pointer}
+th{position:sticky;top:0;background:var(--bg);color:var(--ink-2);font-weight:600;cursor:pointer;user-select:none}
+th:hover{color:var(--ink)}
+th:focus-visible{outline:2px solid var(--dn-4);outline-offset:-2px}
 footer{display:flex;justify-content:space-between;gap:12px;font-size:11px;color:var(--muted);padding-top:6px;flex-wrap:wrap}
 footer a{color:inherit}
 #tip{position:fixed;pointer-events:none;z-index:9;background:var(--tip-bg);border:1px solid var(--tip-edge);border-radius:8px;
@@ -556,14 +558,33 @@ function render() {
   document.body.setAttribute('data-ready', '1');
 }
 
+// Table sort: click (or Enter on) a header to sort by it; click again to flip the order.
+// A new column starts high to low (names start A to Z). The sum row stays at the bottom.
+const SORT = { key: 'c', dir: -1 };
+const COLS = [['f', 'Item'], ['w', 'Weight'], ['y', 'Price change, 12 months'], ['c', 'Added (pts)']];
+let lastV = null;
 function renderTable(V) {
-  const rows = V.items.slice().sort((a, b) => b.c - a.c);
+  lastV = V;
+  const val = d => SORT.key === 'f' ? d.f.toLowerCase() : (d[SORT.key] == null ? -Infinity : d[SORT.key]);
+  const rows = V.items.slice().sort((a, b) => { const x = val(a), y = val(b); return (x < y ? -1 : x > y ? 1 : 0) * SORT.dir || b.c - a.c; });
   const T = $('#table');
-  T.innerHTML = `<thead><tr><th>Item</th><th>Weight</th><th>Price change, 12 months</th><th>Added (pts)</th></tr></thead><tbody>` +
+  const head = COLS.map(([k, lab]) => {
+    const on = SORT.key === k, arrow = on ? (SORT.dir < 0 ? ' ▼' : ' ▲') : '';
+    const aria = on ? (SORT.dir < 0 ? 'descending' : 'ascending') : 'none';
+    return `<th data-sort="${k}" aria-sort="${aria}" tabindex="0" title="Sort">${lab}${arrow}</th>`;
+  }).join('');
+  T.innerHTML = `<thead><tr>${head}</tr></thead><tbody>` +
     rows.map(d => `<tr><td>${d.f}${d.fill ? ' *' : ''}</td><td>${fmtW(d.w)}</td><td>${fmtPct(d.y)}</td><td>${fmtPts(d.c)}</td></tr>`).join('') +
     `<tr><td><b>Sum of items</b></td><td>${fmtW(rows.reduce((s, d) => s + d.w, 0))}</td><td></td><td><b>${fmtPts(V.sum)}</b></td></tr></tbody>` +
-    `<caption style="caption-side:bottom;text-align:left;font-size:11.5px;color:var(--muted);padding:6px 8px">* No published index for these months; change is what is left of its parent group’s published change.</caption>`;
+    `<caption style="caption-side:bottom;text-align:left;font-size:11.5px;color:var(--muted);padding:6px 8px">* No published index for these months; change is what is left of its parent group’s published change. Click a column heading to sort.</caption>`;
 }
+function sortBy(k) {
+  if (SORT.key === k) SORT.dir = -SORT.dir;
+  else { SORT.key = k; SORT.dir = k === 'f' ? 1 : -1; }
+  if (lastV) renderTable(lastV);
+}
+$('#table').addEventListener('click', e => { const th = e.target.closest('th[data-sort]'); if (th) sortBy(th.dataset.sort); });
+$('#table').addEventListener('keydown', e => { const th = e.target.closest('th[data-sort]'); if (th && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); sortBy(th.dataset.sort); } });
 
 document.querySelectorAll('[data-view]').forEach(b => b.addEventListener('click', () => {
   state.view = b.dataset.view;
