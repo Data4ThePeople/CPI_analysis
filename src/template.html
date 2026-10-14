@@ -107,7 +107,8 @@ const th = location.hash.match(/theme=(light|dark)/); if (th) document.documentE
 const NS = 'http://www.w3.org/2000/svg';
 const $ = s => document.querySelector(s);
 const svg = $('#chart');
-const state = { month: DATA.order[DATA.order.length - 1], view: 'headline', mode: 'balloon' };
+const state = { month: DATA.order[DATA.order.length - 1], view: /view=core/.test(location.hash) ? 'core' : 'headline', mode: 'balloon' };
+document.querySelectorAll('[data-view]').forEach(x => x.setAttribute('aria-pressed', x.dataset.view === state.view));
 const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 function el(tag, attrs, parent) { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; }
 const fmtPct = v => (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v).toFixed(1) + '%';
@@ -348,14 +349,21 @@ function render() {
   const sackBoxes = squarify(neg, sx, sy, sackW, sackH);
   for (const b of sackBoxes) tile(sg, b, state.view);
   el('path', { d: sackPath, fill: 'none', stroke: css('--sack-edge'), 'stroke-width': 1.8 }, g);
-  // Call out the highlighted items (health insurance, prescription drugs) to the left of the sack.
+  // Call out the highlighted items (health insurance, prescription drugs), each on the side nearest its box.
   const hl = sackBoxes.filter(b => (DATA.highlight || []).includes(b.d.f)).sort((a, b2) => (a.y + a.h / 2) - (b2.y + b2.h / 2));
-  let lastY = -Infinity;
+  const last = { L: -Infinity, R: -Infinity };
   for (const b of hl) {
-    const ty0 = Math.max(b.y + b.h / 2, lastY + 30); lastY = ty0;
-    const tx = sx - (narrow ? 10 : 18);
-    el('polyline', { points: `${b.x + 2},${b.y + b.h / 2} ${tx + 4},${ty0}`, fill: 'none', stroke: css('--ink'), 'stroke-width': 1 }, g);
-    const t = el('text', { x: tx, y: ty0 - 2, 'text-anchor': 'end', fill: css('--ink'), 'font-size': narrow ? 11.5 : 13 }, g);
+    const mx = b.x + b.w / 2, my = b.y + b.h / 2;
+    const side = (mx > sx + sackW / 2 && W - (sx + sackW) > 170) ? 'R' : 'L';
+    const ty0 = Math.max(my, last[side] + 32); last[side] = ty0;
+    const edgeX = side === 'R' ? sx + sackW + 2 : sx - 2;
+    const tx = side === 'R' ? sx + sackW + (narrow ? 10 : 18) : sx - (narrow ? 10 : 18);
+    const pts = `${mx},${my} ${edgeX},${ty0} ${side === 'R' ? tx - 4 : tx + 4},${ty0}`;
+    el('polyline', { points: pts, fill: 'none', stroke: css('--bg'), 'stroke-width': 4, 'stroke-linejoin': 'round' }, g);
+    el('polyline', { points: pts, fill: 'none', stroke: css('--ink'), 'stroke-width': 1.3 }, g);
+    el('circle', { cx: mx, cy: my, r: 3.5, fill: css('--ink'), stroke: css('--bg'), 'stroke-width': 1.5 }, g);
+    const anchor = side === 'R' ? 'start' : 'end';
+    const t = el('text', { x: tx, y: ty0 - 2, 'text-anchor': anchor, fill: css('--ink'), 'font-size': narrow ? 11.5 : 13 }, g);
     const a = el('tspan', { x: tx, 'font-weight': 700 }, t); a.textContent = b.d.n;
     const c = el('tspan', { x: tx, dy: narrow ? 13 : 15, fill: css('--ink-2') }, t); c.textContent = `${fmtPct(b.d.y)} price, ${fmtPts(b.d.c)} pts`;
   }
@@ -369,7 +377,8 @@ function render() {
   };
   if (roomRight) {
     ann(lx, envTop + envH * 0.40, fmtPts(posSum) + ' pts', `${pos.length} items pushed prices up`, 'start');
-    ann(sx + sackW + 14, sy + sackH * 0.45, fmtPts(-negSum) + ' pts', `${neg.length} items pulled down`, 'start');
+    const ny = last.R > -Infinity ? last.R + 40 : sy + sackH * 0.45;
+    ann(sx + sackW + 18, ny, fmtPts(-negSum) + ' pts', `${neg.length} items pulled down`, 'start');
   }
   // altitude marker: the published rate at the basket
   const mk = el('g', {}, mover);
