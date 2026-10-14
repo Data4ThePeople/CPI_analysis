@@ -181,7 +181,7 @@ def hero():
     shadow = Image.new("RGBA", alpha.size, (0, 0, 0, 0))
     shadow.putalpha(alpha)
     shadow = shadow.filter(ImageFilter.GaussianBlur(12))
-    x, y = (1680 - w) // 2, 36
+    x, y = (1680 - w) // 2, 80
     im = bg.convert("RGBA")
     im.alpha_composite(shadow, (x - pad + 12, y - pad + 16))
     im.alpha_composite(cut, (x, y))
