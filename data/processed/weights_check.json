@@ -1,0 +1,79 @@
+{
+ "2015": {
+  "source": "2015 December, old-weights table",
+  "matched": 161,
+  "mean_abs_diff": 0.00032,
+  "max_abs_diff": 0.001,
+  "worst": "Tools, hardware and supplies"
+ },
+ "2016": {
+  "source": "2016 December table (no weight update)",
+  "matched": 179,
+  "mean_abs_diff": 0.00033,
+  "max_abs_diff": 0.0009,
+  "worst": "Other fresh vegetables"
+ },
+ "2017": {
+  "source": "2017 December, old-weights table",
+  "matched": 160,
+  "mean_abs_diff": 0.00034,
+  "max_abs_diff": 0.0009,
+  "worst": "Legal services"
+ },
+ "2018": {
+  "source": "2018 December table (no weight update)",
+  "matched": 178,
+  "mean_abs_diff": 0.00032,
+  "max_abs_diff": 0.001,
+  "worst": "Infants' and toddlers' apparel"
+ },
+ "2019": {
+  "source": "2019 December, old-weights table",
+  "matched": 153,
+  "mean_abs_diff": 0.00034,
+  "max_abs_diff": 0.0009,
+  "worst": "Butter and margarine"
+ },
+ "2020": {
+  "source": "2020 December table (no weight update)",
+  "matched": 176,
+  "mean_abs_diff": 0.00033,
+  "max_abs_diff": 0.001,
+  "worst": "Wine at home"
+ },
+ "2021": {
+  "source": "2021 December, old-weights table",
+  "matched": 173,
+  "mean_abs_diff": 0.00035,
+  "max_abs_diff": 0.001,
+  "worst": "Other lodging away from home including hotels and motels"
+ },
+ "2022": {
+  "source": "2022 December, old-weights table",
+  "matched": 174,
+  "mean_abs_diff": 0.00031,
+  "max_abs_diff": 0.0009,
+  "worst": "Soups"
+ },
+ "2023": {
+  "source": "2023 December, old-weights table",
+  "matched": 172,
+  "mean_abs_diff": 0.00033,
+  "max_abs_diff": 0.001,
+  "worst": "Nonprescription drugs"
+ },
+ "2024": {
+  "source": "2024 December, old-weights table",
+  "matched": 172,
+  "mean_abs_diff": 0.00034,
+  "max_abs_diff": 0.0009,
+  "worst": "Other sweets"
+ },
+ "2025": {
+  "source": "2025 December, old-weights table",
+  "matched": 170,
+  "mean_abs_diff": 0.00033,
+  "max_abs_diff": 0.0009,
+  "worst": "Frozen noncarbonated juices and drinks"
+ }
+}

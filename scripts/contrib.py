@@ -22,77 +22,12 @@ import json
 import re
 import statistics
 
+from chain import Inputs, compute_month, months_for, pct, rolled
 from common import RAW, PROCESSED, TARGET
-from fetch import item_codes, norm
-from weights import build_tree
 
-T = f"{TARGET[0]}-{TARGET[1]:02d}"          # 2026-09
-B = f"{TARGET[0]-1}-{TARGET[1]:02d}"        # 2025-09
-DEC_PRIOR = f"{TARGET[0]-2}-12"             # 2024-12, base of the 2025 weights
-DEC_NEW = f"{TARGET[0]-1}-12"               # 2025-12, base of the 2026 weights
+T, B, DEC_PRIOR, DEC_NEW = months_for(f"{TARGET[0]}-{TARGET[1]:02d}")   # 2026-09, 2025-09, 2024-12, 2025-12
 AVG_YEARS = range(TARGET[0] - 11, TARGET[0] - 1)   # Sep 2015->2016 ... 2024->2025
 WHATIF = {"SEME": "Health insurance", "SEMF01": "Prescription drugs"}
-ENERGY_PARENTS = {"Household energy", "Motor fuel"}
-FOOD_PARENT = "Food"
-
-
-def series():
-    return json.loads((RAW / "indexes.json").read_text())
-
-
-# Each job needs certain months. A leaf uses its own index for a job when that
-# index has those months, otherwise its nearest published parent's.
-JOBS = {"code": (B, T),                  # the 12-month change
-        "wcode": (DEC_PRIOR, B),         # rolling the weight to September 2025
-        "scode": (B, DEC_NEW),           # splitting the year at the January reweight
-        "acode": (DEC_PRIOR, "2025-08")} # the August 2025 weight check only
-
-
-def leaves_with_index(nodes, codes, idx):
-    """Every leaf with the series used for each job (see JOBS).
-
-    BLS has paused or stopped some indexes (household operations, legal
-    services, others), and some publish every other month, so a leaf can use
-    its own index for one job and a parent's for another.
-    """
-    def first(chain, months):
-        for c in chain:
-            code = codes.get(norm(c.name))
-            sid = f"CUUR0000{code}"
-            if code and sid in idx and all(m in idx[sid] for m in months):
-                return c, code
-        raise RuntimeError(f"no index for {chain[0].name}")
-
-    out = []
-    for n in nodes:
-        if n.kids:
-            continue
-        chain, cur = [], n
-        while cur is not None:
-            chain.append(cur)
-            cur = nodes[cur.parent] if cur.parent is not None else None
-        row = {"name": n.name}
-        for job, months in JOBS.items():
-            src, code = first(chain, months)
-            row[job] = code
-            row[job + "_from"] = src.name
-        anc = [c.name for c in chain[1:]]
-        group = ("Energy" if ENERGY_PARENTS & set(anc) else
-                 "Food" if FOOD_PARENT in anc else "Core")
-        row.update({"own_index": row["code_from"] == n.name, "index_from": row["code_from"],
-                    "major": anc[-2] if len(anc) > 1 else (anc[-1] if anc else n.name),
-                    "parent": anc[0] if anc else "", "group": group, "ri_dec_prior": n.weight})
-        out.append(row)
-    return out
-
-
-def rolled(leaves, idx, month, job="wcode"):
-    """BLS relative importance at `month`: the December weight times the item's
-    price relative, divided by the all-items relative. Not rescaled to 100."""
-    A = idx["CUUR0000SA0"]
-    all_rel = A[month] / A[DEC_PRIOR]
-    return {l["name"]: l["ri_dec_prior"] * idx[f"CUUR0000{l[job]}"][month]
-            / idx[f"CUUR0000{l[job]}"][DEC_PRIOR] / all_rel for l in leaves}, all_rel
 
 
 def printed_weights(path, label):
@@ -114,122 +49,22 @@ def check_printed(leaves, w, text):
     return rows
 
 
-def pct(a, b):
-    return (a / b - 1) * 100
-
-
-def chained(w_sep, rel_agg, ri_new, split, full_rel):
-    """Contribution in percentage points; weights in percent of the aggregate."""
-    return w_sep * (split - 1) + rel_agg * ri_new * (full_rel / split - 1)
-
-
 def main():
-    idx = series()
-    codes = item_codes()
-    nodes24, nodes25 = build_tree(2024), build_tree(2025)
-    byname = {n.name: n for n in nodes24}
-    leaves = leaves_with_index(nodes24, codes, idx)
-    ri25 = {n.name: n.weight for n in nodes25 if not n.kids}
-    ri24 = {l["name"]: l["ri_dec_prior"] for l in leaves}
-    if set(ri24) != set(ri25):
-        raise RuntimeError("2024 and 2025 leaf sets differ")
-    zero = {n for n in ri24 if ri24[n] == 0 and ri25[n] == 0}
+    inp = Inputs()
+    idx = inp.idx
+    r = compute_month(inp, T, extra_jobs={"acode": (DEC_PRIOR, "2025-08")})
+    leaves, rows, zero, fills = r["leaves"], r["items"], set(r["zero"]), r["fills"]
+    for i in rows:
+        i.pop("_h"), i.pop("_c")
+    all_yoy, core_yoy = r["published"]["headline"], r["published"]["core"]
+    head_sum, core_sum, simple_sum = r["sum"]["headline"], r["sum"]["core"], r["sum_simple"]
+    core_w = r["core_w"]
 
     # Check rolled weights against the August 2025 column BLS printed.
-    w_aug, _ = rolled(leaves, idx, "2025-08", "acode")
+    w_aug, _ = rolled(leaves, idx, "2025-08", DEC_PRIOR, "acode")
     text, _ = printed_weights(RAW / "release_2025-09.htm", "Aug 2025")
     chk = check_printed(leaves, w_aug, text)
     diffs = [abs(a - b) for _, a, b in chk]
-    w_sep, all_rel_sep = rolled(leaves, idx, B)
-
-    SA0, CORE = idx["CUUR0000SA0"], idx["CUUR0000SA0L1E"]
-    all_yoy, core_yoy = pct(SA0[T], SA0[B]), pct(CORE[T], CORE[B])
-    rel_all, rel_core = SA0[DEC_NEW] / SA0[B], CORE[DEC_NEW] / CORE[B]
-    is_core = {l["name"]: l["group"] == "Core" for l in leaves}
-    # Core's share of all items in September 2025, rolled the same way BLS rolls any aggregate.
-    core_w = (sum(ri24[n] for n, c in is_core.items() if c)
-              * (CORE[B] / CORE[DEC_PRIOR]) / all_rel_sep)
-    core_ri25 = sum(ri25[n] for n, c in is_core.items() if c)
-
-    def terms(W, R, split, full, core):
-        """The two pieces of the chained contribution, headline and (if core) core."""
-        h = (W * (split - 1), rel_all * R * (full / split - 1))
-        c = ((100 * W / core_w) * (split - 1),
-             rel_core * (100 * R / core_ri25) * (full / split - 1)) if core else None
-        return h, c
-
-    items = {}
-    for l in leaves:
-        n = l["name"]
-        s, ss = idx[f"CUUR0000{l['code']}"], idx[f"CUUR0000{l['scode']}"]
-        full, split = s[T] / s[B], ss[DEC_NEW] / ss[B]
-        h, c = terms(w_sep[n], ri25[n], split, full, is_core[n])
-        items[n] = dict(l, w=w_sep[n], h=list(h), cc=list(c) if c else None,
-                        yoy=pct(s[T], s[B]), yoy_source="published" if l["own_index"] else "parent",
-                        contrib_simple=w_sep[n] * pct(s[T], s[B]) / 100)
-
-    def leaves_under(node):
-        return [node.name] if not node.kids else [
-            x for k in node.kids for x in leaves_under(nodes24[k])]
-
-    # Fill unpublished leaves from their parent, deepest parent first. The
-    # parent's own rolled weight and index give its contribution, one term at a
-    # time; what the parent's other leaves do not explain goes to the filled
-    # leaves, shared by their December weights.
-    fills = []
-    parents = {l["index_from"] for l in leaves if not l["own_index"]}
-    for P in sorted(parents, key=lambda p: -byname[p].level):
-        under = leaves_under(byname[P])
-        fill = [n for n in under if items[n]["index_from"] == P and not items[n]["own_index"]]
-        rest = [n for n in under if n not in fill]
-        s = idx[f"CUUR0000{codes[norm(P)]}"]
-        for m in (DEC_PRIOR, B, DEC_NEW, T):
-            if m not in s:
-                raise RuntimeError(f"{P} lacks {m}")
-        core = is_core[under[0]]
-        if any(is_core[n] != core for n in under):
-            raise RuntimeError(f"mixed core/non-core under {P}")
-        WP = sum(ri24[n] for n in under) * (s[B] / s[DEC_PRIOR]) / all_rel_sep
-        RP = sum(ri25[n] for n in under)
-        hP, cP = terms(WP, RP, s[DEC_NEW] / s[B], s[T] / s[B], core)
-        Wf = WP - sum(items[n]["w"] for n in rest)
-        h_res = [hP[k] - sum(items[n]["h"][k] for n in rest) for k in (0, 1)]
-        c_res = [cP[k] - sum(items[n]["cc"][k] for n in rest) for k in (0, 1)] if core else None
-        f24 = sum(ri24[n] for n in fill)
-        f25 = sum(ri25[n] for n in fill)
-        for n in fill:
-            a = ri24[n] / f24 if f24 else 1 / len(fill)
-            b = ri25[n] / f25 if f25 else 1 / len(fill)
-            it = items[n]
-            it["w"] = Wf * a
-            it["h"] = [h_res[0] * a, h_res[1] * b]
-            if core:
-                it["cc"] = [c_res[0] * a, c_res[1] * b]
-            tot = sum(it["h"])
-            it["yoy"] = (tot / it["w"] * 100) if it["w"] > 0.001 else None
-            it["yoy_source"] = "filled from " + P
-        fills.append({"parent": P, "items": fill, "weight": round(Wf, 4),
-                      "contrib": round(sum(h_res), 5),
-                      "implied_yoy": round(sum(h_res) / Wf * 100, 3) if Wf > 0.001 else None})
-
-    for n, it in items.items():
-        if n in zero:                      # no weight in either year: nothing to show
-            it["h"], it["yoy"] = [0.0, 0.0], None
-            if it["cc"]:
-                it["cc"] = [0.0, 0.0]
-        it["zero_weight"] = n in zero
-        it["ri_sep_prior"] = round(it["w"], 4)
-        it["ri_dec_new"] = ri25[n]
-        it["contrib"] = sum(it["h"])
-        it["contrib_core"] = sum(it["cc"]) if it["cc"] else None
-        it["core_weight"] = 100 * it["w"] / core_w if is_core[n] else None
-        for k in ("w", "h", "cc"):
-            it.pop(k)
-
-    rows = list(items.values())
-    head_sum = sum(i["contrib"] for i in rows)
-    core_sum = sum(i["contrib_core"] for i in rows if i["contrib_core"] is not None)
-    simple_sum = sum(i["contrib_simple"] for i in rows)
 
     # What-if: health insurance and prescription drugs at their 10-year average.
     # Effective weight = chained contribution / actual change, so the swap uses

@@ -27,10 +27,71 @@ def pct(a, b):
     return (a / b - 1) * 100
 
 
+def decode(p):
+    """Expand the compact page payload (see build.encode) into per-view item lists."""
+    for t in p["order"]:
+        M = p["months"][t]
+        M["views"] = {}
+        for k, v in enumerate(("headline", "core")):
+            items = [{"f": p["items"][j][1], "y": r[0], "c": r[1 + k], "w": r[3 + k]}
+                     for j, r in enumerate(M["r"]) if r and r[1 + k] is not None]
+            M["views"][v] = {"published": M["pub"][k], "sum": M["sum"][k], "items": items}
+    return p
+
+
+def bls_published_rates():
+    """BLS's own 12-month percent changes (one decimal) for all items and core,
+    from the API's calculations option. Cached in data/raw."""
+    path = RAW / "bls_12mo_published.json"
+    if not path.exists():
+        import urllib.request
+        from common import API_URL, USER_AGENT, get_key
+        body = json.dumps({"seriesid": ["CUUR0000SA0", "CUUR0000SA0L1E"], "startyear": "2016",
+                           "endyear": "2026", "calculations": True,
+                           "registrationkey": get_key("BLS_API_KEY")}).encode()
+        req = urllib.request.Request(API_URL, data=body, headers={"Content-type": "application/json",
+                                                                  "User-Agent": USER_AGENT})
+        r = json.load(urllib.request.urlopen(req, timeout=120))
+        out = {}
+        for sr in r["Results"]["series"]:
+            out[sr["seriesID"]] = {f"{x['year']}-{x['period'][1:]}": float(x["calculations"]["pct_changes"]["12"])
+                                   for x in sr["data"] if x["period"].startswith("M") and x["period"] != "M13"
+                                   and x.get("calculations", {}).get("pct_changes", {}).get("12") not in (None, "-")}
+        path.write_text(json.dumps(out, indent=0))
+    return json.loads(path.read_text())
+
+
+def monthly_checks(idx):
+    """Every month in the animated page: rates from raw, BLS's own rounded
+    rates, items adding up, filled share, and the page payload."""
+    m = json.loads((PROCESSED / "monthly.json").read_text())
+    page = decode(json.loads((PROCESSED / "over-time_data.json").read_text()))
+    wc = json.loads((PROCESSED / "weights_check.json").read_text())
+    blsr = bls_published_rates()
+    rows = []
+    for t in m["order"]:
+        M = m["months"][t]
+        b = M["base"]
+        ph = pct(idx["CUUR0000SA0"][t], idx["CUUR0000SA0"][b])
+        pc = pct(idx["CUUR0000SA0L1E"][t], idx["CUUR0000SA0L1E"][b])
+        sh = sum(i["contrib"] for i in M["items"])
+        sc = sum(i["contrib_core"] for i in M["items"] if i["contrib_core"] is not None)
+        filled = sum(i["ri_sep_prior"] for i in M["items"] if not i["own_index"])
+        P = page["months"][t]["views"]
+        pg = max(abs(P["headline"]["sum"] - sh), abs(P["core"]["sum"] - sc))
+        rnd = (round(ph, 1) == blsr["CUUR0000SA0"].get(t) and round(pc, 1) == blsr["CUUR0000SA0L1E"].get(t))
+        wy = [str(int(M["base"][:4])), t[:4]] if t[5:] != "12" else [t[:4]]
+        wok = all(wc[y]["max_abs_diff"] <= 0.0015 for y in wy if y in wc)
+        ok = (abs(sh - ph) <= 0.005 and abs(sc - pc) <= 0.005 and filled <= 10 and pg <= 0.001
+              and abs(M["published"]["headline"] - ph) < 1e-9 and rnd and wok)
+        rows.append((t, ph, sh, pc, sc, filled, rnd, wok, pg, ok))
+    return rows, m.get("missing", {}), wc
+
+
 def main():
     idx = json.loads((RAW / "indexes.json").read_text())
     d = json.loads((PROCESSED / "contrib.json").read_text())
-    page = json.loads((PROCESSED / "page_data.json").read_text())
+    page = decode(json.loads((PROCESSED / "index_data.json").read_text()))
     items = {i["name"]: i for i in d["items"]}
     T, B = d["month"], d["base"]
 
@@ -116,6 +177,16 @@ def main():
         "filled_contrib_core": round(sum(i["contrib_core"] or 0 for i in filled), 4),
     }
 
+    mrows, missing, wc = monthly_checks(idx)
+    mfail = [r[0] for r in mrows if not r[-1]]
+    check(f"Monthly series: months passing every check (of {len(mrows)})", len(mrows) - len(mfail), len(mrows), 0)
+    check("Monthly series: largest headline gap (pts)", max(abs(r[2] - r[1]) for r in mrows), 0, 0.005)
+    check("Monthly series: largest core gap (pts)", max(abs(r[4] - r[3]) for r in mrows), 0, 0.005)
+    check("Weight roll-forward vs printed December weights, 2015-2025: largest diff",
+          max(v["max_abs_diff"] for v in wc.values()), 0, 0.0015)
+    sep = next(r for r in mrows if r[0] == T)
+    check("Monthly series September 2026 equals contrib.json (headline sum)", sep[2], sum(i["contrib"] for i in d["items"]), 1e-3)   # contrib.json rounds items to 5 decimals
+
     lines = ["# Tie-out", "", f"Run by `scripts/tieout.py` on the October 14, 2026 pull. Release month {T}.", "",
              "| Check | Ours | Reference | Tolerance | Result |", "|---|---|---|---|---|"]
     for name, o, r, t, ok in checks:
@@ -133,6 +204,25 @@ def main():
     for f in d["fills"]:
         imp = f"{f['implied_yoy']:+.1f}%" if f["implied_yoy"] is not None else "n/a (weight about 0)"
         lines.append(f"| {f['parent']} | {', '.join(f['items'])} | {f['weight']:.3f} | {f['contrib']:+.4f} | {imp} |")
+    lines += ["", "## Monthly series, October 2016 to September 2026", "",
+              "Each month passes when: the published 12-month rate recomputed from the raw all-items and core "
+              "indexes matches, rounded to one decimal, the rate BLS itself reports (API calculations); "
+              "the items add up to within 0.005 points of it, for headline and for core; items without their "
+              "own index carry no more than 10% of the weight; the weight years it uses pass the "
+              "roll-forward check; and the page draws the same totals.", "",
+              "Missing: " + "; ".join(f"{k}: {v}" for k, v in missing.items()), "",
+              "### Weight roll-forward check", "",
+              "Each December's weights rolled forward a year, compared with what BLS printed for the next "
+              "December on the same weight basis (`scripts/weights_check.py`).", "",
+              "| December | Compared with | Items | Mean abs diff | Max abs diff |", "|---|---|---|---|---|"]
+    for y, v in wc.items():
+        lines.append(f"| {y} | {v['source']} | {v['matched']} | {v['mean_abs_diff']:.5f} | {v['max_abs_diff']:.4f} |")
+    lines += ["", "### Every month", "",
+              "| Month | Headline | Items add up to | Gap | Core | Items add up to | Gap | Filled weight | Matches BLS rounded | Result |",
+              "|---|---|---|---|---|---|---|---|---|---|"]
+    for t, ph, sh, pc, sc, f, rnd, wok, pg, ok in mrows:
+        lines.append(f"| {t} | {ph:.3f} | {sh:.3f} | {sh - ph:+.4f} | {pc:.3f} | {sc:.3f} | {sc - pc:+.4f} | {f:.2f}% | "
+                     f"{'yes' if rnd else 'no'} | {'pass' if ok else '**FAIL**'} |")
     (ROOT / "TIEOUT.md").write_text("\n".join(lines) + "\n")
     fails = [c for c in checks if not c[4]]
     print(f"{len(checks) - len(fails)} of {len(checks)} checks pass")

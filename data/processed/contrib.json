@@ -65,13 +65,31 @@
    "implied_yoy": -0.934
   },
   {
-   "parent": "New and used motor vehicles",
+   "parent": "Lodging away from home",
    "items": [
-    "Unsampled new and used motor vehicles"
+    "Housing at school, excluding board"
    ],
-   "weight": 0.1215,
-   "contrib": -0.00059,
-   "implied_yoy": -0.486
+   "weight": 0.2433,
+   "contrib": 0.00769,
+   "implied_yoy": 3.16
+  },
+  {
+   "parent": "Owners' equivalent rent of residences",
+   "items": [
+    "Unsampled owners' equivalent rent of secondary residences"
+   ],
+   "weight": 1.1959,
+   "contrib": 0.03733,
+   "implied_yoy": 3.122
+  },
+  {
+   "parent": "Furniture and bedding",
+   "items": [
+    "Unsampled furniture"
+   ],
+   "weight": 0.009,
+   "contrib": -0.00015,
+   "implied_yoy": -1.653
   },
   {
    "parent": "Appliances",
@@ -92,42 +110,6 @@
    "implied_yoy": 1.8
   },
   {
-   "parent": "Motor vehicle maintenance and repair",
-   "items": [
-    "Unsampled service policies"
-   ],
-   "weight": 0.0641,
-   "contrib": 0.00318,
-   "implied_yoy": 4.969
-  },
-  {
-   "parent": "Hospital and related services",
-   "items": [
-    "Care of invalids and elderly at home"
-   ],
-   "weight": 0.1659,
-   "contrib": 0.00719,
-   "implied_yoy": 4.332
-  },
-  {
-   "parent": "Furniture and bedding",
-   "items": [
-    "Unsampled furniture"
-   ],
-   "weight": 0.009,
-   "contrib": -0.00015,
-   "implied_yoy": -1.653
-  },
-  {
-   "parent": "Owners' equivalent rent of residences",
-   "items": [
-    "Unsampled owners' equivalent rent of secondary residences"
-   ],
-   "weight": 1.1959,
-   "contrib": 0.03733,
-   "implied_yoy": 3.122
-  },
-  {
    "parent": "Men's apparel",
    "items": [
     "Unsampled men's apparel"
@@ -137,31 +119,31 @@
    "implied_yoy": -3.354
   },
   {
-   "parent": "Lodging away from home",
+   "parent": "Women's apparel",
    "items": [
-    "Housing at school, excluding board"
+    "Unsampled women's apparel"
    ],
-   "weight": 0.2433,
-   "contrib": 0.00769,
-   "implied_yoy": 3.16
+   "weight": 0.0113,
+   "contrib": 0.00081,
+   "implied_yoy": 7.205
   },
   {
-   "parent": "Professional services",
+   "parent": "New and used motor vehicles",
    "items": [
-    "Services by other medical professionals"
+    "Unsampled new and used motor vehicles"
    ],
-   "weight": 0.5932,
-   "contrib": 0.02366,
-   "implied_yoy": 3.988
+   "weight": 0.1215,
+   "contrib": -0.00059,
+   "implied_yoy": -0.486
   },
   {
-   "parent": "Personal care products",
+   "parent": "Motor vehicle maintenance and repair",
    "items": [
-    "Unsampled personal care products"
+    "Unsampled service policies"
    ],
-   "weight": 0.0089,
-   "contrib": 0.00027,
-   "implied_yoy": 2.977
+   "weight": 0.0641,
+   "contrib": 0.00318,
+   "implied_yoy": 4.969
   },
   {
    "parent": "Motor vehicle fees",
@@ -173,14 +155,22 @@
    "implied_yoy": 1.769
   },
   {
-   "parent": "Miscellaneous personal services",
+   "parent": "Professional services",
    "items": [
-    "Legal services",
-    "Unsampled items"
+    "Services by other medical professionals"
    ],
-   "weight": 0.4121,
-   "contrib": 0.02525,
-   "implied_yoy": 6.127
+   "weight": 0.5932,
+   "contrib": 0.02366,
+   "implied_yoy": 3.988
+  },
+  {
+   "parent": "Hospital and related services",
+   "items": [
+    "Care of invalids and elderly at home"
+   ],
+   "weight": 0.1659,
+   "contrib": 0.00719,
+   "implied_yoy": 4.332
   },
   {
    "parent": "Tuition, other school fees, and childcare",
@@ -193,58 +183,23 @@
    "implied_yoy": 2.899
   },
   {
-   "parent": "Women's apparel",
+   "parent": "Personal care products",
    "items": [
-    "Unsampled women's apparel"
+    "Unsampled personal care products"
    ],
-   "weight": 0.0113,
-   "contrib": 0.00081,
-   "implied_yoy": 7.205
+   "weight": 0.0089,
+   "contrib": 0.00027,
+   "implied_yoy": 2.977
   },
   {
-   "parent": "Public transportation",
+   "parent": "Miscellaneous personal services",
    "items": [
-    "Unsampled public transportation"
+    "Legal services",
+    "Unsampled items"
    ],
-   "weight": 0.0037,
-   "contrib": 0.00078,
-   "implied_yoy": 20.953
-  },
-  {
-   "parent": "Recreational reading materials",
-   "items": [
-    "Unsampled recreational reading materials"
-   ],
-   "weight": 0.0,
-   "contrib": -1e-05,
-   "implied_yoy": null
-  },
-  {
-   "parent": "Video and audio",
-   "items": [
-    "Unsampled video and audio"
-   ],
-   "weight": 0.005,
-   "contrib": 7e-05,
-   "implied_yoy": 1.469
-  },
-  {
-   "parent": "Photography",
-   "items": [
-    "Unsampled photography"
-   ],
-   "weight": 0.0,
-   "contrib": 1e-05,
-   "implied_yoy": null
-  },
-  {
-   "parent": "Tobacco and smoking products",
-   "items": [
-    "Unsampled tobacco and smoking products"
-   ],
-   "weight": 0.0062,
-   "contrib": 0.00032,
-   "implied_yoy": 5.141
+   "weight": 0.4121,
+   "contrib": 0.02525,
+   "implied_yoy": 6.127
   },
   {
    "parent": "Household furnishings and operations",
@@ -258,13 +213,22 @@
    "implied_yoy": 6.759
   },
   {
-   "parent": "Other recreation services",
+   "parent": "Public transportation",
    "items": [
-    "Unsampled recreation services"
+    "Unsampled public transportation"
    ],
-   "weight": 0.3263,
-   "contrib": 0.00622,
-   "implied_yoy": 1.906
+   "weight": 0.0037,
+   "contrib": 0.00078,
+   "implied_yoy": 20.953
+  },
+  {
+   "parent": "Video and audio",
+   "items": [
+    "Unsampled video and audio"
+   ],
+   "weight": 0.005,
+   "contrib": 7e-05,
+   "implied_yoy": 1.469
   },
   {
    "parent": "Sporting goods",
@@ -276,6 +240,15 @@
    "implied_yoy": 4.005
   },
   {
+   "parent": "Photography",
+   "items": [
+    "Unsampled photography"
+   ],
+   "weight": 0.0,
+   "contrib": 1e-05,
+   "implied_yoy": null
+  },
+  {
    "parent": "Other recreational goods",
    "items": [
     "Unsampled recreation commodities"
@@ -283,6 +256,33 @@
    "weight": 0.0141,
    "contrib": 0.00144,
    "implied_yoy": 10.226
+  },
+  {
+   "parent": "Other recreation services",
+   "items": [
+    "Unsampled recreation services"
+   ],
+   "weight": 0.3263,
+   "contrib": 0.00622,
+   "implied_yoy": 1.906
+  },
+  {
+   "parent": "Recreational reading materials",
+   "items": [
+    "Unsampled recreational reading materials"
+   ],
+   "weight": 0.0,
+   "contrib": -1e-05,
+   "implied_yoy": null
+  },
+  {
+   "parent": "Tobacco and smoking products",
+   "items": [
+    "Unsampled tobacco and smoking products"
+   ],
+   "weight": 0.0062,
+   "contrib": 0.00032,
+   "implied_yoy": 5.141
   }
  ],
  "whatif": {

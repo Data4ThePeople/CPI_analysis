@@ -20,7 +20,8 @@ CPI was released. BLS treats the not seasonally adjusted CPI-U as final when it
 is issued and does not revise it, apart from rare corrections. (Seasonally
 adjusted data is revised for five years each February. It is not used here.)
 
-**Coverage.** January 2014 to September 2026. Each index is a direct BLS
+**Coverage.** January 2014 to September 2026, used for every month from
+October 2016 to September 2026 (the animated page). Each index is a direct BLS
 estimate built from sampled prices. There are two exceptions:
 - **Items without a usable index.** 25 leaves (about 2.7% of December 2024
   weight) have no BLS item code at all: the "Unsampled ..." residual items,
@@ -42,9 +43,18 @@ uses those two series as published; both existed for the whole window.
 for the items used.
 
 **Missing data.** October 2025 is published as "-" for every series because
-of the federal funding lapse. Nothing used here depends on it: the months
-needed are December 2024, September 2025, December 2025 and September 2026,
-plus the Septembers from 2015 to 2025 for the 10-year average.
+of the federal funding lapse. For the September 2026 release nothing depends
+on it. In the monthly series, October 2025 itself has no 12-month change and
+is left out; no other month uses October 2025. BLS did not collect October
+2025 prices and resumed collection on November 14, 2025 (November 2025
+release, "Federal Government Shutdown" box), so November 2025 has more items
+without a published index than usual (8.3% of weight, the most of any month).
+
+Some item indexes skip months. BLS does not publish them when it has too few
+prices (hospital services: October 2022 and August 2024; household operations
+items, leased cars and trucks, legal services and services by other medical
+professionals: many months since 2020). Those items are filled for that month
+from their parent (see "Items without a published index").
 
 **Revisions.** None expected for not seasonally adjusted data. We pin the
 October 14, 2026 pull.
@@ -89,9 +99,16 @@ December of the named year. The December 2025 file uses 2024 spending weights.
 The December 2024 file uses 2023 spending weights.
 
 **Where it comes from.**
-`https://www.bls.gov/cpi/tables/relative-importance/{2024,2025}.xlsx`, saved
-as `data/raw/relative_importance_{year}.xlsx`. The weights are not in the API
-or in the `download.bls.gov/pub/time.series/cu/` flat files.
+`https://www.bls.gov/cpi/tables/relative-importance/{2020..2025}.xlsx`, saved
+as `data/raw/relative_importance_{year}.xlsx`. December 2014 to December 2019
+come from BLS's archive, `ri-archive-2010-2019.zip` on the same page, as
+fixed-width text tables (`{year}.txt`). The weights are not in the API or in
+the `download.bls.gov/pub/time.series/cu/` flat files.
+
+**Old-basis December tables (checks only).** In years when weights change,
+BLS also prints the December weights on the outgoing basis:
+`old-weights-{2021..2025}.htm` on the same page, and `old-weights-{2015,2017,
+2019}.pdf` in the archive zip. They are used only to check our roll-forward.
 
 **Version and vintage.** Published once a year. BLS updates weights every
 January, so the December 2024 weights govern January to December 2025, and
@@ -169,13 +186,77 @@ contribution is set to 0, and they are left out of the viz and the charts.
 to 2.5644% against 2.5644% for core. The independent tie-out of October 14,
 2026 reproduced every item to within 0.00005 points.
 
+## Monthly series, October 2016 to September 2026 (added October 14, 2026)
+
+**Same method, any month.** `scripts/chain.py` computes any target month T.
+The base B is the same month a year earlier. The weights split at the January
+reset between them:
+
+    c = w_B x (I_Dec/I_B - 1) + (All_Dec/All_B) x RI_Dec x (I_T/I_Dec - 1)
+
+Dec is the December just before T's year. RI_Dec is that December's table,
+and w_B is the December before that, rolled forward to B. When T is a
+December, B is that same reset month, so the first term is zero. Core uses
+core weights and the core index, as above. The September 2026 results are
+identical to `contrib.py`'s.
+
+**Two changes needed for older months, neither of which changes September
+2026:**
+1. A fill parent must have its own index for all four months (the December
+   before B, B, the December reset, and T). When the nearest published parent
+   lacks one, the fill moves up to the next parent that has them (household
+   operations is published only some months).
+2. The core share of a fill is computed from the headline share with the same
+   fixed factors that turn any item's headline terms into core terms (core
+   weight rescaling, core index for the second term). This allows a parent
+   that holds both core and energy items, such as Private transportation in
+   November 2025 (motor vehicle insurance missing). The energy items there
+   have their own index and are subtracted out first. The filled items under
+   one parent must all be core, or all not; the code stops if not.
+
+**Drawn items.** Items with no weight, or too little weight for a 12-month
+change (0.001% of the CPI or less, two "Unsampled" items in some months), are
+left out of the drawing. They never add up to more than 0.0002 points.
+
+**Per-month tie-out (in `scripts/tieout.py` and TIEOUT.md).** A month passes
+when the items add up to the published headline and core within 0.005 points,
+the published rate (from the raw index) rounds to the rate BLS reports,
+filled items carry 10% of weight or less, and the page draws the same totals.
+All 119 months pass. The largest gaps are 0.0013 points (headline) and 0.0008
+(core). The largest filled share is 8.3% (November 2025).
+
+**Weight roll-forward check (`scripts/weights_check.py`).** Each December's
+weights, rolled forward a year with our indexes, are compared with the next
+December BLS printed on the same basis (the regular table in 2016, 2018 and
+2020, the old-basis table in other years). Every year matches within 0.001,
+which is BLS's rounding, over 153 to 179 items a year.
+
+**Why stop at October 2016.** Eric asked for up to ten years. The method and
+checks would work further back: the archive has weight tables to 2010 and the
+index pull starts in 2014, so January 2016 is the earliest month without new
+downloads. That is not used.
+
+**Health insurance over time.** The health insurance item changes method
+inside the window (see Known quirks above). Its swings in 2019 to 2023 come
+largely from the yearly October reset of the retained earnings method.
+
 **Coverage.** The expenditure tree: 293 nodes under "All items = 100", with 204
 leaves that do not overlap and sum to 100. The "Special aggregate indexes"
 block below it (core, energy and others) overlaps the tree and is not used,
 except to check our core weight.
 
-**Changes over time.** The 2024 and 2025 files have the same 204 leaves with
-the same names.
+**Changes over time.** All twelve files, December 2014 to December 2025, have
+the same 293 nodes in the same order and nesting, with 204 leaves. This is
+asserted by `weights.canonical_tree`. Eighteen items were renamed along the
+way and kept their BLS item code, for example "Airline fare" to "Airline
+fares", "Child care and nursery school" to "Day care and preschool", "Land-line
+telephone services" to "Residential telephone services". Every year's tree is
+relabeled with the December 2025 names, matched by position.
+
+Weight updates: January 2016 (2013-2014 spending), January 2018 (2015-2016),
+January 2020 (2017-2018), January 2022 (2019-2020), then every January from
+2023 with the spending of two years before. In other years the December table
+is the previous December's weights rolled forward.
 
 **Suppressed, censored or masked values.** Two leaves round to 0.000
 (unsampled photography, unsampled recreational reading materials).
@@ -187,8 +268,15 @@ the same names.
 **Units and rounding.** Percent of all items, three decimals. Leaves sum to
 100 within 0.05.
 
+**Text tables (2014-2019).** One leading space per indent level after the
+first. Long names wrap onto one or two more lines; the last line carries the
+numbers. Some full-width names have no dot leader. All three cases are
+handled in `weights._txt_rows`, and every parent equals the sum of its
+children after the two indent fixes.
+
 **Known quirks.**
-- **Two rows are published at the wrong indent level in both files.**
+- **Two rows are published at the wrong indent level in every file, 2014 to
+  2025.**
   "Alcoholic beverages" sits at level 3 under Food; it belongs at level 2
   beside Food. "Information technology, hardware and services" sits at level
   3 under Communication; it belongs at level 4 under Information and

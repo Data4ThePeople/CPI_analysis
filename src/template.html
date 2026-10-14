@@ -63,7 +63,18 @@ svg text{font-family:inherit}
 .big{font-weight:700}
 #mover{transition:transform .9s cubic-bezier(.45,.05,.25,1)}
 @media (prefers-reduced-motion: reduce){#mover{transition:none}}
+#timeline{display:none;align-items:center;gap:10px;padding-top:6px}
+body.series #timeline{display:flex}
+#play{font:inherit;font-size:13px;font-weight:600;border:0;border-radius:8px;background:var(--btn-on);color:var(--btn-on-ink);
+  padding:7px 12px;cursor:pointer;min-width:74px}
+#play:focus-visible,#strip:focus-visible{outline:2px solid var(--dn-4);outline-offset:2px}
+#when{min-width:112px;font-size:15px;font-weight:700;white-space:nowrap}
+#strip{flex:1;min-width:0;height:52px;display:block;cursor:pointer;touch-action:none}
+#note{display:none;font-size:11.5px;color:var(--muted);padding-top:3px}
+body.series #note{display:block;min-height:16px}
 @container (max-width:620px){
+  #when{min-width:84px;font-size:13px}
+  #play{min-width:0;padding:7px 10px}
   header h1{font-size:18px}
   header p{font-size:12.5px}
   #legend .lbl{display:none}
@@ -91,6 +102,12 @@ svg text{font-family:inherit}
     <svg id="chart" role="img" aria-labelledby="title dek"></svg>
     <div id="table-wrap"><table id="table"></table></div>
   </div>
+  <div id="timeline">
+    <button id="play" type="button">Play</button>
+    <div id="when" aria-live="polite"></div>
+    <svg id="strip" role="slider" tabindex="0" aria-label="Month"></svg>
+  </div>
+  <div id="note"></div>
   <footer>
     <span id="source"></span>
     <span id="credit">Built by <a href="https://www.data4thepeople.com" target="_blank" rel="noopener">Data 4 The People</a></span>
@@ -104,10 +121,43 @@ const EMBED = (() => { if (location.hash.includes('embed=0')) return false; if (
 if (EMBED) { document.documentElement.setAttribute('data-theme', 'light'); document.body.classList.add('is-embed'); }
 const th = location.hash.match(/theme=(light|dark)/); if (th) document.documentElement.setAttribute('data-theme', th[1]);
 
+// Expand the compact payload: per month, one item list per view.
+const VIEWS = ['headline', 'core'];
+for (const t of DATA.order) {
+  const M = DATA.months[t]; M.views = {};
+  VIEWS.forEach((v, k) => {
+    const items = [];
+    M.r.forEach((r, j) => {
+      if (!r || r[1 + k] == null) return;
+      const [n, f, g, m] = DATA.items[j];
+      items.push({ id: j, n, f, g, m, y: r[0], c: r[1 + k], w: r[3 + k], fill: r[5] >= 0, from: r[5] >= 0 ? DATA.parents[r[5]] : f });
+    });
+    M.views[v] = { published: M.pub[k], sum: M.sum[k], items };
+  });
+}
+const SERIES = DATA.order.length > 1;
+if (SERIES) document.body.classList.add('series');
+// One size scale for every month: the balloon holds a fixed area per percentage point,
+// so it grows when more items push prices up. Boxes keep one order across months
+// (largest average contribution first) so each item stays in about the same place.
+const SCALE = {}, RANK = {};
+for (const v of VIEWS) {
+  let posMax = 0, negMax = 0; const tot = {};
+  for (const t of DATA.order) {
+    let p = 0, n = 0;
+    for (const d of DATA.months[t].views[v].items) { if (d.c > 0) p += d.c; else n -= d.c; tot[d.id] = (tot[d.id] || 0) + d.c; }
+    posMax = Math.max(posMax, p); negMax = Math.max(negMax, n);
+    (SCALE[v] = SCALE[v] || { months: [] }).months.push({ rate: DATA.months[t].views[v].published, p, n });
+  }
+  Object.assign(SCALE[v], { posMax, negMax }); RANK[v] = tot;
+}
+
 const NS = 'http://www.w3.org/2000/svg';
 const $ = s => document.querySelector(s);
 const svg = $('#chart');
-const state = { month: DATA.order[DATA.order.length - 1], view: /view=core/.test(location.hash) ? 'core' : 'headline', mode: 'balloon' };
+const hm = location.hash.match(/month=(\d{4}-\d{2})/);
+const state = { month: hm && DATA.months[hm[1]] ? hm[1] : DATA.order[DATA.order.length - 1],
+  view: /view=core/.test(location.hash) ? 'core' : 'headline', mode: 'balloon', playing: false };
 document.querySelectorAll('[data-view]').forEach(x => x.setAttribute('aria-pressed', x.dataset.view === state.view));
 const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 function el(tag, attrs, parent) { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; }
@@ -276,9 +326,11 @@ function labelTile(g, b, fs, ink, edge) {
 function render() {
   const M = DATA.months[state.month], V = M.views[state.view];
   $('#title').textContent = DATA.title;
-  $('#dek').textContent = state.view === 'core'
-    ? `Core prices (all items less food and energy) rose ${V.published.toFixed(2)}% in the 12 months to ${M.label}. Each box is one item: its size is how much it added, its color is how much its own price changed. Items that lowered inflation hang below as sandbags.`
-    : `Consumer prices rose ${V.published.toFixed(2)}% in the 12 months to ${M.label}. Each box is one item: its size is how much it added, its color is how much its own price changed. Items that lowered inflation hang below as sandbags.`;
+  const verb = V.published >= 0 ? 'rose' : 'fell';
+  const what = state.view === 'core' ? 'Core prices (all items less food and energy)' : 'Consumer prices';
+  $('#dek').textContent = `${what} ${verb} ${Math.abs(V.published).toFixed(2)}% in the 12 months to ${M.label}. Each box is one item: its size is how much it added, its color is how much its own price changed. Items that lowered inflation hang below as sandbags.` +
+    (SERIES ? ' The balloon grows with the total pushing prices up.' : '');
+  if (SERIES) { $('#when').textContent = M.label; $('#note').textContent = M.note || ''; drawStrip(); }
   $('#source').textContent = DATA.source;
   legend();
   renderTable(V);
@@ -287,20 +339,46 @@ function render() {
   const narrow = W < 560;
   const axisX = narrow ? 34 : 54;
   // Fixed envelope size so later months are drawn at the same size.
-  const envH = Math.min(H * 0.48, (W - axisX - 30) / (2 * 0.43) * 0.98);
-  const ropeH = envH * 0.10, basketH = Math.max(18, envH * 0.07), basketW = envH * 0.22;
-  const pos = V.items.filter(d => d.c > 0).map(d => Object.assign({ v: d.c }, d)).sort((a, b) => b.v - a.v);
-  const neg = V.items.filter(d => d.c < 0).map(d => Object.assign({ v: -d.c }, d)).sort((a, b) => b.v - a.v);
+  // The timeline version draws its largest balloon a bit smaller, leaving room for the altitude to move.
+  const envHMax = Math.min(H * (SERIES ? 0.37 : 0.48), (W - axisX - 30) / (2 * 0.43) * 0.98);
+  const basketH = Math.max(18, envHMax * 0.07), basketW = envHMax * 0.22;
+  const rank = RANK[state.view];
+  const order = SERIES ? (a, b) => (rank[b.id] - rank[a.id]) || (b.v - a.v) : (a, b) => b.v - a.v;
+  const pos = V.items.filter(d => d.c > 0).map(d => Object.assign({ v: d.c }, d)).sort(order);
+  const negOrder = SERIES ? (a, b) => (rank[a.id] - rank[b.id]) || (b.v - a.v) : (a, b) => b.v - a.v;
+  const neg = V.items.filter(d => d.c < 0).map(d => Object.assign({ v: -d.c }, d)).sort(negOrder);
   const posSum = pos.reduce((s, d) => s + d.v, 0), negSum = neg.reduce((s, d) => s + d.v, 0);
-  const envArea = shapeTable(envH)[N];
-  const sackArea = envArea * negSum / posSum;     // same px per point as the envelope
-  const sackW = Math.min(W * 0.5, Math.sqrt(sackArea * 1.5)), sackH = sackArea / sackW;
+  const S = SCALE[state.view];
+  const pxPerPt = shapeTable(envHMax)[N] / S.posMax;   // area per percentage point, the same in every month
+  const envH = envHMax * Math.sqrt(posSum / S.posMax), ropeH = envHMax * 0.10;
+  const sackDims = a => { const w = Math.min(W * 0.5, Math.sqrt(a * 1.5)); return [w, a / w]; };
+  const [sackW, sackH] = sackDims(pxPerPt * negSum);
+  const sackHMax = sackDims(pxPerPt * S.negMax)[1];
   const tether = 12;
-  const below = basketH + tether + sackH + 8;      // basket to bottom of sack
-  const above = envH + ropeH;                       // basket to top of crown
+  const below = basketH + tether + sackHMax + 8;   // basket to bottom of the largest sack
+  const above = envHMax + ropeH;                   // basket to top of the largest crown
   // Altitude: the basket's top edge sits at the rate on the axis.
-  const ax = DATA.axis, top = 10 + above, bottom = H - below - 6;
-  const yOf = r => bottom - (r - ax.min) / (ax.max - ax.min) * (bottom - top);
+  const ax = DATA.axis;
+  let yOf;
+  if (!SERIES) {
+    const top = 10 + above, bottom = H - below - 6;
+    yOf = r => bottom - (r - ax.min) / (ax.max - ax.min) * (bottom - top);
+  } else {
+    // Stretch the axis as far as every month allows: each month's crown must stay
+    // below the top edge and its sandbag above the bottom, in both views.
+    const lims = [];
+    for (const v of VIEWS) {
+      const Sv = SCALE[v], ppp = shapeTable(envHMax)[N] / Sv.posMax;
+      for (const mm of Sv.months) lims.push({ r: mm.rate, up: 10 + envHMax * Math.sqrt(mm.p / Sv.posMax) + ropeH,
+        dn: H - 6 - (basketH + tether + sackDims(ppp * mm.n)[1] + 8) });
+    }
+    lims.push({ r: ax.max, up: 14, dn: H }, { r: ax.min, up: 0, dn: H - 8 });
+    const fits = b => Math.max(...lims.map(l => l.up + b * l.r)) <= Math.min(...lims.map(l => l.dn + b * l.r));
+    let lo = 0, hi = H;
+    for (let k = 0; k < 40; k++) { const mid = (lo + hi) / 2; if (fits(mid)) lo = mid; else hi = mid; }
+    const b = lo, a = (Math.max(...lims.map(l => l.up + b * l.r)) + Math.min(...lims.map(l => l.dn + b * l.r))) / 2;
+    yOf = r => a - b * r;
+  }
 
   // axis and grid
   const ag = el('g', {}, svg);
@@ -313,7 +391,7 @@ function render() {
   el('line', { x1: axisX, x2: W, y1: ty, y2: ty, stroke: css('--target'), 'stroke-width': 1.2, 'stroke-dasharray': '5 4' }, ag);
   const tl = el('text', { x: W - 4, y: ty - 5, 'text-anchor': 'end', fill: css('--target'), 'font-size': 11 }, ag); tl.textContent = narrow ? `${ax.target}% Fed target` : `${ax.target}% Federal Reserve target`;
   if (!narrow) {
-  const al = el('text', { x: 0, y: 0, class: 'axis-lab', transform: `translate(${narrow ? 9 : 14},${(top + bottom) / 2}) rotate(-90)`, 'text-anchor': 'middle' }, ag);
+  const al = el('text', { x: 0, y: 0, class: 'axis-lab', transform: `translate(${narrow ? 9 : 14},${(yOf(ax.min) + yOf(ax.max)) / 2}) rotate(-90)`, 'text-anchor': 'middle' }, ag);
   al.textContent = '12-month change in prices';
   }
 
@@ -323,9 +401,10 @@ function render() {
   const baseY = yOf(V.published);
   const prev = svg.dataset.lastY ? +svg.dataset.lastY : baseY;
   mover.style.transition = 'none';
+  const glide = state.playing ? '0.55s' : '';
   mover.style.transform = `translate(0px, ${prev - baseY}px)`;
   const g = el('g', {}, mover);
-  const envTop = baseY - above;
+  const envTop = baseY - envH - ropeH;
   // ropes and skirt
   const neckY = envTop + envH, neckHalf = hw(1) * envH;
   for (const s of [-1, 1]) el('line', { x1: cx + s * neckHalf, y1: neckY, x2: cx + s * basketW * 0.42, y2: baseY, stroke: css('--rope'), 'stroke-width': 1.3 }, g);
@@ -350,7 +429,8 @@ function render() {
   for (const b of sackBoxes) tile(sg, b, state.view);
   el('path', { d: sackPath, fill: 'none', stroke: css('--sack-edge'), 'stroke-width': 1.8 }, g);
   // Call out the highlighted items (health insurance, prescription drugs), each on the side nearest its box.
-  const hl = sackBoxes.filter(b => (DATA.highlight || []).includes(b.d.f)).sort((a, b2) => (a.y + a.h / 2) - (b2.y + b2.h / 2));
+  // In the timeline, call an item out only in months when it pulls down by a visible amount.
+  const hl = sackBoxes.filter(b => (DATA.highlight || []).includes(b.d.f) && (!SERIES || b.d.v >= 0.02)).sort((a, b2) => (a.y + a.h / 2) - (b2.y + b2.h / 2));
   const last = { L: -Infinity, R: -Infinity };
   for (const b of hl) {
     const mx = b.x + b.w / 2, my = b.y + b.h / 2;
@@ -388,7 +468,7 @@ function render() {
   const sub = el('text', { x: axisX + 6, y: baseY - 6, fill: css('--muted'), 'font-size': 11 }, mk);
   sub.textContent = `items add up to ${V.sum.toFixed(2)}%`;
   // glide from the previous altitude
-  requestAnimationFrame(() => requestAnimationFrame(() => { mover.style.transition = ''; mover.style.transform = 'translate(0px,0px)'; }));
+  requestAnimationFrame(() => requestAnimationFrame(() => { mover.style.transition = ''; mover.style.transitionDuration = glide; mover.style.transform = 'translate(0px,0px)'; }));
   svg.dataset.lastY = baseY;
   document.body.setAttribute('data-ready', '1');
 }
@@ -412,7 +492,78 @@ document.querySelectorAll('[data-mode]').forEach(b => b.addEventListener('click'
   document.querySelectorAll('[data-mode]').forEach(x => x.setAttribute('aria-pressed', x === b));
   $('#table-wrap').classList.toggle('on', state.mode === 'table');
 }));
+// ---- timeline: a small line of the 12-month rate, one point per month; click, drag or use arrow keys ----
+const strip = $('#strip');
+const cal = (() => { if (!SERIES) return [];                 // every calendar month, published or not
+  const out = []; let [y, m] = DATA.order[0].split('-').map(Number); const end = DATA.order[DATA.order.length - 1];
+  for (;;) { const k = `${y}-${String(m).padStart(2, '0')}`; out.push(k); if (k === end) break; m++; if (m > 12) { m = 1; y++; } }
+  return out; })();
+let stripX = () => 0;
+function drawStrip() {
+  strip.innerHTML = '';
+  const W = strip.clientWidth, H = strip.clientHeight; if (!W || !H) return;
+  const pad = 8, top = 5, bot = H - 14;
+  const vals = DATA.order.map(t => DATA.months[t].views[state.view].published);
+  const lo = Math.min(0, ...vals), hi = Math.max(...vals);
+  const x = i => pad + i / (cal.length - 1) * (W - 2 * pad), y = v => bot - (v - lo) / (hi - lo) * (bot - top);
+  stripX = x;
+  el('line', { x1: pad, x2: W - pad, y1: y(DATA.axis.target), y2: y(DATA.axis.target), stroke: css('--target'), 'stroke-dasharray': '3 3', 'stroke-width': 1 }, strip);
+  let d = '', pen = false;
+  cal.forEach((t, i) => { const M = DATA.months[t];
+    if (!M) { pen = false; return; }
+    d += (pen ? 'L' : 'M') + x(i).toFixed(1) + ',' + y(M.views[state.view].published).toFixed(1); pen = true; });
+  el('path', { d, fill: 'none', stroke: css('--ink-2'), 'stroke-width': 1.6, 'stroke-linejoin': 'round' }, strip);
+  cal.forEach((t, i) => { if (t.endsWith('-01')) {
+    el('line', { x1: x(i), x2: x(i), y1: bot + 1, y2: bot + 4, stroke: css('--axis') }, strip);
+    if (W > 420 || +t.slice(0, 4) % 2 === 0) { const tl = el('text', { x: x(i), y: H - 2, 'text-anchor': 'middle', class: 'axis-lab', 'font-size': 10 }, strip); tl.textContent = t.slice(0, 4); } } });
+  const i = cal.indexOf(state.month), v = DATA.months[state.month].views[state.view].published;
+  el('line', { x1: x(i), x2: x(i), y1: top - 3, y2: bot, stroke: css('--ink'), 'stroke-width': 1 }, strip);
+  el('circle', { cx: x(i), cy: y(v), r: 4.5, fill: css('--ink'), stroke: css('--bg'), 'stroke-width': 2 }, strip);
+  strip.setAttribute('aria-valuetext', `${DATA.months[state.month].label}, ${v.toFixed(2)}%`);
+}
+function go(t) {
+  if (!DATA.months[t] || t === state.month) return;
+  state.month = t; render();
+}
+function stepBy(k) {
+  const i = DATA.order.indexOf(state.month) + k;
+  if (i >= 0 && i < DATA.order.length) go(DATA.order[i]);
+}
+function nearest(clientX) {
+  const r = strip.getBoundingClientRect(); let best = null, bd = Infinity;
+  cal.forEach((t, i) => { if (!DATA.months[t]) return; const dd = Math.abs(stripX(i) - (clientX - r.left)); if (dd < bd) { bd = dd; best = t; } });
+  return best;
+}
+let timer = null;
+function setPlaying(on) {
+  state.playing = on; $('#play').textContent = on ? 'Pause' : 'Play';
+  clearInterval(timer);
+  if (on) {
+    if (state.month === DATA.order[DATA.order.length - 1]) { state.month = DATA.order[0]; render(); }
+    timer = setInterval(() => {
+      const i = DATA.order.indexOf(state.month);
+      if (i >= DATA.order.length - 1) { setPlaying(false); return; }
+      go(DATA.order[i + 1]);
+    }, 700);
+  }
+}
+if (SERIES) {
+  $('#play').addEventListener('click', () => setPlaying(!state.playing));
+  let dragging = false;
+  strip.addEventListener('pointerdown', e => { dragging = true; strip.setPointerCapture(e.pointerId); setPlaying(false); go(nearest(e.clientX)); });
+  strip.addEventListener('pointermove', e => { if (dragging) go(nearest(e.clientX)); });
+  strip.addEventListener('pointerup', () => { dragging = false; });
+  strip.addEventListener('keydown', e => {
+    const k = { ArrowLeft: -1, ArrowDown: -1, ArrowRight: 1, ArrowUp: 1, PageDown: -12, PageUp: 12 }[e.key];
+    if (k) { setPlaying(false); stepBy(k); e.preventDefault(); }
+    else if (e.key === 'Home') { setPlaying(false); go(DATA.order[0]); e.preventDefault(); }
+    else if (e.key === 'End') { setPlaying(false); go(DATA.order[DATA.order.length - 1]); e.preventDefault(); }
+    else if (e.key === ' ') { setPlaying(!state.playing); e.preventDefault(); }
+  });
+}
+
 let rt; new ResizeObserver(() => { clearTimeout(rt); rt = setTimeout(() => { delete svg.dataset.lastY; render(); }, 80); }).observe($('#stage'));
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change', render);
 render();
+if (SERIES && /play/.test(location.hash) && !matchMedia('(prefers-reduced-motion: reduce)').matches) setPlaying(true);
 </script>
