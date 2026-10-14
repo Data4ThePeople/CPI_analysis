@@ -169,10 +169,10 @@ def hero():
         return
     bg = Image.open(backdrop).convert("RGB")
     w0, h0 = bg.size
-    ch = int(h0 * 0.72)                             # zoom in: keep the sky and a strip of town below the horizon
+    ch = int(h0 * 0.82)                             # zoom in: keep the sky and a strip of town below the horizon
     tw = int(ch * 1680 / 1080)                      # centered, in 1680x1080's shape
     bg = bg.crop(((w0 - tw) // 2, 0, (w0 - tw) // 2 + tw, ch)).resize((1680, 1080), Image.LANCZOS)
-    h = 720                                         # balloon height on the hero; sandbag clears the horizon
+    h = 650                                         # balloon height on the hero; sandbag clears the horizon
     w = int(cut.width * h / cut.height)
     cut = cut.resize((w, h), Image.LANCZOS)
     pad = 60                                        # soft shadow, down and to the right
