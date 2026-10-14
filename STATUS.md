@@ -6,7 +6,7 @@ Process: ~/.claude/d4tp-process/PROCESS.md
 ## Current
 
 Post: cpi-september-2026
-Step: 2e (not started)
+Step: 2d (reopened: hero redesign; 2e work in progress kept on disk)
 Since: 2026-10-14
 
 ## Steps
@@ -59,3 +59,7 @@ None.
   October 15, 2026.
 - 2026-10-14 Step 2d confirmed by Eric. Hero is the September 2026 balloon,
   rendered by build.py from dist/index.html#hero&theme=dark.
+- 2026-10-14 Step 2d reopened by Eric during 2e: hero redone as the balloon alone
+  (no axis), 3.74% beside the basket, title and text at left. No later step
+  had been confirmed, so nothing is stale. 2e front matter (meta, keywords,
+  dataset schema) is drafted in POST.md and resumes after 2d.

@@ -6,11 +6,26 @@ date: 2026-10-15
 time: 06:30:00-04:00
 section: Data 4 Thought
 hero: images/cpi-september-2026-hero-1680x1080.png
-hero_alt: A hot air balloon on a dark background, titled The CPI Hot Air Balloon. The balloon is a patchwork of red boxes, one for each item whose price rose in the 12 months to September 2026; the largest are gasoline, up 34.2%, and owners' equivalent rent. A sandbag of blue boxes hangs below for items whose prices fell, with health insurance and prescription drugs labeled. The basket sits at 3.74% on a scale of 12-month inflation, above a dashed line at the 2% Federal Reserve target.
-meta_title:
-description:
-keywords:
-schema_type: article
+hero_alt: On a dark background, the words The CPI Hot Air Balloon sit at left beside a large hot air balloon. The balloon is a patchwork of red boxes, one for each item whose price rose in the 12 months to September 2026; the largest are gasoline, up 34.2%, and owners' equivalent rent. Beside the basket reads 3.74%, all items. A sandbag of blue boxes hangs below for items whose prices fell, with health insurance and prescription drugs labeled.
+meta_title: What's driving CPI? Every item, every month since 2016
+description: See which of 204 items are driving CPI inflation, every month since 2016. In September 2026, gasoline and shelter added 60% of the 3.7% rise. Free tool.
+keywords: what is driving CPI, what is driving inflation, CPI breakdown by item, CPI contributions by component, core CPI drivers, CPI components chart, September 2026 CPI, CPI hot air balloon
+schema_type: dataset
+dataset_name: Contributions of each CPI-U item to 12-month inflation, October 2016 to September 2026
+dataset_description: How many percentage points each of the 204 most detailed items in the Consumer Price Index for All Urban Consumers (CPI-U, U.S. city average, not seasonally adjusted) added to or subtracted from 12-month headline and core inflation, every month from October 2016 to September 2026. Item contributions add up to the published BLS rates in every month.
+temporal: 2016-10/2026-09
+spatial: United States
+measured: Contribution to 12-month CPI-U change|percentage points; Contribution to 12-month core CPI change|percentage points; 12-month price change by item|percent; Relative importance (share of consumer spending)|percent
+sources: https://www.bls.gov/cpi/ | https://www.bls.gov/cpi/tables/relative-importance/
+distribution: text/csv|https://raw.githubusercontent.com/Data4ThePeople/CPI_analysis/main/data/processed/monthly_items.csv; text/csv|https://raw.githubusercontent.com/Data4ThePeople/CPI_analysis/main/data/processed/monthly_summary.csv
+measurement_technique: Chained contributions: each item's relative importance times its price change, split at BLS's January weight update so items add up to the published 12-month change.
+credit: Data 4 The People; source data U.S. Bureau of Labor Statistics
+same_as: https://github.com/Data4ThePeople/CPI_analysis
+app_url: https://data4thepeople.github.io/CPI_analysis/dist/over-time.html
+app_name: The CPI Hot Air Balloon
+app_description: An interactive chart that shows which items pushed U.S. consumer prices up and down each month since October 2016, drawn as a hot air balloon that rises and falls with inflation.
+app_features: Every CPI item sized by its contribution to inflation | Headline and core CPI | Monthly animation from October 2016 | Table view | Free, no sign-up
+app_category: EducationalApplication
 drop_cap: true
 heading_spacer: 20px
 caption_spacer: 20px

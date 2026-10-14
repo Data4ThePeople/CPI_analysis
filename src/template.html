@@ -72,13 +72,19 @@ body.series #timeline{display:flex}
 #strip{flex:1;min-width:0;height:52px;display:block;cursor:pointer;touch-action:none}
 #note{display:none;font-size:11.5px;color:var(--muted);padding-top:3px}
 body.series #note{display:block;min-height:16px}
-/* #hero: a still for the post's hero image; no controls, a larger balloon. */
-body.hero #app{height:100vh;max-width:none;padding:26px 44px 16px}
-body.hero .seg,body.hero #timeline,body.hero #note,body.hero #source{display:none}
-body.hero header h1{font-size:30px}
-body.hero header p{font-size:16px}
-body.hero #controls{margin:6px 0 0}
-body.hero footer{justify-content:flex-end;font-size:12px}
+/* #hero: a still for the post's hero image. The balloon alone on the right, no axis;
+   the title, a line of text and the color key on the left. */
+body.hero #app{height:100vh;max-width:none;padding:40px 48px 26px;display:grid;
+  grid-template-columns:36% 1fr;grid-template-rows:1fr auto auto 1fr auto;column-gap:28px}
+body.hero header{grid-column:1;grid-row:2}
+body.hero #controls{grid-column:1;grid-row:3;margin:22px 0 0}
+body.hero #stage{grid-column:2;grid-row:1 / 6}
+body.hero #side{display:none}
+body.hero footer{grid-column:1;grid-row:5;font-size:13px}
+body.hero .seg,body.hero #source{display:none}
+body.hero header h1{font-size:50px;line-height:1.08;margin-bottom:16px}
+body.hero header p{font-size:19px;line-height:1.45}
+body.hero #legend{font-size:13px}
 @container (max-width:620px){
   #when{min-width:84px;font-size:13px}
   #timeline{flex-wrap:wrap;row-gap:4px}
@@ -349,7 +355,7 @@ function render() {
   $('#dek').textContent = `${what} ${verb} ${Math.abs(V.published).toFixed(2)}% in the 12 months to ${M.label}. Each box is one item: its size is how much it added, its color is how much its own price changed. Items that lowered inflation hang below as sandbags.` +
     (SERIES ? ' The balloon grows with the total pushing prices up.' : '');
   if (HERO) { $('#title').textContent = 'The CPI Hot Air Balloon';
-    $('#dek').textContent = `${what} ${verb} ${Math.abs(V.published).toFixed(1)}% in the 12 months to ${M.label}. Each box is one item, sized by how much it added.`; }
+    $('#dek').textContent = `${what} ${verb} ${Math.abs(V.published).toFixed(2)}% in the 12 months to ${M.label}. Each box is one item, sized by how much it added. Items whose prices fell hang below as sandbags.`; }
   if (SERIES) { $('#when').textContent = M.label; $('#note').textContent = M.note || ''; drawStrip(); }
   $('#source').textContent = DATA.source;
   legend();
@@ -360,7 +366,7 @@ function render() {
   const axisX = narrow ? 34 : 54;
   // Fixed envelope size so later months are drawn at the same size.
   // The timeline version draws its largest balloon a bit smaller, leaving room for the altitude to move.
-  const envHMax = Math.min(H * (HERO ? 0.62 : SERIES ? 0.44 : 0.48), (W - axisX - 30) / (2 * 0.43) * 0.98);
+  const envHMax = Math.min(H * (HERO ? 0.66 : SERIES ? 0.44 : 0.48), (W - axisX - 30) / (2 * 0.43) * 0.98);
   const basketH = Math.max(18, envHMax * 0.07), basketW = envHMax * 0.22;
   const rank = RANK[state.view];
   const order = SERIES ? (a, b) => (rank[b.id] - rank[a.id]) || (b.v - a.v) : (a, b) => b.v - a.v;
@@ -380,7 +386,11 @@ function render() {
   // Altitude: the basket's top edge sits at the rate on the axis.
   const ax = DATA.axis;
   let yOf;
-  if (!SERIES && !HERO) {
+  if (HERO) {
+    const up = envH + ropeH, dn = basketH + tether + sackH;
+    const base = (H - up - dn) / 2 + up;
+    yOf = () => base;
+  } else if (!SERIES) {
     const top = 10 + above, bottom = H - below - 6;
     yOf = r => bottom - (r - ax.min) / (ax.max - ax.min) * (bottom - top);
   } else {
@@ -401,7 +411,7 @@ function render() {
   }
 
   // axis and grid
-  const ag = el('g', {}, svg);
+  const ag = el('g', HERO ? { display: 'none' } : {}, svg);
   for (let r = ax.min; r <= ax.max + 1e-9; r += ax.step) {
     const y = yOf(r);
     el('line', { x1: axisX, x2: W, y1: y, y2: y, stroke: r === 0 ? css('--axis') : css('--grid'), 'stroke-width': 1 }, ag);
@@ -416,7 +426,7 @@ function render() {
   }
 
   // the balloon group, translated to its altitude
-  const cx = axisX + (W - axisX) * (narrow ? 0.5 : 0.46);
+  const cx = HERO ? W * 0.42 : axisX + (W - axisX) * (narrow ? 0.5 : 0.46);
   const mover = el('g', { id: 'mover' }, svg);
   const baseY = yOf(V.published);
   const prev = svg.dataset.lastY ? +svg.dataset.lastY : baseY;
@@ -483,11 +493,19 @@ function render() {
   }
   // altitude marker: the published rate at the basket
   const mk = el('g', {}, mover);
+  if (HERO) {
+    const tx = cx - basketW / 2 - 16;
+    const h1 = el('text', { x: tx, y: baseY + basketH / 2 - 2, 'text-anchor': 'end', fill: css('--ink'), 'font-size': 26, class: 'big' }, mk);
+    h1.textContent = `${V.published.toFixed(2)}%`;
+    const h2 = el('text', { x: tx, y: baseY + basketH / 2 + 17, 'text-anchor': 'end', fill: css('--ink-2'), 'font-size': 13 }, mk);
+    h2.textContent = state.view === 'core' ? 'core CPI, 12 months' : 'all items, 12 months';
+  } else {
   el('line', { x1: axisX, x2: cx - basketW / 2 - 4, y1: baseY, y2: baseY, stroke: css('--ink'), 'stroke-width': 1, 'stroke-dasharray': '2 3' }, mk);
   const tag = el('text', { x: axisX + 6, y: baseY - 20, fill: css('--ink'), 'font-size': narrow ? 14 : 16, class: 'big' }, mk);
   tag.textContent = `${state.view === 'core' ? 'Core' : 'All items'} ${V.published.toFixed(2)}%`;
   const sub = el('text', { x: axisX + 6, y: baseY - 6, fill: css('--muted'), 'font-size': 11 }, mk);
   sub.textContent = `items add up to ${V.sum.toFixed(2)}%`;
+  }
   // glide from the previous altitude
   requestAnimationFrame(() => requestAnimationFrame(() => { mover.style.transition = ''; mover.style.transitionDuration = glide; mover.style.transform = 'translate(0px,0px)'; }));
   svg.dataset.lastY = baseY;
