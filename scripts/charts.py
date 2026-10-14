@@ -193,12 +193,128 @@ def whatif(d, name):
     finish(f, ax, name, rows, ["measure", "published_pct", "whatif_pct", "difference_pts"])
 
 
+def tieout(name):
+    """Every month: the published 12-month change and what our items add up to."""
+    rows = [r for r in csv.DictReader(open(PROCESSED / "monthly_summary.csv")) if r["status"] == "pass"]
+    gh = max(abs(float(r["gap_headline"])) for r in rows)
+    gc = max(abs(float(r["gap_core"])) for r in rows)
+    first, last = month_label(rows[0]["month"]), month_label(rows[-1]["month"])
+    f, top = fig("Our items add up to the published inflation rate, every month",
+                 f"12-month change, {first} to {last}. The line is the rate BLS publishes. Each dot is the sum\n"
+                 f"of our item contributions. The largest gap in any month is {gh:.4f} points for headline and\n"
+                 f"{gc:.4f} points for core. The break is October 2025, which BLS did not publish.",
+                 h=8.0, legend=[("Published by BLS", INK), ("Sum of our items", UP)])
+    out = []
+    panels = (("Headline", "published_headline", "items_headline"), ("Core (less food and energy)", "published_core", "items_core"))
+    hgt = (top - 0.12) / 2 - 0.03
+    for k, (lab, pk, ik) in enumerate(panels):
+        ax = f.add_axes([0.07, 0.08 + (1 - k) * (hgt + 0.06), 0.88, hgt])
+        xs, ys, ds = [], [], []
+        for r in rows:
+            x = int(r["month"][:4]) + (int(r["month"][5:]) - 1) / 12
+            if xs and x - xs[-1] > 1.5 / 12:
+                xs.append(float("nan")); ys.append(float("nan")); ds.append(float("nan"))
+            xs.append(x); ys.append(float(r[pk])); ds.append(float(r[ik]))
+        ax.plot(xs, ys, color=INK, lw=1.6, zorder=2)
+        ax.scatter(xs, ds, s=9, color=UP, zorder=3, linewidths=0)
+        ax.set_ylim(-0.5, 10)
+        ax.set_yticks([0, 2, 4, 6, 8, 10])
+        ax.set_yticklabels([f"{v}%" for v in (0, 2, 4, 6, 8, 10)])
+        ax.grid(axis="y", color=GRID, lw=0.6)
+        ax.set_xlim(2016.6, 2026.9)
+        ax.set_xticks(range(2017, 2027))
+        ax.set_xticklabels([str(y) for y in range(2017, 2027)] if k == 1 else [])
+        ax.text(2016.75, 9.3, lab, fontsize=12.5, fontweight="bold", color=INK, va="top")
+        for s in ("top", "right", "left"):
+            ax.spines[s].set_visible(False)
+        ax.tick_params(length=0)
+    for r in rows:
+        out.append((r["month"], r["published_headline"], r["items_headline"], r["published_core"], r["items_core"]))
+    finish(f, ax, name, out, ["month", "published_headline", "items_headline", "published_core", "items_core"])
+
+
+WATERFALL_UP, WATERFALL_DOWN = 6, 4
+
+
+def waterfall(d, name):
+    """Biggest items up, everything else netted, biggest items down, to the total."""
+    items = sorted(d["items"], key=lambda i: -i["contrib"])
+    up, down = items[:WATERFALL_UP], sorted(items, key=lambda i: i["contrib"])[:WATERFALL_DOWN]
+    rest = [i for i in items if i not in up and i not in down]
+    total = sum(i["contrib"] for i in items)
+    steps = ([(short(i["name"]), i["contrib"], UP) for i in up]
+             + [(f"The other {len(rest)} items, net", sum(i["contrib"] for i in rest), MUTED)]
+             + [(short(i["name"]), i["contrib"], DOWN) for i in down])
+    mon = month_label(d["month"])
+    f, top = fig(f"What added up to {d['published']['headline']:.1f}% inflation, {mon}",
+                 "Each bar is one item's share of the 12-month rise in headline CPI, in percentage points.\n"
+                 "Bars build from left to right; the bottom bar is the total.",
+                 h=8.0, legend=[("Pushed up", UP), ("Pulled down", DOWN), ("Everything else", MUTED)])
+    ax = f.add_axes([0.30, 0.08, 0.64, top - 0.10])
+    run, rows = 0.0, []
+    n = len(steps)
+    for k, (lab, v, color) in enumerate(steps):
+        y = n - k
+        left = run if v >= 0 else run + v
+        ax.barh(y, abs(v), left=left, height=0.62, color=color)
+        if k < n - 1:
+            ax.plot([run + v, run + v], [y - 0.31, y - 1 + 0.31], color=MUTED, lw=0.7, ls=(0, (2, 2)))
+        ax.text(-0.06, y, lab, ha="right", va="center", fontsize=11.5, color=INK)
+        tx = (left + abs(v) + 0.04) if v >= 0 else (left - 0.04)
+        ax.text(tx, y, pts(v), ha="left" if v >= 0 else "right", va="center", fontsize=11, color=INK)
+        run += v
+        rows.append((lab, round(v, 6), round(run, 6)))
+    ax.barh(0, total, height=0.62, color=INK)
+    ax.text(-0.06, 0, "All items", ha="right", va="center", fontsize=11.5, color=INK, fontweight="bold")
+    ax.text(total + 0.04, 0, f"{total:+.2f}", ha="left", va="center", fontsize=11, color=INK, fontweight="bold")
+    rows.append(("All items", round(total, 6), round(total, 6)))
+    peak = max(r[2] for r in rows)
+    ax.set_xlim(0, peak * 1.12)
+    ax.set_ylim(-0.6, n + 0.6)
+    ax.set_yticks([]); ax.set_xticks([])
+    ax.spines["bottom"].set_visible(False)
+    ax.axvline(0, color=MUTED, lw=0.8)
+    finish(f, ax, name, rows, ["step", "contrib_pts", "running_total_pts"])
+
+
+def fastest(d, name, n=15):
+    """Items whose own published index rose the most over 12 months."""
+    sel = sorted((i for i in d["items"] if i["own_index"] and i["yoy"] is not None),
+                 key=lambda i: -i["yoy"])[:n]
+    ENERGY = "#f2b84b"
+    mon = month_label(d["month"])
+    f, top = fig(f"The {n} items whose prices rose the most, {mon}",
+                 "12-month price change. Only items with their own published BLS index. In parentheses, each item's\n"
+                 "share of consumer spending in the CPI; small items can move a lot without moving the total.",
+                 h=8.2, legend=[("Energy", ENERGY), ("Other items", UP)])
+    ax = f.add_axes([0.40, 0.08, 0.52, top - 0.10])
+    sel_r = list(reversed(sel))
+    ys = range(len(sel_r))
+    vals = [i["yoy"] for i in sel_r]
+    ax.barh(list(ys), vals, height=0.62, color=[ENERGY if i["group"] == "Energy" else UP for i in sel_r])
+    lim = max(vals) * 1.15
+    ax.set_xlim(0, lim)
+    for y, i, v in zip(ys, sel_r, vals):
+        share = f"{i['ri_sep_prior']:.2f}%" if i["ri_sep_prior"] >= 0.005 else "under 0.01%"
+        ax.text(-lim * 0.015, y, f"{short(i['name'])}  ({share})", ha="right", va="center",
+                fontsize=11.5, color=INK)
+        ax.text(v + lim * 0.015, y, f"{v:+.1f}%", ha="left", va="center", fontsize=11, color=INK)
+    ax.set_yticks([]); ax.set_xticks([])
+    ax.spines["bottom"].set_visible(False)
+    ax.axvline(0, color=MUTED, lw=0.8)
+    finish(f, ax, name, [(i["name"], i["yoy"], i["ri_sep_prior"], i["group"]) for i in sel],
+           ["item", "yoy_pct", "weight_pct", "group"])
+
+
 def main():
     d = json.loads((PROCESSED / "contrib.json").read_text())
-    bars(d, True, "01-top-adders.png")
-    bars(d, False, "02-top-subtractors.png")
-    history(d, "03-health-insurance-rx-history.png")
-    whatif(d, "04-whatif.png")
+    tieout("01-tieout.png")
+    waterfall(d, "02-waterfall.png")
+    fastest(d, "03-fastest-rising.png")
+    bars(d, True, "04-top-adders.png")
+    bars(d, False, "05-top-subtractors.png")
+    history(d, "06-health-insurance-rx-history.png")
+    whatif(d, "07-whatif.png")
 
 
 if __name__ == "__main__":

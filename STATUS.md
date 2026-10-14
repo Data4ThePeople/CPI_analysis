@@ -6,7 +6,7 @@ Process: ~/.claude/d4tp-process/PROCESS.md
 ## Current
 
 Post: cpi-september-2026
-Step: 2a (waiting for Eric's draft)
+Step: 2a (draft in POST.md; edits proposed, waiting for Eric)
 Since: 2026-10-14
 
 ## Steps
@@ -47,3 +47,6 @@ None.
 - 2026-10-14 Step 2a opened. Slug cpi-september-2026. Created posts/cpi-september-2026/
   with POST.md from the template; charts 01-04 moved from charts/ to
   posts/cpi-september-2026/images/ (re-rendered, unchanged; tie-out 40 of 40).
+- 2026-10-14 2a draft in POST.md: Eric's text verbatim, brackets resolved. New
+  charts 01 tie-out, 02 waterfall, 03 fastest-rising; old 01-04 renumbered
+  04-07. README.md added (the post links to it). Tie-out 43 of 43.

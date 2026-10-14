@@ -21,8 +21,11 @@ Run by `scripts/tieout.py` on the October 14, 2026 pull. Release month 2026-09.
 | Page core: items matching contrib.json (mismatches) | 0.0000 | 0.0000 | 0 | pass |
 | Page core: published rate | 2.5644 | 2.5644 | 1e-09 | pass |
 | Page core: items add up to | 2.5644 | 2.5644 | 0.001 | pass |
-| Chart 01: items and values match contrib.json | 1.0000 | 1.0000 | 0 | pass |
-| Chart 02: items and values match contrib.json | 1.0000 | 1.0000 | 0 | pass |
+| Chart 04: items and values match contrib.json | 1.0000 | 1.0000 | 0 | pass |
+| Chart 05: items and values match contrib.json | 1.0000 | 1.0000 | 0 | pass |
+| Chart 02: waterfall steps add to the items total | 3.7380 | 3.7380 | 0.0001 | pass |
+| Chart 02: waterfall total | 3.7380 | 3.7377 | 0.002 | pass |
+| Chart 03: fastest risers match raw indexes | 1.0000 | 1.0000 | 0 | pass |
 | Health insurance: 10-year average Sep-Sep change | 3.5500 | 3.5500 | 0.001 | pass |
 | Health insurance: 12-month change | -8.9881 | -8.9881 | 0.001 | pass |
 | Health insurance: headline effect of swap | 0.1090 | 0.1090 | 0.0001 | pass |
@@ -33,12 +36,12 @@ Run by `scripts/tieout.py` on the October 14, 2026 pull. Release month 2026-09.
 | Prescription drugs: core effect of swap | 0.0754 | 0.0754 | 0.0001 | pass |
 | What-if headline | 3.9068 | 3.9068 | 0.001 | pass |
 | What-if core | 2.7762 | 2.7762 | 0.001 | pass |
-| Chart 04: headline what-if value | 3.9068 | 3.9068 | 1e-09 | pass |
-| Chart 04: core what-if value | 2.7762 | 2.7762 | 1e-09 | pass |
-| Chart 03: SEME last value is 2026-09 | 1.0000 | 1.0000 | 0 | pass |
-| Chart 03: SEME last value | -8.9881 | -8.9881 | 0.001 | pass |
-| Chart 03: SEMF01 last value is 2026-09 | 1.0000 | 1.0000 | 0 | pass |
-| Chart 03: SEMF01 last value | -4.4794 | -4.4794 | 0.001 | pass |
+| Chart 07: headline what-if value | 3.9068 | 3.9068 | 1e-09 | pass |
+| Chart 07: core what-if value | 2.7762 | 2.7762 | 1e-09 | pass |
+| Chart 06: SEME last value is 2026-09 | 1.0000 | 1.0000 | 0 | pass |
+| Chart 06: SEME last value | -8.9881 | -8.9881 | 0.001 | pass |
+| Chart 06: SEMF01 last value is 2026-09 | 1.0000 | 1.0000 | 0 | pass |
+| Chart 06: SEMF01 last value | -4.4794 | -4.4794 | 0.001 | pass |
 | Monthly series: months passing every check (of 119) | 119.0000 | 119.0000 | 0 | pass |
 | Monthly series: largest headline gap (pts) | 0.0013 | 0.0000 | 0.005 | pass |
 | Monthly series: largest core gap (pts) | 0.0008 | 0.0000 | 0.005 | pass |

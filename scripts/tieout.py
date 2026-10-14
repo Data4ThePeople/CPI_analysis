@@ -137,11 +137,23 @@ def main():
             return list(csv.DictReader(fh))
     top = sorted(d["items"], key=lambda i: -i["contrib"])[:15]
     bot = sorted(d["items"], key=lambda i: i["contrib"])[:15]
-    for name, sel in (("01-top-adders.csv", top), ("02-top-subtractors.csv", bot)):
+    for name, sel in (("04-top-adders.csv", top), ("05-top-subtractors.csv", bot)):
         r = rows(name)
         same = [x["item"] for x in r] == [i["name"] for i in sel] and all(
             abs(float(x["contrib_pts"]) - i["contrib"]) < 1e-6 for x, i in zip(r, sel))
         check(f"Chart {name[:2]}: items and values match contrib.json", int(same), 1, 0)
+
+    # Chart 02 (waterfall): steps add to the item total; chart 03: the fastest risers.
+    wf = rows("02-waterfall.csv")
+    check("Chart 02: waterfall steps add to the items total", sum(float(x["contrib_pts"]) for x in wf[:-1]),
+          sum(i["contrib"] for i in d["items"]), 1e-4)
+    check("Chart 02: waterfall total", float(wf[-1]["contrib_pts"]), d["published"]["headline"], 2e-3)
+    fr = rows("03-fastest-rising.csv")
+    own = sorted((i for i in d["items"] if i["own_index"] and i["yoy"] is not None), key=lambda i: -i["yoy"])[:15]
+    same = [x["item"] for x in fr] == [i["name"] for i in own] and all(
+        abs(float(x["yoy_pct"]) - pct(idx[f"CUUR0000{i['code']}"][T], idx[f"CUUR0000{i['code']}"][B])) < 1e-3
+        for x, i in zip(fr, own))
+    check("Chart 03: fastest risers match raw indexes", int(same), 1, 0)
 
     # 7. What-if, recomputed from raw.
     for code, name in (("SEME", "Health insurance"), ("SEMF01", "Prescription drugs")):
@@ -156,16 +168,16 @@ def main():
     wt = d["whatif_total"]
     check("What-if headline", wt["headline"], d["published"]["headline"] + sum(w["delta_headline"] for w in d["whatif"].values()), 1e-3)
     check("What-if core", wt["core"], d["published"]["core"] + sum(w["delta_core"] for w in d["whatif"].values()), 1e-3)
-    w4 = rows("04-whatif.csv")
-    check("Chart 04: headline what-if value", float(w4[0]["whatif_pct"]), wt["headline"], 1e-9)
-    check("Chart 04: core what-if value", float(w4[1]["whatif_pct"]), wt["core"], 1e-9)
+    w4 = rows("07-whatif.csv")
+    check("Chart 07: headline what-if value", float(w4[0]["whatif_pct"]), wt["headline"], 1e-9)
+    check("Chart 07: core what-if value", float(w4[1]["whatif_pct"]), wt["core"], 1e-9)
 
     # 8. History chart end values.
-    h = rows("03-health-insurance-rx-history.csv")
+    h = rows("06-health-insurance-rx-history.csv")
     for code in ("SEME", "SEMF01"):
         last = [x for x in h if x["series"] == code][-1]
-        check(f"Chart 03: {code} last value is {T}", int(last["month"] == T), 1, 0)
-        check(f"Chart 03: {code} last value", float(last["yoy_pct"]), d["whatif"][code]["yoy"], 1e-3)
+        check(f"Chart 06: {code} last value is {T}", int(last["month"] == T), 1, 0)
+        check(f"Chart 06: {code} last value", float(last["yoy_pct"]), d["whatif"][code]["yoy"], 1e-3)
 
     # Source coverage: how much weight rests on a measured index vs a fill.
     filled = [i for i in d["items"] if not i["own_index"]]
