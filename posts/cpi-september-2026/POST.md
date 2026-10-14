@@ -108,11 +108,7 @@ Two medical items pulled inflation down in September: health insurance, down 9.0
 
 Over those 10 years, health insurance rose an average of 3.55% a year and prescription drugs 1.71% a year.
 
-Health insurance in the CPI is not the premium you pay. BLS does not track premiums directly. It estimates the part of premiums that insurers keep after paying claims, using industry financial reports that run about 10 months behind. Most of what households pay in premiums is counted in the medical items that insurance pays for, such as hospital services and doctor visits. That is why health insurance is less than 1% of spending in the CPI.
-
-BLS also changed how it measures health insurance several times in the last 10 years. Until October 2023 it reset the index once a year, each October, which explains much of the large swings between 2019 and 2023. Since then it updates every April and October. So the 10-year average mixes two methods.
-
-Prescription drug prices in the CPI are what the pharmacy is paid, by the patient and the insurer together. Rebates that drug makers pay to insurers after the sale are not counted.
+We have written before about [how the CPI measures health insurance](https://www.data4thepeople.com/p/cpi-merry-go-round), so we won't repeat it here. But look: health insurance down 9.0% and prescription drugs down 4.5% over the past year. How do these numbers jibe with your experience?
 
 ### What if they had risen at their usual pace?
 
