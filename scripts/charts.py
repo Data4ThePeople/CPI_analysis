@@ -14,7 +14,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 
-from common import CHARTS, PROCESSED
+from common import CHARTS, PROCESSED, SHORT
 
 BG, INK, MUTED, GRID = "#181A1B", "#BBBDC0", "#8C9094", "#2A2E31"
 UP, DOWN = "#f37952", "#5598e7"            # coral = adds to inflation, blue = subtracts
@@ -26,20 +26,6 @@ SOURCE = ("Data 4 The People  ·  Source: BLS Consumer Price Index (CPI-U, not s
 NUM = CHARTS / "numbers"
 HIGHLIGHT = {"Health insurance", "Prescription drugs"}
 
-SHORT = {
-    "Owners' equivalent rent of primary residence": "Owners' equivalent rent",
-    "Other lodging away from home including hotels and motels": "Hotels and motels",
-    "Telephone hardware, calculators, and other consumer information items": "Phones and other info devices",
-    "Club membership for shopping clubs, fraternal, or other organizations, or participant sports fees": "Club memberships and sports fees",
-    "Unsampled owners' equivalent rent of secondary residences": "Owners' rent, second homes",
-    "Full service meals and snacks": "Full-service restaurant meals",
-    "Limited service meals and snacks": "Fast food and takeout",
-    "Motor vehicle maintenance and servicing": "Car maintenance",
-    "Other pork including roasts, steaks, and ribs": "Other pork",
-    "Moving, storage, freight expense": "Moving and storage",
-    "Utility (piped) gas service": "Natural gas service",
-    "Gasoline (all types)": "Gasoline",
-}
 
 plt.rcParams.update({"text.parse_math": False, "font.family": ["Arial", "DejaVu Sans"],
                      "axes.facecolor": BG, "figure.facecolor": BG, "text.color": INK,

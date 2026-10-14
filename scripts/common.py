@@ -27,6 +27,22 @@ RI_URL = "https://www.bls.gov/cpi/tables/relative-importance/{year}.xlsx"
 CU_ITEM_URL = "https://download.bls.gov/pub/time.series/cu/cu.item"
 API_URL = "https://api.bls.gov/publicAPI/v2/timeseries/data/"
 
+# Plain-language names for long BLS item names, shared by the charts and the page.
+SHORT = {
+    "Owners' equivalent rent of primary residence": "Owners' equivalent rent",
+    "Other lodging away from home including hotels and motels": "Hotels and motels",
+    "Telephone hardware, calculators, and other consumer information items": "Phones and other info devices",
+    "Club membership for shopping clubs, fraternal, or other organizations, or participant sports fees": "Club memberships and sports fees",
+    "Unsampled owners' equivalent rent of secondary residences": "Owners' rent, second homes",
+    "Full service meals and snacks": "Full-service restaurant meals",
+    "Limited service meals and snacks": "Fast food and takeout",
+    "Motor vehicle maintenance and servicing": "Car maintenance",
+    "Other pork including roasts, steaks, and ribs": "Other pork",
+    "Moving, storage, freight expense": "Moving and storage",
+    "Utility (piped) gas service": "Natural gas service",
+    "Gasoline (all types)": "Gasoline",
+}
+
 # The release month this analysis is about, and the history window.
 TARGET = (2026, 9)
 HIST_START = 2014

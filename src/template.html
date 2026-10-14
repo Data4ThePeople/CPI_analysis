@@ -1,0 +1,409 @@
+<title>What Moved Inflation</title>
+<meta charset="utf-8">
+<style>
+:root{
+  --bg:#fbfaf8; --panel:#ffffff; --ink:#1f2225; --ink-2:#4d5257; --muted:#767b80; --grid:#e6e4df; --axis:#b9b6b0;
+  --envelope:#2b2f33; --rope:#8a8f94; --basket:#9a6b3f; --basket-2:#7a5230; --sack:#c9b48a; --sack-edge:#8c7650;
+  --target:#3c7a4a; --tip-bg:#ffffff; --tip-edge:#d9d6d0; --btn:#f0eeea; --btn-on:#1f2225; --btn-on-ink:#ffffff;
+  --up-1:#fed4cf; --up-2:#f7aba2; --up-3:#ed8074; --up-4:#e14d45; --up-5:#ba332f; --up-6:#7d1716;
+  --dn-1:#cde2fb; --dn-2:#9ec5f4; --dn-3:#6da7ec; --dn-4:#3987e5; --dn-5:#256abf; --dn-6:#104281;
+  --mid:#e9e7e2;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#181A1B; --panel:#1f2224; --ink:#e4e5e6; --ink-2:#BBBDC0; --muted:#8C9094; --grid:#2A2E31; --axis:#4a4f53;
+    --envelope:#d8d9da; --rope:#8C9094; --basket:#b7834f; --basket-2:#8f6237; --sack:#a8946c; --sack-edge:#d2bd92;
+    --target:#6fb67f; --tip-bg:#232628; --tip-edge:#3a3e41; --btn:#2A2E31; --btn-on:#e4e5e6; --btn-on-ink:#181A1B;
+    --mid:#4a4a47;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#181A1B; --panel:#1f2224; --ink:#e4e5e6; --ink-2:#BBBDC0; --muted:#8C9094; --grid:#2A2E31; --axis:#4a4f53;
+  --envelope:#d8d9da; --rope:#8C9094; --basket:#b7834f; --basket-2:#8f6237; --sack:#a8946c; --sack-edge:#d2bd92;
+  --target:#6fb67f; --tip-bg:#232628; --tip-edge:#3a3e41; --btn:#2A2E31; --btn-on:#e4e5e6; --btn-on-ink:#181A1B;
+  --mid:#4a4a47;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased}
+body{container:page / inline-size}
+#app{width:100%;min-width:0;max-width:1180px;margin:0 auto;padding:18px 16px 10px;height:780px;display:flex;flex-direction:column;container-type:inline-size}
+body.is-embed #app{max-width:none;padding:12px 16px 8px;overflow:hidden}
+header h1{font-size:22px;line-height:1.2;margin:0 0 4px;font-weight:700}
+header p{margin:0;color:var(--ink-2);font-size:14px;line-height:1.4}
+#controls{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;margin:10px 0 4px}
+.seg{display:inline-flex;background:var(--btn);border-radius:8px;padding:3px}
+.seg button{font:inherit;font-size:13px;border:0;background:transparent;color:var(--ink);padding:6px 12px;border-radius:6px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--btn-on);color:var(--btn-on-ink);font-weight:600}
+.seg button:focus-visible{outline:2px solid var(--dn-4);outline-offset:1px}
+#legend{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink-2);flex-wrap:wrap}
+#legend .bar{display:flex;border-radius:3px;overflow:hidden}
+#legend .bar span{display:block;width:22px;height:12px}
+#legend .ticks{display:flex;font-size:11px;color:var(--muted)}
+#stage{position:relative;flex:1;min-height:0}
+#chart{position:absolute;inset:0;width:100%;height:100%;display:block}
+#table-wrap{position:absolute;inset:0;overflow:auto;display:none;background:var(--bg)}
+#table-wrap.on{display:block}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{padding:5px 8px;border-bottom:1px solid var(--grid);text-align:right;white-space:nowrap}
+th:first-child,td:first-child{text-align:left;white-space:normal}
+th{position:sticky;top:0;background:var(--bg);color:var(--ink-2);font-weight:600;cursor:pointer}
+footer{display:flex;justify-content:space-between;gap:12px;font-size:11px;color:var(--muted);padding-top:6px;flex-wrap:wrap}
+footer a{color:inherit}
+#tip{position:fixed;pointer-events:none;z-index:9;background:var(--tip-bg);border:1px solid var(--tip-edge);border-radius:8px;
+  padding:9px 11px;font-size:12.5px;line-height:1.45;color:var(--ink);box-shadow:0 4px 18px rgba(0,0,0,.18);max-width:280px;display:none}
+#tip b{display:block;font-size:13.5px;margin-bottom:3px}
+#tip .k{color:var(--muted)}
+#tip .note{color:var(--muted);font-size:11.5px;margin-top:4px}
+svg text{font-family:inherit}
+.tile{stroke:var(--panel);stroke-width:1;cursor:default}
+.tile:hover,.tile.hl{stroke:var(--ink);stroke-width:2}
+.lab{pointer-events:none;font-weight:600}
+.axis-lab{fill:var(--muted);font-size:11px}
+.big{font-weight:700}
+#mover{transition:transform .9s cubic-bezier(.45,.05,.25,1)}
+@media (prefers-reduced-motion: reduce){#mover{transition:none}}
+@container (max-width:620px){
+  header h1{font-size:18px}
+  header p{font-size:12.5px}
+  #legend .lbl{display:none}
+  .seg button{padding:6px 9px;font-size:12.5px}
+  .long{display:none}
+}
+</style>
+<div id="app">
+  <header>
+    <h1 id="title"></h1>
+    <p id="dek"></p>
+  </header>
+  <div id="controls">
+    <div class="seg" role="group" aria-label="Measure">
+      <button data-view="headline" aria-pressed="true">All items</button>
+      <button data-view="core" aria-pressed="false">Core<span class="long"> (less food and energy)</span></button>
+    </div>
+    <div class="seg" role="group" aria-label="Display">
+      <button data-mode="balloon" aria-pressed="true">Balloon</button>
+      <button data-mode="table" aria-pressed="false">Table</button>
+    </div>
+    <div id="legend" aria-hidden="true"></div>
+  </div>
+  <div id="stage">
+    <svg id="chart" role="img" aria-labelledby="title dek"></svg>
+    <div id="table-wrap"><table id="table"></table></div>
+  </div>
+  <footer>
+    <span id="source"></span>
+    <span id="credit">Built by <a href="https://www.data4thepeople.com" target="_blank" rel="noopener">Data 4 The People</a></span>
+  </footer>
+</div>
+<div id="tip" role="tooltip"></div>
+<script>
+const DATA = /*DATA*/{};
+const EMBED = (() => { if (location.hash.includes('embed=0')) return false; if (location.hash.includes('embed=1')) return true;
+  try { return window.self !== window.top; } catch (e) { return true; } })();
+if (EMBED) { document.documentElement.setAttribute('data-theme', 'light'); document.body.classList.add('is-embed'); }
+const th = location.hash.match(/theme=(light|dark)/); if (th) document.documentElement.setAttribute('data-theme', th[1]);
+
+const NS = 'http://www.w3.org/2000/svg';
+const $ = s => document.querySelector(s);
+const svg = $('#chart');
+const state = { month: DATA.order[DATA.order.length - 1], view: 'headline', mode: 'balloon' };
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+function el(tag, attrs, parent) { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; }
+const fmtPct = v => (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v).toFixed(1) + '%';
+const fmtPts = v => { const a = Math.abs(v); const s = a >= 0.01 ? a.toFixed(2) : a.toFixed(3); return (v > 0 ? '+' : v < 0 ? '−' : '') + s; };
+const fmtW = v => v.toFixed(3) + '%';
+
+// ---- color: fixed diverging scale on the item's own 12-month change ----
+const STEPS = DATA.color.steps;                    // bin edges on |change|, e.g. [0.5,1,2,3,5,10]
+function colorFor(y) {
+  const a = Math.abs(y);
+  if (a < STEPS[0]) return css('--mid');
+  let k = 0; while (k < STEPS.length - 1 && a >= STEPS[k + 1]) k++;
+  return css((y > 0 ? '--up-' : '--dn-') + Math.min(6, k + 1));
+}
+function inkFor(fill) {
+  const m = fill.match(/^#(..)(..)(..)$/); if (!m) return css('--ink');
+  const [r, g, b] = m.slice(1).map(h => parseInt(h, 16) / 255).map(c => c <= .03928 ? c / 12.92 : Math.pow((c + .055) / 1.055, 2.4));
+  return (0.2126 * r + 0.7152 * g + 0.0722 * b) > 0.36 ? '#1f2225' : '#ffffff';
+}
+function legend() {
+  const L = $('#legend'); L.innerHTML = '';
+  const lbl = document.createElement('span'); lbl.className = 'lbl'; lbl.textContent = 'Item price change, 12 months:'; L.appendChild(lbl);
+  const wrap = document.createElement('div');
+  const bar = document.createElement('div'); bar.className = 'bar';
+  const cols = [];
+  for (let k = 6; k >= 1; k--) cols.push(css('--dn-' + k));
+  cols.push(css('--mid'));
+  for (let k = 1; k <= 6; k++) cols.push(css('--up-' + k));
+  cols.forEach(c => { const s = document.createElement('span'); s.style.background = c; bar.appendChild(s); });
+  const ticks = document.createElement('div'); ticks.className = 'ticks';
+  ticks.innerHTML = `<span style="width:${22 * 6}px">−${STEPS[STEPS.length - 1]}% or more ← falling</span><span style="width:22px;text-align:center">0</span><span style="width:${22 * 6}px;text-align:right">rising → +${STEPS[STEPS.length - 1]}%</span>`;
+  wrap.appendChild(bar); wrap.appendChild(ticks); L.appendChild(wrap);
+}
+
+// ---- balloon shape: half-width as a function of depth t in [0,1], in units of envelope height ----
+function hw(t) {
+  const r = 0.43, c = 0.43;                         // round crown: circle of radius r centered at depth c
+  if (t <= 0.56) { const d = t - c; return Math.sqrt(Math.max(0, r * r - d * d)); }
+  const w0 = Math.sqrt(r * r - (0.56 - c) ** 2), neck = 0.075;
+  const u = (t - 0.56) / 0.44;                      // taper to the neck
+  return neck + (w0 - neck) * Math.pow(Math.cos(u * Math.PI / 2), 1.15);
+}
+const N = 400;
+function shapeTable(H) {                            // cumulative area from the top, in px^2, for an envelope H px tall
+  const ys = [], cum = [0];
+  for (let i = 0; i <= N; i++) ys.push(i / N);
+  for (let i = 1; i <= N; i++) { const a = 2 * H * hw((i - 0.5) / N) * (H / N); cum.push(cum[i - 1] + a); }
+  return cum;
+}
+function depthForArea(cum, area, H) {              // inverse of the cumulative area
+  if (area <= 0) return 0; if (area >= cum[N]) return H;
+  let lo = 0, hi = N; while (hi - lo > 1) { const m = (lo + hi) >> 1; if (cum[m] < area) lo = m; else hi = m; }
+  const f = (area - cum[lo]) / (cum[hi] - cum[lo]); return (lo + f) / N * H;
+}
+function envelopePath(cx, top, H) {
+  let d = '';
+  for (let i = 0; i <= N; i += 4) { const t = i / N; d += (i ? 'L' : 'M') + (cx + hw(t) * H).toFixed(1) + ',' + (top + t * H).toFixed(1); }
+  for (let i = N; i >= 0; i -= 4) { const t = i / N; d += 'L' + (cx - hw(t) * H).toFixed(1) + ',' + (top + t * H).toFixed(1); }
+  return d + 'Z';
+}
+
+// Bands: rows whose heights follow the outline, filled left to right. Each band's
+// area equals the area of the envelope slice it covers, so box area stays exact.
+function bandLayout(items, cx, top, H) {
+  const cum = shapeTable(H), total = cum[N];
+  const sum = items.reduce((s, d) => s + d.v, 0);
+  const k = total / sum;
+  const out = []; let used = 0, i = 0;
+  const worst = (row, h) => { let w = 0; for (const d of row) { const wi = d.v * k / h; w = Math.max(w, wi / h, h / wi); } return w; };
+  while (i < items.length) {
+    let row = [items[i]], S = items[i].v * k;
+    let h = depthForArea(cum, used + S, H) - depthForArea(cum, used, H);
+    let best = worst(row, h);
+    while (i + row.length < items.length) {
+      const nx = items[i + row.length], S2 = S + nx.v * k;
+      const h2 = depthForArea(cum, used + S2, H) - depthForArea(cum, used, H);
+      const w2 = worst(row.concat([nx]), h2);
+      if (w2 > best) break;
+      row.push(nx); S = S2; h = h2; best = w2;
+    }
+    const y0 = top + depthForArea(cum, used, H);
+    const W = S / h; let x = cx - W / 2;
+    for (const d of row) { const w = d.v * k / h; out.push({ d, x, y: y0, w, h }); x += w; }
+    used += S; i += row.length;
+  }
+  return out;
+}
+
+// Squarified treemap in a rectangle (Bruls, Huizing and van Wijk), for the sandbag.
+function squarify(items, x, y, w, h) {
+  const out = []; const sum = items.reduce((s, d) => s + d.v, 0); if (!sum) return out;
+  let nodes = items.map(d => ({ d, a: d.v * w * h / sum }));
+  const worst = (row, side) => { const s = row.reduce((t, n) => t + n.a, 0); let mx = 0, mn = Infinity;
+    for (const n of row) { mx = Math.max(mx, n.a); mn = Math.min(mn, n.a); } return Math.max(side * side * mx / (s * s), s * s / (side * side * mn)); };
+  while (nodes.length) {
+    const side = Math.min(w, h); let row = [nodes[0]], k = 1;
+    while (k < nodes.length && worst(row.concat([nodes[k]]), side) <= worst(row, side)) { row.push(nodes[k]); k++; }
+    const s = row.reduce((t, n) => t + n.a, 0);
+    if (w >= h) { const rw = s / h; let yy = y; for (const n of row) { const rh = n.a / rw; out.push({ d: n.d, x, y: yy, w: rw, h: rh }); yy += rh; } x += rw; w -= rw; }
+    else { const rh = s / w; let xx = x; for (const n of row) { const rw = n.a / rh; out.push({ d: n.d, x: xx, y, w: rw, h: rh }); xx += rw; } y += rh; h -= rh; }
+    nodes = nodes.slice(k);
+  }
+  return out;
+}
+
+// ---- tooltip ----
+const tip = $('#tip');
+function showTip(e, d, view) {
+  const v = DATA.months[state.month].views[view];
+  const share = d.c / v.published * 100;
+  tip.innerHTML = `<b>${d.f}</b>
+    <span class="k">Price change, 12 months:</span> ${fmtPct(d.y)}<br>
+    <span class="k">Weight in ${view === 'core' ? 'core' : 'the CPI'}, ${DATA.months[state.month].baseLabel}:</span> ${fmtW(d.w)}<br>
+    <span class="k">${d.c >= 0 ? 'Added' : 'Subtracted'}:</span> ${fmtPts(d.c)} percentage points<br>
+    <span class="k">Share of the ${fmtPct(v.published).replace('+', '')} total:</span> ${share.toFixed(1)}%
+    ${d.fill ? `<div class="note">BLS does not publish this item’s index for these months. Its change is what is left of its parent group’s published change (${d.from}).</div>` : ''}`;
+  tip.style.display = 'block'; moveTip(e);
+}
+function moveTip(e) {
+  const r = tip.getBoundingClientRect(); let x = e.clientX + 16, y = e.clientY + 16;
+  if (x + r.width > innerWidth - 8) x = e.clientX - r.width - 16;
+  if (y + r.height > innerHeight - 8) y = e.clientY - r.height - 16;
+  tip.style.left = Math.max(8, x) + 'px'; tip.style.top = Math.max(8, y) + 'px';
+}
+const hideTip = () => { tip.style.display = 'none'; };
+
+function tile(g, b, view, edge) {
+  const fill = colorFor(b.d.y);
+  const r = el('rect', { x: b.x, y: b.y, width: Math.max(0, b.w), height: Math.max(0, b.h), fill, class: 'tile', tabindex: b.w * b.h > 60 ? 0 : -1,
+    'aria-label': `${b.d.f}: ${fmtPct(b.d.y)} price change, ${fmtPts(b.d.c)} points` }, g);
+  r.addEventListener('mousemove', e => showTip(e, b.d, view));
+  r.addEventListener('mouseleave', hideTip);
+  r.addEventListener('focus', () => { const bb = r.getBoundingClientRect(); showTip({ clientX: bb.right, clientY: bb.top }, b.d, view); });
+  r.addEventListener('blur', hideTip);
+  if ((DATA.highlight || []).includes(b.d.f)) { r.classList.add('hl'); }
+  // label if it fits: try the natural size, then smaller
+  const ink = inkFor(fill);
+  const fs0 = Math.max(9, Math.min(15, Math.sqrt(b.w * b.h) / 6));
+  for (const fs of [fs0, Math.max(9, fs0 * 0.78)]) { if (labelTile(g, b, fs, ink, edge)) break; }
+}
+
+function labelTile(g, b, fs, ink, edge) {
+  if (b.w < 40 || b.h < fs * 2.4) return false;
+  const words = b.d.n.split(' '); const lines = []; let cur = '';
+  const maxChars = Math.floor((b.w - 8) / (fs * 0.56));
+  for (const wd of words) { if ((cur + ' ' + wd).trim().length <= maxChars) cur = (cur + ' ' + wd).trim(); else { if (cur) lines.push(cur); cur = wd; } }
+  if (cur) lines.push(cur);
+  const maxLines = Math.floor((b.h - fs * 1.3) / (fs * 1.15));
+  if (lines.length > maxLines || !lines.every(l => l.length <= maxChars)) return false;
+  // Find the first spot, moving down, where the whole label sits inside the outline.
+  const tw = Math.max(...lines.map(l => l.length), 6) * fs * 0.56, th = (lines.length + 1) * fs * 1.17;
+  let lx = b.x + 5, ly = b.y + 3, ok = !edge;
+  for (; edge && ly + th <= b.y + b.h - 2; ly += 2) {
+    const [l1, r1] = edge(ly), [l2, r2] = edge(ly + th);
+    lx = Math.max(b.x + 5, Math.max(l1, l2) + 4);
+    if (lx + tw <= Math.min(b.x + b.w - 4, Math.min(r1, r2) - 4)) { ok = true; break; }
+  }
+  if (!ok) return false;
+  const t = el('text', { x: lx, y: ly + fs, fill: ink, 'font-size': fs, class: 'lab' }, g);
+  lines.forEach((l, i) => { const s = el('tspan', { x: lx, dy: i ? fs * 1.15 : 0 }, t); s.textContent = l; });
+  const s2 = el('tspan', { x: lx, dy: fs * 1.2, 'font-weight': 400 }, t); s2.textContent = fmtPct(b.d.y);
+  return true;
+}
+
+function render() {
+  const M = DATA.months[state.month], V = M.views[state.view];
+  $('#title').textContent = DATA.title;
+  $('#dek').textContent = state.view === 'core'
+    ? `Core prices (all items less food and energy) rose ${V.published.toFixed(2)}% in the 12 months to ${M.label}. Each box is one item: its size is how much it added, its color is how much its own price changed. Items that lowered inflation hang below as sandbags.`
+    : `Consumer prices rose ${V.published.toFixed(2)}% in the 12 months to ${M.label}. Each box is one item: its size is how much it added, its color is how much its own price changed. Items that lowered inflation hang below as sandbags.`;
+  $('#source').textContent = DATA.source;
+  legend();
+  renderTable(V);
+  svg.innerHTML = '';
+  const W = svg.clientWidth, H = svg.clientHeight; if (!W || !H) return;
+  const narrow = W < 560;
+  const axisX = narrow ? 34 : 54;
+  // Fixed envelope size so later months are drawn at the same size.
+  const envH = Math.min(H * 0.48, (W - axisX - 30) / (2 * 0.43) * 0.98);
+  const ropeH = envH * 0.10, basketH = Math.max(18, envH * 0.07), basketW = envH * 0.22;
+  const pos = V.items.filter(d => d.c > 0).map(d => Object.assign({ v: d.c }, d)).sort((a, b) => b.v - a.v);
+  const neg = V.items.filter(d => d.c < 0).map(d => Object.assign({ v: -d.c }, d)).sort((a, b) => b.v - a.v);
+  const posSum = pos.reduce((s, d) => s + d.v, 0), negSum = neg.reduce((s, d) => s + d.v, 0);
+  const envArea = shapeTable(envH)[N];
+  const sackArea = envArea * negSum / posSum;     // same px per point as the envelope
+  const sackW = Math.min(W * 0.5, Math.sqrt(sackArea * 1.5)), sackH = sackArea / sackW;
+  const tether = 12;
+  const below = basketH + tether + sackH + 8;      // basket to bottom of sack
+  const above = envH + ropeH;                       // basket to top of crown
+  // Altitude: the basket's top edge sits at the rate on the axis.
+  const ax = DATA.axis, top = 10 + above, bottom = H - below - 6;
+  const yOf = r => bottom - (r - ax.min) / (ax.max - ax.min) * (bottom - top);
+
+  // axis and grid
+  const ag = el('g', {}, svg);
+  for (let r = ax.min; r <= ax.max + 1e-9; r += ax.step) {
+    const y = yOf(r);
+    el('line', { x1: axisX, x2: W, y1: y, y2: y, stroke: r === 0 ? css('--axis') : css('--grid'), 'stroke-width': 1 }, ag);
+    const t = el('text', { x: axisX - 6, y: y + 4, 'text-anchor': 'end', class: 'axis-lab' }, ag); t.textContent = (r > 0 ? '+' : r < 0 ? '−' : '') + Math.abs(r) + '%';
+  }
+  const ty = yOf(ax.target);
+  el('line', { x1: axisX, x2: W, y1: ty, y2: ty, stroke: css('--target'), 'stroke-width': 1.2, 'stroke-dasharray': '5 4' }, ag);
+  const tl = el('text', { x: W - 4, y: ty - 5, 'text-anchor': 'end', fill: css('--target'), 'font-size': 11 }, ag); tl.textContent = narrow ? `${ax.target}% Fed target` : `${ax.target}% Federal Reserve target`;
+  if (!narrow) {
+  const al = el('text', { x: 0, y: 0, class: 'axis-lab', transform: `translate(${narrow ? 9 : 14},${(top + bottom) / 2}) rotate(-90)`, 'text-anchor': 'middle' }, ag);
+  al.textContent = '12-month change in prices';
+  }
+
+  // the balloon group, translated to its altitude
+  const cx = axisX + (W - axisX) * (narrow ? 0.5 : 0.46);
+  const mover = el('g', { id: 'mover' }, svg);
+  const baseY = yOf(V.published);
+  const prev = svg.dataset.lastY ? +svg.dataset.lastY : baseY;
+  mover.style.transition = 'none';
+  mover.style.transform = `translate(0px, ${prev - baseY}px)`;
+  const g = el('g', {}, mover);
+  const envTop = baseY - above;
+  // ropes and skirt
+  const neckY = envTop + envH, neckHalf = hw(1) * envH;
+  for (const s of [-1, 1]) el('line', { x1: cx + s * neckHalf, y1: neckY, x2: cx + s * basketW * 0.42, y2: baseY, stroke: css('--rope'), 'stroke-width': 1.3 }, g);
+  el('line', { x1: cx, y1: neckY, x2: cx, y2: baseY, stroke: css('--rope'), 'stroke-width': 1 }, g);
+  // envelope with tiles clipped to the outline
+  const clip = el('clipPath', { id: 'env' }, el('defs', {}, g));
+  el('path', { d: envelopePath(cx, envTop, envH) }, clip);
+  const tg = el('g', { 'clip-path': 'url(#env)' }, g);
+  const edge = y => { const t = Math.min(1, Math.max(0, (y - envTop) / envH)); const h = hw(t) * envH; return [cx - h, cx + h]; };
+  for (const b of bandLayout(pos, cx, envTop, envH)) tile(tg, b, state.view, edge);
+  el('path', { d: envelopePath(cx, envTop, envH), fill: 'none', stroke: css('--envelope'), 'stroke-width': 2 }, g);
+  // basket with the rate
+  el('rect', { x: cx - basketW / 2, y: baseY, width: basketW, height: basketH, rx: 3, fill: css('--basket'), stroke: css('--basket-2'), 'stroke-width': 1.5 }, g);
+  // sandbag
+  const sy = baseY + basketH + tether, sx = cx - sackW / 2;
+  el('line', { x1: cx, y1: baseY + basketH, x2: cx, y2: sy, stroke: css('--rope'), 'stroke-width': 1.3 }, g);
+  const sclip = el('clipPath', { id: 'sack' }, el('defs', {}, g));
+  const sackPath = `M${sx + 4},${sy} L${sx + sackW - 4},${sy} Q${sx + sackW},${sy} ${sx + sackW},${sy + 6} L${sx + sackW},${sy + sackH - 8} Q${sx + sackW},${sy + sackH} ${sx + sackW - 8},${sy + sackH} L${sx + 8},${sy + sackH} Q${sx},${sy + sackH} ${sx},${sy + sackH - 8} L${sx},${sy + 6} Q${sx},${sy} ${sx + 4},${sy} Z`;
+  el('path', { d: sackPath }, sclip);
+  const sg = el('g', { 'clip-path': 'url(#sack)' }, g);
+  const sackBoxes = squarify(neg, sx, sy, sackW, sackH);
+  for (const b of sackBoxes) tile(sg, b, state.view);
+  el('path', { d: sackPath, fill: 'none', stroke: css('--sack-edge'), 'stroke-width': 1.8 }, g);
+  // Call out the highlighted items (health insurance, prescription drugs) to the left of the sack.
+  const hl = sackBoxes.filter(b => (DATA.highlight || []).includes(b.d.f)).sort((a, b2) => (a.y + a.h / 2) - (b2.y + b2.h / 2));
+  let lastY = -Infinity;
+  for (const b of hl) {
+    const ty0 = Math.max(b.y + b.h / 2, lastY + 30); lastY = ty0;
+    const tx = sx - (narrow ? 10 : 18);
+    el('polyline', { points: `${b.x + 2},${b.y + b.h / 2} ${tx + 4},${ty0}`, fill: 'none', stroke: css('--ink'), 'stroke-width': 1 }, g);
+    const t = el('text', { x: tx, y: ty0 - 2, 'text-anchor': 'end', fill: css('--ink'), 'font-size': narrow ? 11.5 : 13 }, g);
+    const a = el('tspan', { x: tx, 'font-weight': 700 }, t); a.textContent = b.d.n;
+    const c = el('tspan', { x: tx, dy: narrow ? 13 : 15, fill: css('--ink-2') }, t); c.textContent = `${fmtPct(b.d.y)} price, ${fmtPts(b.d.c)} pts`;
+  }
+  // annotations
+  const lx = cx + hw(0.45) * envH + 14;
+  const roomRight = W - lx > 150;
+  const ann = (x, y, big, small, anchor) => {
+    const t = el('text', { x, y, 'text-anchor': anchor, fill: css('--ink') }, g);
+    const a = el('tspan', { x, class: 'big', 'font-size': narrow ? 15 : 18 }, t); a.textContent = big;
+    const b2 = el('tspan', { x, dy: narrow ? 15 : 18, 'font-size': 12, fill: css('--ink-2') }, t); b2.textContent = small;
+  };
+  if (roomRight) {
+    ann(lx, envTop + envH * 0.40, fmtPts(posSum) + ' pts', `${pos.length} items pushed prices up`, 'start');
+    ann(sx + sackW + 14, sy + sackH * 0.45, fmtPts(-negSum) + ' pts', `${neg.length} items pulled down`, 'start');
+  }
+  // altitude marker: the published rate at the basket
+  const mk = el('g', {}, mover);
+  el('line', { x1: axisX, x2: cx - basketW / 2 - 4, y1: baseY, y2: baseY, stroke: css('--ink'), 'stroke-width': 1, 'stroke-dasharray': '2 3' }, mk);
+  const tag = el('text', { x: axisX + 6, y: baseY - 20, fill: css('--ink'), 'font-size': narrow ? 14 : 16, class: 'big' }, mk);
+  tag.textContent = `${state.view === 'core' ? 'Core' : 'All items'} ${V.published.toFixed(2)}%`;
+  const sub = el('text', { x: axisX + 6, y: baseY - 6, fill: css('--muted'), 'font-size': 11 }, mk);
+  sub.textContent = `items add up to ${V.sum.toFixed(2)}%`;
+  // glide from the previous altitude
+  requestAnimationFrame(() => requestAnimationFrame(() => { mover.style.transition = ''; mover.style.transform = 'translate(0px,0px)'; }));
+  svg.dataset.lastY = baseY;
+  document.body.setAttribute('data-ready', '1');
+}
+
+function renderTable(V) {
+  const rows = V.items.slice().sort((a, b) => b.c - a.c);
+  const T = $('#table');
+  T.innerHTML = `<thead><tr><th>Item</th><th>Weight</th><th>Price change, 12 months</th><th>Added (pts)</th></tr></thead><tbody>` +
+    rows.map(d => `<tr><td>${d.f}${d.fill ? ' *' : ''}</td><td>${fmtW(d.w)}</td><td>${fmtPct(d.y)}</td><td>${fmtPts(d.c)}</td></tr>`).join('') +
+    `<tr><td><b>Sum of items</b></td><td>${fmtW(rows.reduce((s, d) => s + d.w, 0))}</td><td></td><td><b>${fmtPts(V.sum)}</b></td></tr></tbody>` +
+    `<caption style="caption-side:bottom;text-align:left;font-size:11.5px;color:var(--muted);padding:6px 8px">* No published index for these months; change is what is left of its parent group’s published change.</caption>`;
+}
+
+document.querySelectorAll('[data-view]').forEach(b => b.addEventListener('click', () => {
+  state.view = b.dataset.view;
+  document.querySelectorAll('[data-view]').forEach(x => x.setAttribute('aria-pressed', x === b));
+  render();
+}));
+document.querySelectorAll('[data-mode]').forEach(b => b.addEventListener('click', () => {
+  state.mode = b.dataset.mode;
+  document.querySelectorAll('[data-mode]').forEach(x => x.setAttribute('aria-pressed', x === b));
+  $('#table-wrap').classList.toggle('on', state.mode === 'table');
+}));
+let rt; new ResizeObserver(() => { clearTimeout(rt); rt = setTimeout(() => { delete svg.dataset.lastY; render(); }, 80); }).observe($('#stage'));
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', render);
+render();
+</script>
