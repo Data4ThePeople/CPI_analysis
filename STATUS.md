@@ -6,7 +6,7 @@ Process: ~/.claude/d4tp-process/PROCESS.md
 ## Current
 
 Post: what-is-driving-cpi
-Step: 2f (not started)
+Step: 2f (draft pushed, waiting for Eric)
 Since: 2026-10-14
 
 ## Steps
@@ -69,3 +69,5 @@ None.
   (the page will be updated monthly). Folder and image names follow; entries
   above keep the old name.
 - 2026-10-14 Step 2e confirmed by Eric.
+- 2026-10-14 Pushed to Prismic as draft as_QxRcAADIAEZ_y in the Migration
+  Release: 56 slices, 9 images, tags and author empty.

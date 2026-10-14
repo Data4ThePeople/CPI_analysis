@@ -1,0 +1,65 @@
+{
+  "images/01-tieout.png": {
+    "id": "AEH5xXn-8oX69DVn",
+    "width": 1800,
+    "height": 1200,
+    "url": "https://images.prismic.io/data4thepeople/AEH5xXn-8oX69DVn_01-tieout.png?auto=format,compress",
+    "stamp": "174882:1792004000"
+  },
+  "images/02-waterfall.png": {
+    "id": "AoT42-LUjeEBenft",
+    "width": 1800,
+    "height": 1200,
+    "url": "https://images.prismic.io/data4thepeople/AoT42-LUjeEBenft_02-waterfall.png?auto=format,compress",
+    "stamp": "133793:1792004000"
+  },
+  "images/03-waterfall-core.png": {
+    "id": "1oHH0K2wp9mrXII3",
+    "width": 1800,
+    "height": 1200,
+    "url": "https://images.prismic.io/data4thepeople/1oHH0K2wp9mrXII3_03-waterfall-core.png?auto=format,compress",
+    "stamp": "141153:1792004000"
+  },
+  "images/04-fastest-rising.png": {
+    "id": "O63Hm4Ac5kFPsZmV",
+    "width": 1800,
+    "height": 1230,
+    "url": "https://images.prismic.io/data4thepeople/O63Hm4Ac5kFPsZmV_04-fastest-rising.png?auto=format,compress",
+    "stamp": "194122:1792004000"
+  },
+  "images/05-top-adders.png": {
+    "id": "kdF71TNpX__lPfXr",
+    "width": 1800,
+    "height": 1230,
+    "url": "https://images.prismic.io/data4thepeople/kdF71TNpX__lPfXr_05-top-adders.png?auto=format,compress",
+    "stamp": "171487:1792004000"
+  },
+  "images/06-top-subtractors.png": {
+    "id": "SKk6rHaLVpjP5l08",
+    "width": 1800,
+    "height": 1230,
+    "url": "https://images.prismic.io/data4thepeople/SKk6rHaLVpjP5l08_06-top-subtractors.png?auto=format,compress",
+    "stamp": "181473:1792004000"
+  },
+  "images/07-health-insurance-rx-history.png": {
+    "id": "BM8IvMOrYHeQ-5A2",
+    "width": 1800,
+    "height": 1125,
+    "url": "https://images.prismic.io/data4thepeople/BM8IvMOrYHeQ-5A2_07-health-insurance-rx-history.png?auto=format,compress",
+    "stamp": "175240:1792004000"
+  },
+  "images/08-whatif.png": {
+    "id": "j53CtSNEOtQkozvy",
+    "width": 1800,
+    "height": 900,
+    "url": "https://images.prismic.io/data4thepeople/j53CtSNEOtQkozvy_08-whatif.png?auto=format,compress",
+    "stamp": "93175:1792004000"
+  },
+  "images/what-is-driving-cpi-hero-1680x1080.png": {
+    "id": "9pJKSB200bADQ08L",
+    "width": 1680,
+    "height": 1080,
+    "url": "https://images.prismic.io/data4thepeople/9pJKSB200bADQ08L_what-is-driving-cpi-hero-1680x1080.png?auto=format,compress",
+    "stamp": "2334938:1792003872"
+  }
+}
