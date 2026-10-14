@@ -1,0 +1,943 @@
+{
+  "page_title": "The CPI Hot Air Balloon",
+  "page_subtitle": "Consumer prices rose 3.7% in the 12 months to September 2026, and gasoline and shelter together did more than half the lifting. Our new tool shows every item in the CPI, every month, back to 2016.",
+  "published_date": "2026-10-15",
+  "updated_date": "2026-10-15",
+  "make_this_main_post": false,
+  "slices": [
+    {
+      "slice_type": "drop_cap",
+      "slice_label": null,
+      "variation": "default",
+      "version": "initial",
+      "items": [],
+      "primary": {
+        "drop_cap_text": [
+          {
+            "type": "paragraph",
+            "text": "Yesterday, the Bureau of Labor Statistics released the Consumer Price Index (CPI) for September 2026. This is \u201cthe inflation report\u201d that all eyes are on to understand the consumer\u2019s experience of inflation.",
+            "spans": [],
+            "direction": "ltr"
+          }
+        ]
+      }
+    },
+    {
+      "slice_type": "paragarph_text",
+      "slice_label": null,
+      "variation": "default",
+      "version": "initial",
+      "items": [],
+      "primary": {
+        "paragraph_text": [
+          {
+            "type": "paragraph",
+            "text": "For the new D4TP readers, I will briefly indoctrinate you into my views on CPI \u2013 it reflects no one\u2019s experience of inflation. We illustrated this three weeks ago using gasoline costs. That post is very much worth reading before attributing much meaning to CPI as a proxy for the inflation real people feel.",
+            "spans": [
+              {
+                "start": 130,
+                "end": 146,
+                "type": "hyperlink",
+                "data": {
+                  "link_type": "Web",
+                  "url": "https://www.data4thepeople.com/p/gasoline-share-of-income",
+                  "target": "_blank"
+                }
+              }
+            ],
+            "direction": "ltr"
+          },
+          {
+            "type": "paragraph",
+            "text": "But, alas, so many people think CPI is real, that it has become a very real and important concept. And so, we can\u2019t just dismiss this data. We can simultaneously understand that CPI is not inflation that you and I feel, but it is still extremely important.",
+            "spans": [],
+            "direction": "ltr"
+          },
+          {
+            "type": "paragraph",
+            "text": "That said, we created a new tool to display CPI over time. We\u2019re quite excited about this new tool, because we were able to work a fitting double entendre into the visualization itself. We have displayed CPI itself as a hot air balloon, with the air lifting the balloon up (items with year-over-year inflation), and the ballast pulling it down (items with year-over-year deflation). The items are sized by how much they added to the CPI number, and you can switch between \u201ccore\u201d CPI and \u201cheadline\u201d CPI (core being another fabricated concept, in our view, but one that many people care about).",
+            "spans": [],
+            "direction": "ltr"
+          },
+          {
+            "type": "paragraph",
+            "text": "And the other meaning of the double entendre? This data, in our view, is largely just hot air.",
+            "spans": [],
+            "direction": "ltr"
+          }
+        ]
+      }
+    },
+    {
+      "slice_type": "spacer",
+      "slice_label": null,
+      "variation": "default",
+      "version": "initial",
+      "items": [],
+      "primary": {
+        "spacer_value": "20px"
+      }
+    },
+    {
+      "slice_type": "html_embed",
+      "slice_label": null,
+      "variation": "fullWidth",
+      "version": "initial",
+      "items": [],
+      "primary": {
+        "html_content": [
+          {
+            "type": "preformatted",
+            "text": "<style>html,body{margin:0;padding:0;overflow:hidden}iframe{display:block}</style><iframe src=\"https://data4thepeople.github.io/CPI_analysis/dist/over-time.html\" width=\"100%\" height=\"780\" frameborder=\"0\" scrolling=\"no\" title=\"The CPI Hot Air Balloon\"></iframe>",
+            "spans": [],
+            "direction": "ltr"
+          }
+        ],
+        "embed_height": "780px"
+      }
+    },
+    {
+      "slice_type": "spacer",
+      "slice_label": null,
+      "variation": "default",
+      "version": "initial",
+      "items": [],
+      "primary": {
+        "spacer_value": "40px"
+      }
+    },
+    {
+      "slice_type": "paragarph_text",
+      "slice_label": null,
+      "variation": "default",
+      "version": "initial",
+      "items": [],
+      "primary": {
+        "paragraph_text": [
+          {
+            "type": "heading2",
+            "text": "How to read the balloon",
+            "spans": [],
+            "direction": "ltr"
+          },
+          {
+            "type": "paragraph",
+            "text": "Each box in the balloon is one item in the CPI, such as gasoline, rent or airline fares. There are 204 of them, the most detailed items BLS publishes weights for. The size of a box is how much that item added to the 12-month inflation rate, in percentage points. Its color is how much the item's own price changed over those 12 months, from blue (prices fell) to red (prices rose).",
+            "spans": [],
+            "direction": "ltr"
+          },
+          {
+            "type": "paragraph",
+            "text": "Items whose prices fell hang below the basket as sandbags, sized the same way. The top of the basket sits at that month's inflation rate on the scale at the left, and the dashed green line marks the Federal Reserve's 2% target.",
+            "spans": [],
+            "direction": "ltr"
+          },
+          {
+            "type": "paragraph",
+            "text": "How to use it:",
+            "spans": [],
+            "direction": "ltr"
+          },
+          {
+            "type": "list-item",
+            "text": "Press Play to run through every month from October 2016 to September 2026. 1x, 2x and 5x set the speed.",
+            "spans": [
+              {
+                "start": 6,
+                "end": 10,
+                "type": "strong"
+              },
+              {
+                "start": 75,
+                "end": 77,
+                "type": "strong"
+              },
+              {
+                "start": 79,
+                "end": 81,
+                "type": "strong"
+              },
+              {
+                "start": 86,
+                "end": 88,
+                "type": "strong"
+              }
+            ],
+            "direction": "ltr"
+          },
+          {
+            "type": "list-item",
+            "text": "Click or drag on the timeline under the balloon to jump to a month. The arrow keys step one month at a time.",
+            "spans": [],
+            "direction": "ltr"
+          },
+          {
+            "type": "list-item",
+            "text": "All items shows headline CPI. Core (less food and energy) shows core CPI.",
+            "spans": [
+              {
+                "start": 0,
+                "end": 9,
+                "type": "strong"
+              },
+              {
+                "start": 30,
+                "end": 57,
+                "type": "strong"
+              }
+            ],
+            "direction": "ltr"
+          },
+          {
+            "type": "list-item",
+            "text": "Table shows the same numbers as a list, which is easier to read on a phone.",
+            "spans": [
+              {
+                "start": 0,
+                "end": 5,
+                "type": "strong"
+              }
+            ],
+            "direction": "ltr"
+          },
+          {
+            "type": "list-item",
+            "text": "Hover over a box to see the item's share of spending, its price change and how much it added.",
+            "spans": [],
+            "direction": "ltr"
+          },
+          {
+            "type": "paragraph",
+            "text": "There is no October 2025. BLS did not publish it during the federal funding lapse, so the balloon skips from September to November 2025.",
+            "spans": [],
+            "direction": "ltr"
+          },
+          {
+            "type": "paragraph",
+            "text": "The data comes from the Bureau of Labor Statistics: the monthly price index for each item, and each item's share of consumer spending, which BLS calls its relative importance. Our code, our data and the full method are on GitHub. The README is the place to start, and DATASETS.md explains every source and its limits.",
+            "spans": [
+              {
+                "start": 234,
+                "end": 240,
+                "type": "hyperlink",
+                "data": {
+                  "link_type": "Web",
+                  "url": "https://github.com/Data4ThePeople/CPI_analysis#readme",
+                  "target": "_blank"
+                }
+              },
+              {
+                "start": 268,
+                "end": 279,
+                "type": "hyperlink",
+                "data": {
+                  "link_type": "Web",
+                  "url": "https://github.com/Data4ThePeople/CPI_analysis/blob/main/DATASETS.md",
+                  "target": "_blank"
+                }
+              }
+            ],
+            "direction": "ltr"
+          }
+        ]
+      }
+    },
+    {
+      "slice_type": "spacer",
+      "slice_label": null,
+      "variation": "default",
+      "version": "initial",
+      "items": [],
+      "primary": {
+        "spacer_value": "20px"
+      }
+    },
+    {
+      "slice_type": "paragarph_text",
+      "slice_label": null,
+      "variation": "default",
+      "version": "initial",
+      "items": [],
+      "primary": {
+        "paragraph_text": [
+          {
+            "type": "heading3",
+            "text": "Do the pieces add up?",
+            "spans": [],
+            "direction": "ltr"
+          },
+          {
+            "type": "paragraph",
+            "text": "A breakdown like this is only useful if the pieces add back up to the number BLS publishes. We checked every month, for both headline and core. The chart below compares the 12-month rate BLS publishes (the line) with the sum of our 204 items (the dots).",
+            "spans": [],
+            "direction": "ltr"
+          }
+        ]
+      }
+    },
+    {
+      "slice_type": "blog_body_content_image",
+      "slice_label": null,
+      "variation": "default",
+      "version": "initial",
+      "items": [],
+      "primary": {
+        "image": {
+          "alt": "Two line charts, headline CPI on top and core CPI below, October 2016 to September 2026. In each, a gray line shows the 12-month inflation rate BLS publishes and orange dots show the sum of our item contributions. The dots sit on the line in every month, including the rise to a 9.1% headline peak in June 2022. There is a break at October 2025, which BLS did not publish.",
+          "copyright": null
+        },
+        "source_text": [
+          {
+            "type": "paragraph",
+            "text": "Source: BLS CPI-U, U.S. city average, not seasonally adjusted; item contributions computed by Data 4 The People.",
+            "spans": [
+              {
+                "start": 0,
+                "end": 112,
+                "type": "em"
+              }
+            ],
+            "direction": "ltr"
+          }
+        ]
+      }
+    },
+    {
+      "slice_type": "spacer",
+      "slice_label": null,
+      "variation": "default",
+      "version": "initial",
+      "items": [],
+      "primary": {
+        "spacer_value": "20px"
+      }
+    },
+    {
+      "slice_type": "paragarph_text",
+      "slice_label": null,
+      "variation": "default",
+      "version": "initial",
+      "items": [],
+      "primary": {
+        "paragraph_text": [
+          {
+            "type": "paragraph",
+            "text": "In every month, our items add up to within 0.0013 percentage points of the published rate. That is far smaller than the 0.1 point BLS rounds to, and every month matches the rate BLS reports at one decimal. Every check we ran, with the numbers, is in TIEOUT.md.",
+            "spans": [
+              {
+                "start": 250,
+                "end": 259,
+                "type": "hyperlink",
+                "data": {
+                  "link_type": "Web",
+                  "url": "https://github.com/Data4ThePeople/CPI_analysis/blob/main/TIEOUT.md",
+                  "target": "_blank"
+                }
+              }
+            ],
+            "direction": "ltr"
+          }
+        ]
+      }
+    },
+    {
+      "slice_type": "spacer",
+      "slice_label": null,
+      "variation": "default",
+      "version": "initial",
+      "items": [],
+      "primary": {
+        "spacer_value": "20px"
+      }
+    },
+    {
+      "slice_type": "paragarph_text",
+      "slice_label": null,
+      "variation": "default",
+      "version": "initial",
+      "items": [],
+      "primary": {
+        "paragraph_text": [
+          {
+            "type": "heading2",
+            "text": "September 2026: what moved inflation",
+            "spans": [],
+            "direction": "ltr"
+          },
+          {
+            "type": "paragraph",
+            "text": "In September 2026, headline CPI was 3.7% higher than a year earlier, and core CPI was up 2.6%. The chart below starts at zero and adds the six items that pushed inflation up the most, then the other 194 items together, then the four items that pulled it down the most.",
+            "spans": [],
+            "direction": "ltr"
+          }
+        ]
+      }
+    },
+    {
+      "slice_type": "blog_body_content_image",
+      "slice_label": null,
+      "variation": "default",
+      "version": "initial",
+      "items": [],
+      "primary": {
+        "image": {
+          "alt": "A waterfall chart of what added up to 3.7% headline inflation in September 2026. Gasoline added 1.09 percentage points, owners' equivalent rent 0.82, rent of primary residence 0.21, airline fares 0.20, hospital services 0.12 and electricity 0.11. The other 194 items added 1.50 points together. Motor vehicle insurance took away 0.14 points, health insurance 0.08, phones and other information devices 0.06 and prescription drugs 0.04. The total is 3.74 points.",
+          "copyright": null
+        },
+        "source_text": [
+          {
+            "type": "paragraph",
+            "text": "Each bar is the item's contribution to the 12-month change in headline CPI, in percentage points. Source: BLS; contributions computed by Data 4 The People.",
+            "spans": [
+              {
+                "start": 0,
+                "end": 155,
+                "type": "em"
+              }
+            ],
+            "direction": "ltr"
+          }
+        ]
+      }
+    },
+    {
+      "slice_type": "spacer",
+      "slice_label": null,
+      "variation": "default",
+      "version": "initial",
+      "items": [],
+      "primary": {
+        "spacer_value": "20px"
+      }
+    },
+    {
+      "slice_type": "paragarph_text",
+      "slice_label": null,
+      "variation": "default",
+      "version": "initial",
+      "items": [],
+      "primary": {
+        "paragraph_text": [
+          {
+            "type": "paragraph",
+            "text": "Gasoline added the most. Its price was 34.2% higher than a year earlier. Gasoline is about 3% of consumer spending in the CPI, but it added 1.09 of the 3.74 points, or 29% of the increase.",
+            "spans": [],
+            "direction": "ltr"
+          },
+          {
+            "type": "paragraph",
+            "text": "Shelter came next. Owners' equivalent rent, which is BLS's estimate of what homeowners would pay to rent their own home, added 0.82 points, and rent added 0.21. Counting hotels and other lodging, shelter added 1.14 points, or 31% of the increase.",
+            "spans": [],
+            "direction": "ltr"
+          },
+          {
+            "type": "paragraph",
+            "text": "Taken as groups, energy (gasoline, electricity, fuel oil, natural gas and other fuels) added 1.35 points, or 36% of the increase. Food added 0.34 points, or 9%. Everything else, the items that make up core CPI, added 2.05 points, or 55%.",
+            "spans": [],
+            "direction": "ltr"
+          },
+          {
+            "type": "paragraph",
+            "text": "Four items pulled the rate down the most. Motor vehicle insurance fell 5.0% and took 0.14 points off. Health insurance fell 9.0% (0.08 points), phones and similar devices fell 12.7% (0.06 points), and prescription drugs fell 4.5% (0.04 points).",
+            "spans": [],
+            "direction": "ltr"
+          },
+          {
+            "type": "paragraph",
+            "text": "Core CPI leaves out food and energy, so gasoline drops out and shelter leads. The chart below builds up core the same way. Because core leaves out food and energy, each remaining item is a larger share of the total, so its contribution in points is larger than in the headline chart.",
+            "spans": [],
+            "direction": "ltr"
+          }
+        ]
+      }
+    },
+    {
+      "slice_type": "blog_body_content_image",
+      "slice_label": null,
+      "variation": "default",
+      "version": "initial",
+      "items": [],
+      "primary": {
+        "image": {
+          "alt": "A waterfall chart of what added up to 2.6% core inflation in September 2026. Owners' equivalent rent added 1.02 percentage points, rent of primary residence 0.27, airline fares 0.25, hospital services 0.15, hotels and motels 0.07 and dental services 0.07. The other 130 core items added 1.13 points together. Motor vehicle insurance took away 0.17 points, health insurance 0.10, phones and other information devices 0.07 and prescription drugs 0.05. The total is 2.56 points.",
+          "copyright": null
+        },
+        "source_text": [
+          {
+            "type": "paragraph",
+            "text": "Each bar is the item's contribution to the 12-month change in core CPI (less food and energy), in percentage points. Source: BLS; contributions computed by Data 4 The People.",
+            "spans": [
+              {
+                "start": 0,
+                "end": 174,
+                "type": "em"
+              }
+            ],
+            "direction": "ltr"
+          }
+        ]
+      }
+    },
+    {
+      "slice_type": "spacer",
+      "slice_label": null,
+      "variation": "default",
+      "version": "initial",
+      "items": [],
+      "primary": {
+        "spacer_value": "20px"
+      }
+    },
+    {
+      "slice_type": "paragarph_text",
+      "slice_label": null,
+      "variation": "default",
+      "version": "initial",
+      "items": [],
+      "primary": {
+        "paragraph_text": [
+          {
+            "type": "paragraph",
+            "text": "Shelter added 1.43 of the 2.56 points, or 56% of core inflation. Owners' equivalent rent alone added 1.02 points. The same four items pulled core down the most: motor vehicle insurance (0.17 points), health insurance (0.10), phones and similar devices (0.07) and prescription drugs (0.05).",
+            "spans": [],
+            "direction": "ltr"
+          }
+        ]
+      }
+    },
+    {
+      "slice_type": "spacer",
+      "slice_label": null,
+      "variation": "default",
+      "version": "initial",
+      "items": [],
+      "primary": {
+        "spacer_value": "20px"
+      }
+    },
+    {
+      "slice_type": "paragarph_text",
+      "slice_label": null,
+      "variation": "default",
+      "version": "initial",
+      "items": [],
+      "primary": {
+        "paragraph_text": [
+          {
+            "type": "heading3",
+            "text": "The prices that rose the fastest",
+            "spans": [],
+            "direction": "ltr"
+          },
+          {
+            "type": "paragraph",
+            "text": "The waterfalls show which items moved the total. A different question is which prices rose the fastest, whatever their size. The first slide below shows the 15 items with the largest 12-month price increases. The next two show the 15 items that added the most to inflation and the 15 that pulled it down the most.",
+            "spans": [],
+            "direction": "ltr"
+          }
+        ]
+      }
+    },
+    {
+      "slice_type": "image_carousel",
+      "slice_label": null,
+      "variation": "default",
+      "version": "initial",
+      "items": [
+        {
+          "carousel_image": {
+            "alt": "A bar chart of the 15 items whose prices rose the most over the 12 months to September 2026. Fuel oil rose 74.2%, other motor fuels 60.9% and gasoline 34.2%, all energy items. Computer software and accessories rose 28.4% and airline fares 22.4%. The rest rose between 8.4% and 16.2%. Most are small shares of spending; gasoline (2.98%) and airline fares (0.88%) are the largest.",
+            "copyright": null
+          },
+          "carousel_caption": "12-month price change, September 2026. Only items with their own published BLS index. Source: BLS."
+        },
+        {
+          "carousel_image": {
+            "alt": "A bar chart of the 15 items that added the most to 12-month headline inflation in September 2026, led by gasoline at 1.09 percentage points, owners' equivalent rent at 0.82, rent at 0.21 and airline fares at 0.20.",
+            "copyright": null
+          },
+          "carousel_caption": "Contribution to the 12-month change in headline CPI, in percentage points. Source: BLS; contributions computed by Data 4 The People."
+        },
+        {
+          "carousel_image": {
+            "alt": "A bar chart of the 15 items that pulled 12-month headline inflation down the most in September 2026, led by motor vehicle insurance at minus 0.14 percentage points. Health insurance, at minus 0.08, and prescription drugs, at minus 0.04, are highlighted.",
+            "copyright": null
+          },
+          "carousel_caption": "Contribution to the 12-month change in headline CPI, in percentage points. Source: BLS; contributions computed by Data 4 The People."
+        }
+      ],
+      "primary": {}
+    },
+    {
+      "slice_type": "spacer",
+      "slice_label": null,
+      "variation": "default",
+      "version": "initial",
+      "items": [],
+      "primary": {
+        "spacer_value": "20px"
+      }
+    },
+    {
+      "slice_type": "paragarph_text",
+      "slice_label": null,
+      "variation": "default",
+      "version": "initial",
+      "items": [],
+      "primary": {
+        "paragraph_text": [
+          {
+            "type": "paragraph",
+            "text": "Energy tops the list. Fuel oil rose 74.2% and other motor fuels rose 60.9%, but each is less than 0.1% of spending, so together they added about 0.11 points. Gasoline rose less, 34.2%, but it is a much larger share of spending, so it moved the total far more.",
+            "spans": [],
+            "direction": "ltr"
+          },
+          {
+            "type": "paragraph",
+            "text": "Outside energy, airline fares rose 22.4% and added 0.20 points. Several other fast risers, such as computer software, delivery services, newspapers and magazines, and postage, are very small shares of spending. Each moved the total by less than 0.01 point.",
+            "spans": [],
+            "direction": "ltr"
+          }
+        ]
+      }
+    },
+    {
+      "slice_type": "spacer",
+      "slice_label": null,
+      "variation": "default",
+      "version": "initial",
+      "items": [],
+      "primary": {
+        "spacer_value": "20px"
+      }
+    },
+    {
+      "slice_type": "paragarph_text",
+      "slice_label": null,
+      "variation": "default",
+      "version": "initial",
+      "items": [],
+      "primary": {
+        "paragraph_text": [
+          {
+            "type": "heading2",
+            "text": "Health insurance and prescription drugs",
+            "spans": [],
+            "direction": "ltr"
+          },
+          {
+            "type": "paragraph",
+            "text": "Two medical items pulled inflation down in September: health insurance, down 9.0% from a year earlier, and prescription drugs, down 4.5%. Both are well below their usual pace. The chart below shows each item's 12-month change since 2015, with its 10-year average as a dashed line.",
+            "spans": [],
+            "direction": "ltr"
+          }
+        ]
+      }
+    },
+    {
+      "slice_type": "blog_body_content_image",
+      "slice_label": null,
+      "variation": "default",
+      "version": "initial",
+      "items": [],
+      "primary": {
+        "image": {
+          "alt": "A line chart of the 12-month change in health insurance and prescription drug prices from January 2015 to September 2026. Health insurance swings widely, from about plus 28% to about minus 37% between 2019 and 2023, and ends at minus 9.0%. Its 10-year average is plus 3.55%. Prescription drugs move in a narrower band and end at minus 4.5%, against a 10-year average of plus 1.71%. There is a gap at October 2025.",
+          "copyright": null
+        },
+        "source_text": [
+          {
+            "type": "paragraph",
+            "text": "The 10-year average is the mean of the September-to-September changes from 2015-16 through 2024-25. Source: BLS.",
+            "spans": [
+              {
+                "start": 0,
+                "end": 112,
+                "type": "em"
+              }
+            ],
+            "direction": "ltr"
+          }
+        ]
+      }
+    },
+    {
+      "slice_type": "spacer",
+      "slice_label": null,
+      "variation": "default",
+      "version": "initial",
+      "items": [],
+      "primary": {
+        "spacer_value": "20px"
+      }
+    },
+    {
+      "slice_type": "paragarph_text",
+      "slice_label": null,
+      "variation": "default",
+      "version": "initial",
+      "items": [],
+      "primary": {
+        "paragraph_text": [
+          {
+            "type": "paragraph",
+            "text": "Over those 10 years, health insurance rose an average of 3.55% a year and prescription drugs 1.71% a year.",
+            "spans": [],
+            "direction": "ltr"
+          },
+          {
+            "type": "paragraph",
+            "text": "We have written before about how the CPI measures health insurance, so we won't repeat it here. But look: health insurance down 9.0% and prescription drugs down 4.5% over the past year. How do these numbers jibe with your experience?",
+            "spans": [
+              {
+                "start": 29,
+                "end": 66,
+                "type": "hyperlink",
+                "data": {
+                  "link_type": "Web",
+                  "url": "https://www.data4thepeople.com/p/cpi-merry-go-round",
+                  "target": "_blank"
+                }
+              }
+            ],
+            "direction": "ltr"
+          }
+        ]
+      }
+    },
+    {
+      "slice_type": "spacer",
+      "slice_label": null,
+      "variation": "default",
+      "version": "initial",
+      "items": [],
+      "primary": {
+        "spacer_value": "20px"
+      }
+    },
+    {
+      "slice_type": "paragarph_text",
+      "slice_label": null,
+      "variation": "default",
+      "version": "initial",
+      "items": [],
+      "primary": {
+        "paragraph_text": [
+          {
+            "type": "heading3",
+            "text": "What if they had risen at their usual pace?",
+            "spans": [],
+            "direction": "ltr"
+          },
+          {
+            "type": "paragraph",
+            "text": "To see how much these two items moved the September numbers, we swapped each one's actual 12-month change for its 10-year average and left every other item as published. The chart below compares the result with the published rates.",
+            "spans": [],
+            "direction": "ltr"
+          }
+        ]
+      }
+    },
+    {
+      "slice_type": "blog_body_content_image",
+      "slice_label": null,
+      "variation": "default",
+      "version": "initial",
+      "items": [],
+      "primary": {
+        "image": {
+          "alt": "A bar chart comparing published inflation with a what-if for September 2026. Headline CPI was 3.74% as published and would be 3.91% if health insurance and prescription drugs had risen at their 10-year averages. Core CPI was 2.56% as published and would be 2.78%.",
+          "copyright": null
+        },
+        "source_text": [
+          {
+            "type": "paragraph",
+            "text": "What-if: health insurance at +3.55% and prescription drugs at +1.71%, all other items as published. Source: BLS; calculation by Data 4 The People.",
+            "spans": [
+              {
+                "start": 0,
+                "end": 146,
+                "type": "em"
+              }
+            ],
+            "direction": "ltr"
+          }
+        ]
+      }
+    },
+    {
+      "slice_type": "spacer",
+      "slice_label": null,
+      "variation": "default",
+      "version": "initial",
+      "items": [],
+      "primary": {
+        "spacer_value": "20px"
+      }
+    },
+    {
+      "slice_type": "paragarph_text",
+      "slice_label": null,
+      "variation": "default",
+      "version": "initial",
+      "items": [],
+      "primary": {
+        "paragraph_text": [
+          {
+            "type": "paragraph",
+            "text": "Headline CPI would have been 3.91% instead of 3.74%, and core would have been 2.78% instead of 2.56%. Rounded the way BLS reports it, headline would be 3.9% rather than 3.7%, and core 2.8% rather than 2.6%. Health insurance accounts for 0.11 points of the headline difference and prescription drugs for 0.06. For core, the two account for 0.14 and 0.08 points.",
+            "spans": [],
+            "direction": "ltr"
+          },
+          {
+            "type": "paragraph",
+            "text": "This is a simple swap, not a forecast. It shows how much these two items held down the September numbers. It does not say what their prices would have done.",
+            "spans": [],
+            "direction": "ltr"
+          }
+        ]
+      }
+    },
+    {
+      "slice_type": "spacer",
+      "slice_label": null,
+      "variation": "default",
+      "version": "initial",
+      "items": [],
+      "primary": {
+        "spacer_value": "20px"
+      }
+    },
+    {
+      "slice_type": "paragarph_text",
+      "slice_label": null,
+      "variation": "default",
+      "version": "initial",
+      "items": [],
+      "primary": {
+        "paragraph_text": [
+          {
+            "type": "heading2",
+            "text": "In conclusion\u2026",
+            "spans": [],
+            "direction": "ltr"
+          },
+          {
+            "type": "paragraph",
+            "text": "Enjoy your analysis of the hot air. We\u2019ll update this each month when BLS releases the CPI.",
+            "spans": [],
+            "direction": "ltr"
+          }
+        ]
+      }
+    },
+    {
+      "slice_type": "divider_dots",
+      "slice_label": null,
+      "variation": "default",
+      "version": "initial",
+      "items": [],
+      "primary": {}
+    },
+    {
+      "slice_type": "paragarph_text",
+      "slice_label": null,
+      "variation": "default",
+      "version": "initial",
+      "items": [],
+      "primary": {
+        "paragraph_text": [
+          {
+            "type": "heading2",
+            "text": "How we built this, and its limits",
+            "spans": [],
+            "direction": "ltr"
+          },
+          {
+            "type": "paragraph",
+            "text": "Data. The price index for each item is the CPI for All Urban Consumers (CPI-U), U.S. city average, not seasonally adjusted, from the BLS API. Each item's share of spending comes from the relative importance tables BLS publishes each December.",
+            "spans": [
+              {
+                "start": 0,
+                "end": 5,
+                "type": "strong"
+              }
+            ],
+            "direction": "ltr"
+          },
+          {
+            "type": "paragraph",
+            "text": "Method. An item's contribution is its share of spending times its price change. BLS updates the shares every January, so we split each 12-month period at that update and use the right shares on each side. That is why our items add up to the published rate. DATASETS.md has the full method.",
+            "spans": [
+              {
+                "start": 0,
+                "end": 7,
+                "type": "strong"
+              },
+              {
+                "start": 257,
+                "end": 268,
+                "type": "hyperlink",
+                "data": {
+                  "link_type": "Web",
+                  "url": "https://github.com/Data4ThePeople/CPI_analysis/blob/main/DATASETS.md",
+                  "target": "_blank"
+                }
+              }
+            ],
+            "direction": "ltr"
+          },
+          {
+            "type": "paragraph",
+            "text": "Items without their own index. Not every item has a published price index every month. In September 2026, 29 of the 204 items, 4.2% of spending, did not. For those we used the part of their parent category's change that the parent's other items do not explain. That share was highest in November 2025, at 8.3%, when BLS resumed collecting prices after the funding lapse. Price changes for these small, filled items are less reliable than for items with their own index.",
+            "spans": [
+              {
+                "start": 0,
+                "end": 30,
+                "type": "strong"
+              }
+            ],
+            "direction": "ltr"
+          },
+          {
+            "type": "paragraph",
+            "text": "Precision. A single item's price change is measured less precisely than the total. BLS publishes estimates of this sampling error, which we have not used here.",
+            "spans": [
+              {
+                "start": 0,
+                "end": 10,
+                "type": "strong"
+              }
+            ],
+            "direction": "ltr"
+          },
+          {
+            "type": "paragraph",
+            "text": "Health insurance. BLS changed how it measures health insurance during these 10 years, so its 10-year average mixes two methods.",
+            "spans": [
+              {
+                "start": 0,
+                "end": 17,
+                "type": "strong"
+              }
+            ],
+            "direction": "ltr"
+          },
+          {
+            "type": "paragraph",
+            "text": "What this does not tell you. A contribution shows how much an item moved the published number. It does not explain why its price changed. The shares of spending are averages across urban consumers, so the mix of items in any one household's budget can look very different.",
+            "spans": [
+              {
+                "start": 0,
+                "end": 28,
+                "type": "strong"
+              }
+            ],
+            "direction": "ltr"
+          }
+        ]
+      }
+    }
+  ],
+  "schema": "{\n  \"@context\": \"https://schema.org\",\n  \"@graph\": [\n    {\n      \"@type\": \"Article\",\n      \"headline\": \"The CPI Hot Air Balloon\",\n      \"description\": \"\",\n      \"datePublished\": \"2026-10-15T07:00:00-04:00\",\n      \"dateModified\": \"2026-10-15T07:00:00-04:00\",\n      \"articleSection\": \"Data 4 Thought\",\n      \"license\": \"https://www.data4thepeople.com/terms-of-use\",\n      \"inLanguage\": \"en-US\",\n      \"isAccessibleForFree\": true,\n      \"author\": {\n        \"@type\": \"Person\",\n        \"name\": \"Eric Pachman\",\n        \"url\": \"https://www.data4thepeople.com/authors/eric-pachman\"\n      },\n      \"publisher\": {\n        \"@type\": \"Organization\",\n        \"name\": \"Data 4 The People\",\n        \"url\": \"https://data4thepeople.com\"\n      },\n      \"mainEntityOfPage\": {\n        \"@type\": \"WebPage\",\n        \"@id\": \"https://www.data4thepeople.com/p/cpi-september-2026\"\n      },\n      \"@id\": \"https://www.data4thepeople.com/p/cpi-september-2026#article\"\n    },\n    {\n      \"@type\": \"FAQPage\",\n      \"@id\": \"https://www.data4thepeople.com/p/cpi-september-2026#faq\",\n      \"mainEntity\": [\n        {\n          \"@type\": \"Question\",\n          \"name\": \"Do the pieces add up?\",\n          \"acceptedAnswer\": {\n            \"@type\": \"Answer\",\n            \"text\": \"A breakdown like this is only useful if the pieces add back up to the number BLS publishes. We checked every month, for both headline and core. The chart below compares the 12-month rate BLS publishes (the line) with the sum of our 204 items (the dots).\"\n          }\n        },\n        {\n          \"@type\": \"Question\",\n          \"name\": \"What if they had risen at their usual pace?\",\n          \"acceptedAnswer\": {\n            \"@type\": \"Answer\",\n            \"text\": \"To see how much these two items moved the September numbers, we swapped each one's actual 12-month change for its 10-year average and left every other item as published. The chart below compares the result with the published rates.\"\n          }\n        }\n      ]\n    }\n  ]\n}"
+}

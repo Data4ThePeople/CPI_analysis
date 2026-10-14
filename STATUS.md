@@ -6,7 +6,7 @@ Process: ~/.claude/d4tp-process/PROCESS.md
 ## Current
 
 Post: cpi-september-2026
-Step: 2c (not started)
+Step: 2c (slice markup)
 Since: 2026-10-14
 
 ## Steps

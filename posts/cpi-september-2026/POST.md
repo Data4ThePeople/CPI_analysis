@@ -94,6 +94,7 @@ The waterfalls show which items moved the total. A different question is which p
 ![A bar chart of the 15 items that pulled 12-month headline inflation down the most in September 2026, led by motor vehicle insurance at minus 0.14 percentage points. Health insurance, at minus 0.08, and prescription drugs, at minus 0.04, are highlighted.](images/06-top-subtractors.png)
 *Contribution to the 12-month change in headline CPI, in percentage points. Source: BLS; contributions computed by Data 4 The People.*
 :::
+::: spacer 20px
 
 Energy tops the list. Fuel oil rose 74.2% and other motor fuels rose 60.9%, but each is less than 0.1% of spending, so together they added about 0.11 points. Gasoline rose less, 34.2%, but it is a much larger share of spending, so it moved the total far more.
 
