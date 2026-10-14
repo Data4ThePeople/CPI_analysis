@@ -1,0 +1,6 @@
+.venv/
+.env
+__pycache__/
+.idea/workspace.xml
+.DS_Store
+data/raw/
