@@ -6,7 +6,7 @@ Process: ~/.claude/d4tp-process/PROCESS.md
 ## Current
 
 Post: what-is-driving-cpi
-Step: 2f (draft pushed, waiting for Eric)
+Step: 2g (not started; resume October 15, 2026 at publish)
 Since: 2026-10-14
 
 ## Steps
@@ -19,7 +19,7 @@ Since: 2026-10-14
 | 2c | Slice markup | 2026-10-14 | 38 slices: 1 drop cap, 15 text, 14 spacers, 5 images, 1 carousel (3), 1 embed, 1 divider |
 | 2d | Hero 1680x1080 + alt text | 2026-10-14 | Re-confirmed: data balloon over Eric's Gemini dawn-town backdrop, composited by build.py; alt 411 chars |
 | 2e | SEO | 2026-10-14 | Meta 54/152 chars, 8 keywords, Dataset + WebApplication + 10 FAQ; slug what-is-driving-cpi |
-| 2f | Pushed to Prismic (draft) | | |
+| 2f | Pushed to Prismic (draft) | 2026-10-14 | Draft as_QxRcAADIAEZ_y, Migration Release, 56 slices, 9 images |
 | 2g | Mailchimp teaser | | |
 
 ## Stale
@@ -71,3 +71,5 @@ None.
 - 2026-10-14 Step 2e confirmed by Eric.
 - 2026-10-14 Pushed to Prismic as draft as_QxRcAADIAEZ_y in the Migration
   Release: 56 slices, 9 images, tags and author empty.
+- 2026-10-14 Step 2f confirmed by Eric. Paused; 2g (Mailchimp teaser) picks up
+  October 15, 2026 when Eric publishes.
