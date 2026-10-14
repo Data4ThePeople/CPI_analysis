@@ -6,7 +6,7 @@ date: 2026-10-15
 time: 06:30:00-04:00
 section: Data 4 Thought
 hero: images/cpi-september-2026-hero-1680x1080.png
-hero_alt: On a dark background, the words The CPI Hot Air Balloon sit at left beside a large hot air balloon. The balloon is a patchwork of red boxes, one for each item whose price rose in the 12 months to September 2026; the largest are gasoline, up 34.2%, and owners' equivalent rent. Beside the basket reads 3.74%, all items. A sandbag of blue boxes hangs below for items whose prices fell, with health insurance and prescription drugs labeled.
+hero_alt: A hot air balloon made of data floats in a dawn sky over a small American town of houses, trees in fall color and a lit gas station on the main road. The balloon is a patchwork of red boxes, one for each item whose price rose in the 12 months to September 2026; the largest are gasoline, up 34.2%, and owners' equivalent rent, up 3.3%. Below the basket hangs a sandbag of blue boxes for items whose prices fell.
 meta_title: What's driving CPI? Every item, every month since 2016
 description: See which of 204 items are driving CPI inflation, every month since 2016. In September 2026, gasoline and shelter added 60% of the 3.7% rise. Free tool.
 keywords: what is driving CPI, what is driving inflation, CPI breakdown by item, CPI contributions by component, core CPI drivers, CPI components chart, September 2026 CPI, CPI hot air balloon

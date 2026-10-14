@@ -27,5 +27,8 @@ Calm and still. Natural colors, 24mm lens. No text, no signs, no logos.
 
 ## Chosen
 
-File: images/cpi-september-2026-hero-source.<ext>
-Alt (under 500 characters): written once the backdrop is chosen.
+Prompt 1, generated in Gemini by Eric. Backdrop: images/cpi-september-2026-hero-source.jpg
+(2752x1536). scripts/build.py center-crops it to 1680x1080 and lays the
+balloon cutout (images/cpi-september-2026-balloon-cutout.png) over the sky,
+560px tall, centered, with a soft shadow.
+Alt (under 500 characters): see hero_alt in POST.md.

@@ -6,7 +6,7 @@ Process: ~/.claude/d4tp-process/PROCESS.md
 ## Current
 
 Post: cpi-september-2026
-Step: 2d (reopened: hero redesign; 2e work in progress kept on disk)
+Step: 2d (reopened: photo hero ready, waiting for Eric)
 Since: 2026-10-14
 
 ## Steps

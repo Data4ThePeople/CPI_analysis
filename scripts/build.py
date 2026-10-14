@@ -148,16 +148,44 @@ def main():
 
 
 def hero():
-    """The post's hero: the release-month balloon in the page's #hero mode, dark theme,
-    1120x720 CSS pixels at 1.5x = 1680x1080."""
+    """The post's hero: the release-month balloon alone (the page's #hero&bare mode,
+    light theme, transparent), laid over the photo backdrop in images/<slug>-hero-source.jpg."""
+    from PIL import Image, ImageFilter
     from common import CHARTS, SLUG
     chrome = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+    backdrop = CHARTS / f"{SLUG}-hero-source.jpg"
     if not os.path.exists(chrome):
         return
-    out = CHARTS / f"{SLUG}-hero-source.png"
-    subprocess.run([chrome, "--headless=new", "--disable-gpu", "--hide-scrollbars", "--window-size=1120,720",
-                    "--force-device-scale-factor=1.5", "--virtual-time-budget=3000", f"--screenshot={out}",
-                    f"file://{DIST / 'index.html'}#hero&theme=dark"], capture_output=True, timeout=120)
+    cutout = CHARTS / f"{SLUG}-balloon-cutout.png"
+    subprocess.run([chrome, "--headless=new", "--disable-gpu", "--hide-scrollbars",
+                    "--default-background-color=00000000", "--window-size=1120,720",
+                    "--force-device-scale-factor=3", "--virtual-time-budget=3000", f"--screenshot={cutout}",
+                    f"file://{DIST / 'index.html'}#hero&bare&clear&theme=light"], capture_output=True, timeout=120)
+    cut = Image.open(cutout).convert("RGBA")
+    cut = cut.crop(cut.getbbox())
+    cut.save(cutout)
+    print("wrote", cutout.name)
+    if not backdrop.exists():
+        return
+    bg = Image.open(backdrop).convert("RGB")
+    w0, h0 = bg.size
+    tw = int(h0 * 1680 / 1080)                      # center crop to 1680x1080's shape
+    bg = bg.crop(((w0 - tw) // 2, 0, (w0 - tw) // 2 + tw, h0)).resize((1680, 1080), Image.LANCZOS)
+    h = 560                                         # balloon height on the hero; sandbag clears the horizon
+    w = int(cut.width * h / cut.height)
+    cut = cut.resize((w, h), Image.LANCZOS)
+    pad = 60                                        # soft shadow, down and to the right
+    alpha = Image.new("L", (w + 2 * pad, h + 2 * pad), 0)
+    alpha.paste(cut.split()[3].point(lambda v: int(v * 0.20)), (pad, pad))
+    shadow = Image.new("RGBA", alpha.size, (0, 0, 0, 0))
+    shadow.putalpha(alpha)
+    shadow = shadow.filter(ImageFilter.GaussianBlur(12))
+    x, y = (1680 - w) // 2, 48
+    im = bg.convert("RGBA")
+    im.alpha_composite(shadow, (x - pad + 12, y - pad + 16))
+    im.alpha_composite(cut, (x, y))
+    out = CHARTS / f"{SLUG}-hero-1680x1080.png"
+    im.convert("RGB").save(out)
     print("wrote", out.name)
 
 if __name__ == "__main__":
