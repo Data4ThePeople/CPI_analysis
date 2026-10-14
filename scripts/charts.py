@@ -236,18 +236,21 @@ def tieout(name):
 WATERFALL_UP, WATERFALL_DOWN = 6, 4
 
 
-def waterfall(d, name):
+def waterfall(d, name, core=False):
     """Biggest items up, everything else netted, biggest items down, to the total."""
-    items = sorted(d["items"], key=lambda i: -i["contrib"])
-    up, down = items[:WATERFALL_UP], sorted(items, key=lambda i: i["contrib"])[:WATERFALL_DOWN]
+    key = "contrib_core" if core else "contrib"
+    items = sorted((i for i in d["items"] if i[key] is not None), key=lambda i: -i[key])
+    up, down = items[:WATERFALL_UP], sorted(items, key=lambda i: i[key])[:WATERFALL_DOWN]
     rest = [i for i in items if i not in up and i not in down]
-    total = sum(i["contrib"] for i in items)
-    steps = ([(short(i["name"]), i["contrib"], UP) for i in up]
-             + [(f"The other {len(rest)} items, net", sum(i["contrib"] for i in rest), MUTED)]
-             + [(short(i["name"]), i["contrib"], DOWN) for i in down])
+    total = sum(i[key] for i in items)
+    steps = ([(short(i["name"]), i[key], UP) for i in up]
+             + [(f"The other {len(rest)} items, net", sum(i[key] for i in rest), MUTED)]
+             + [(short(i["name"]), i[key], DOWN) for i in down])
     mon = month_label(d["month"])
-    f, top = fig(f"What added up to {d['published']['headline']:.1f}% inflation, {mon}",
-                 "Each bar is one item's share of the 12-month rise in headline CPI, in percentage points.\n"
+    rate = d["published"]["core" if core else "headline"]
+    measure = "core CPI (less food and energy)" if core else "headline CPI"
+    f, top = fig(f"What added up to {rate:.1f}% {'core ' if core else ''}inflation, {mon}",
+                 f"Each bar is one item's share of the 12-month rise in {measure}, in percentage points.\n"
                  "Bars build from left to right; the bottom bar is the total.",
                  h=8.0, legend=[("Pushed up", UP), ("Pulled down", DOWN), ("Everything else", MUTED)])
     ax = f.add_axes([0.30, 0.08, 0.64, top - 0.10])
@@ -265,7 +268,8 @@ def waterfall(d, name):
         run += v
         rows.append((lab, round(v, 6), round(run, 6)))
     ax.barh(0, total, height=0.62, color=INK)
-    ax.text(-0.06, 0, "All items", ha="right", va="center", fontsize=11.5, color=INK, fontweight="bold")
+    ax.text(-0.06, 0, "All core items" if core else "All items", ha="right", va="center", fontsize=11.5,
+            color=INK, fontweight="bold")
     ax.text(total + 0.04, 0, f"{total:+.2f}", ha="left", va="center", fontsize=11, color=INK, fontweight="bold")
     rows.append(("All items", round(total, 6), round(total, 6)))
     peak = max(r[2] for r in rows)
@@ -310,11 +314,12 @@ def main():
     d = json.loads((PROCESSED / "contrib.json").read_text())
     tieout("01-tieout.png")
     waterfall(d, "02-waterfall.png")
-    fastest(d, "03-fastest-rising.png")
-    bars(d, True, "04-top-adders.png")
-    bars(d, False, "05-top-subtractors.png")
-    history(d, "06-health-insurance-rx-history.png")
-    whatif(d, "07-whatif.png")
+    waterfall(d, "03-waterfall-core.png", core=True)
+    fastest(d, "04-fastest-rising.png")
+    bars(d, True, "05-top-adders.png")
+    bars(d, False, "06-top-subtractors.png")
+    history(d, "07-health-insurance-rx-history.png")
+    whatif(d, "08-whatif.png")
 
 
 if __name__ == "__main__":

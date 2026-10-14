@@ -73,18 +73,25 @@ Taken as groups, energy (gasoline, electricity, fuel oil, natural gas and other 
 
 Four items pulled the rate down the most. Motor vehicle insurance fell 5.0% and took 0.14 points off. Health insurance fell 9.0% (0.08 points), phones and similar devices fell 12.7% (0.06 points), and prescription drugs fell 4.5% (0.04 points).
 
+Core CPI tells a similar story without food and energy. The chart below builds up core the same way. Because core leaves out food and energy, each remaining item is a larger share of the total, so its contribution in points is larger than in the headline chart.
+
+![A waterfall chart of what added up to 2.6% core inflation in September 2026. Owners' equivalent rent added 1.02 percentage points, rent of primary residence 0.27, airline fares 0.25, hospital services 0.15, hotels and motels 0.07 and dental services 0.07. The other 130 core items added 1.13 points together. Motor vehicle insurance took away 0.17 points, health insurance 0.10, phones and other information devices 0.07 and prescription drugs 0.05. The total is 2.56 points.](images/03-waterfall-core.png)
+*Each bar is the item's contribution to the 12-month change in core CPI (less food and energy), in percentage points. Source: BLS; contributions computed by Data 4 The People.*
+
+Shelter added 1.43 of the 2.56 points, or 56% of core inflation. Owners' equivalent rent alone added 1.02 points. The same four items pulled core down the most: motor vehicle insurance (0.17 points), health insurance (0.10), phones and similar devices (0.07) and prescription drugs (0.05).
+
 ### The prices that rose the fastest
 
 The waterfall shows which items moved the total. A different question is which prices rose the fastest, whatever their size. The first slide below shows the 15 items with the largest 12-month price increases. The next two show the 15 items that added the most to inflation and the 15 that pulled it down the most.
 
 ::: carousel
-![A bar chart of the 15 items whose prices rose the most over the 12 months to September 2026. Fuel oil rose 74.2%, other motor fuels 60.9% and gasoline 34.2%, all energy items. Computer software and accessories rose 28.4% and airline fares 22.4%. The rest rose between 8.4% and 16.2%. Most are small shares of spending; gasoline (2.98%) and airline fares (0.88%) are the largest.](images/03-fastest-rising.png)
+![A bar chart of the 15 items whose prices rose the most over the 12 months to September 2026. Fuel oil rose 74.2%, other motor fuels 60.9% and gasoline 34.2%, all energy items. Computer software and accessories rose 28.4% and airline fares 22.4%. The rest rose between 8.4% and 16.2%. Most are small shares of spending; gasoline (2.98%) and airline fares (0.88%) are the largest.](images/04-fastest-rising.png)
 *12-month price change, September 2026. Only items with their own published BLS index. Source: BLS.*
 
-![A bar chart of the 15 items that added the most to 12-month headline inflation in September 2026, led by gasoline at 1.09 percentage points, owners' equivalent rent at 0.82, rent at 0.21 and airline fares at 0.20.](images/04-top-adders.png)
+![A bar chart of the 15 items that added the most to 12-month headline inflation in September 2026, led by gasoline at 1.09 percentage points, owners' equivalent rent at 0.82, rent at 0.21 and airline fares at 0.20.](images/05-top-adders.png)
 *Contribution to the 12-month change in headline CPI, in percentage points. Source: BLS; contributions computed by Data 4 The People.*
 
-![A bar chart of the 15 items that pulled 12-month headline inflation down the most in September 2026, led by motor vehicle insurance at minus 0.14 percentage points. Health insurance, at minus 0.08, and prescription drugs, at minus 0.04, are highlighted.](images/05-top-subtractors.png)
+![A bar chart of the 15 items that pulled 12-month headline inflation down the most in September 2026, led by motor vehicle insurance at minus 0.14 percentage points. Health insurance, at minus 0.08, and prescription drugs, at minus 0.04, are highlighted.](images/06-top-subtractors.png)
 *Contribution to the 12-month change in headline CPI, in percentage points. Source: BLS; contributions computed by Data 4 The People.*
 :::
 
@@ -96,7 +103,7 @@ Outside energy, airline fares rose 22.4% and added 0.20 points. Several other fa
 
 Two medical items pulled inflation down in September: health insurance, down 9.0% from a year earlier, and prescription drugs, down 4.5%. Both are well below their usual pace. The chart below shows each item's 12-month change since 2015, with its 10-year average as a dashed line.
 
-![A line chart of the 12-month change in health insurance and prescription drug prices from January 2015 to September 2026. Health insurance swings widely, from about plus 28% to about minus 37% between 2019 and 2023, and ends at minus 9.0%. Its 10-year average is plus 3.55%. Prescription drugs move in a narrower band and end at minus 4.5%, against a 10-year average of plus 1.71%. There is a gap at October 2025.](images/06-health-insurance-rx-history.png)
+![A line chart of the 12-month change in health insurance and prescription drug prices from January 2015 to September 2026. Health insurance swings widely, from about plus 28% to about minus 37% between 2019 and 2023, and ends at minus 9.0%. Its 10-year average is plus 3.55%. Prescription drugs move in a narrower band and end at minus 4.5%, against a 10-year average of plus 1.71%. There is a gap at October 2025.](images/07-health-insurance-rx-history.png)
 *The 10-year average is the mean of the September-to-September changes from 2015-16 through 2024-25. Source: BLS.*
 
 Over those 10 years, health insurance rose an average of 3.55% a year and prescription drugs 1.71% a year.
@@ -111,7 +118,7 @@ Prescription drug prices in the CPI are what the pharmacy is paid, by the patien
 
 To see how much these two items moved the September numbers, we swapped each one's actual 12-month change for its 10-year average and left every other item as published. The chart below compares the result with the published rates.
 
-![A bar chart comparing published inflation with a what-if for September 2026. Headline CPI was 3.74% as published and would be 3.91% if health insurance and prescription drugs had risen at their 10-year averages. Core CPI was 2.56% as published and would be 2.78%.](images/07-whatif.png)
+![A bar chart comparing published inflation with a what-if for September 2026. Headline CPI was 3.74% as published and would be 3.91% if health insurance and prescription drugs had risen at their 10-year averages. Core CPI was 2.56% as published and would be 2.78%.](images/08-whatif.png)
 *What-if: health insurance at +3.55% and prescription drugs at +1.71%, all other items as published. Source: BLS; calculation by Data 4 The People.*
 
 Headline CPI would have been 3.91% instead of 3.74%, and core would have been 2.78% instead of 2.56%. Rounded the way BLS reports it, headline would be 3.9% rather than 3.7%, and core 2.8% rather than 2.6%. Health insurance accounts for 0.11 points of the headline difference and prescription drugs for 0.06. For core, the two account for 0.14 and 0.08 points.
