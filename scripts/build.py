@@ -30,7 +30,7 @@ def view_items(items, core):
     out = []
     for i in items:
         c = i["contrib_core"] if core else i["contrib"]
-        if c is None:
+        if c is None or i["zero_weight"]:
             continue
         out.append({"n": SHORT.get(i["name"], i["name"]), "f": i["name"], "g": i["group"],
                     "m": i["major"], "y": round(i["yoy"], 3), "c": round(c, 5),

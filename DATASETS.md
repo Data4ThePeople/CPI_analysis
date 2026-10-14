@@ -22,10 +22,14 @@ adjusted data is revised for five years each February. It is not used here.)
 
 **Coverage.** January 2014 to September 2026. Each index is a direct BLS
 estimate built from sampled prices. There are two exceptions:
-- **Unsampled residual items.** About 2.7% of weight sits in items with no
-  published index of their own. They are listed under "Relative importance"
-  below. Each takes its nearest published parent's index, which is the
-  assumption BLS itself makes in aggregation.
+- **Items without a usable index.** 25 leaves (about 2.7% of December 2024
+  weight) have no BLS item code at all: the "Unsampled ..." residual items,
+  housing at school, care of invalids and elderly at home, and technical and
+  business school tuition. Four more have a code but BLS has paused or
+  stopped the index (household operations items, legal services) or
+  publishes it every other month (services by other medical professionals).
+  These 29 leaves (4.2% of September 2025 weight) are filled from their
+  parent; see "Items without a published index" below.
 - **Health insurance** is not a price that BLS collects. It is modeled; see
   Known quirks.
 
@@ -103,6 +107,14 @@ release (October 24, 2025) prints August 2025 weights. The November 2025
 release (December 18, 2025) prints October 2025 weights. We check our rolled
 weights against both printed columns, saved as `data/raw/release_*.htm`.
 
+**Rolling weights forward.** BLS's formula, not rescaled:
+RI(month) = RI(December) x (item index month / item index December) /
+(all items index month / all items index December). The rolled leaves sum to
+99.98 rather than 100 because the published all-items index is aggregated
+from area-level data, not from these national item indexes. The 29 filled
+leaves then take their weight from their parent's own rolled weight (see
+below), which brings the total to 100.001.
+
 **Method chosen (Eric, October 14, 2026).** Chained contribution. Each item
 starts from its September 2025 relative importance for September to December
 2025. It then uses BLS's December 2025 weights for January to September 2026,
@@ -116,16 +128,46 @@ published 3.74%. Most of the gap is gasoline: it rose 34% over the year, much
 of it after its weight was reset in January. Core uses the same formula with
 weights rescaled to core and the core index (SA0L1E).
 
-**Items without a published index.** 29 leaves (4.2% of weight) have no index
-for the months needed. They are unsampled residual items, or indexes BLS has
-paused: household operations (last value October 2024), domestic services,
-repair of household items, legal services, and services by other medical
-professionals (now published every other month). Each gets the part of its
-nearest published parent's contribution that the parent's published items do
-not explain, shared by weight. Deepest parents are done first. This forces
-every published parent to reconcile. The resulting change is shown as
-"filled" in the viz. Household operations comes out near 7%, against the
-1.55% it would get by borrowing its parent's change.
+**Which index each leaf uses.** Each job needs certain months, and a leaf uses
+its own index for a job when that index has them, otherwise its nearest
+published parent's:
+- the 12-month change needs September 2025 and September 2026;
+- rolling the weight needs December 2024 and September 2025;
+- splitting the year at the January reweight needs September 2025 and
+  December 2025;
+- the August 2025 weight check needs December 2024 and August 2025.
+Two leaves use their own index for the 12-month change but a parent's for one
+of the other jobs: gardening and lawncare services (no December 2024 or
+December 2025 value) and motor vehicle body work (no December 2025 value).
+Both are counted as published items.
+
+**Items without a published index.** 29 leaves (4.2% of September 2025 weight)
+have no index with September 2025 and September 2026 values. They are the 25
+leaves without an item code, plus household operations items (domestic
+services, repair of household items; household operations was last published
+October 2024), legal services, and services by other medical professionals
+(published every other month). For each nearest published parent, deepest
+first:
+1. The parent's own September 2025 weight is its December 2024 weight
+   rolled forward with its own index.
+2. Its contribution is computed with the chained formula, one term at a time
+   (September to December 2025, then December 2025 to September 2026).
+3. For each term, what the parent's other leaves do not explain goes to the
+   filled leaves: the first term shared by their December 2024 weights, the
+   second by their December 2025 weights. The filled leaves' weight is the
+   parent's weight minus its other leaves' weights.
+This makes every published parent reconcile. The change shown for a filled
+leaf is its contribution divided by its weight, marked as filled in the viz.
+Household operations comes out near 7%, against the 1.55% it would get by
+borrowing its parent's change.
+
+**Zero-weight leaves.** Unsampled photography and unsampled recreational
+reading materials have a relative importance of 0.000 in both years. Their
+contribution is set to 0, and they are left out of the viz and the charts.
+
+**Reconciliation.** Items sum to 3.7380% against the published 3.7377%, and
+to 2.5644% against 2.5644% for core. The independent tie-out of October 14,
+2026 reproduced every item to within 0.00005 points.
 
 **Coverage.** The expenditure tree: 293 nodes under "All items = 100", with 204
 leaves that do not overlap and sum to 100. The "Special aggregate indexes"
@@ -154,10 +196,11 @@ the same names.
   the sum of its children. Both are fixed in `scripts/weights.py`, carrying
   each row's whole subtree with it. The same fix was first found in the CPI
   diesel project.
-- 27 leaves have no published index ("Unsampled ..." items, housing at school,
-  care of invalids and elderly at home, technical and business school
-  tuition). Two more match `cu.item` only after "swimwear, and accessories"
-  is spelled without the comma.
+- 25 leaves have no item code in `cu.item` ("Unsampled ..." items, housing
+  at school, care of invalids and elderly at home, technical and business
+  school tuition). Two more, the men's and women's underwear, nightwear,
+  swimwear and accessories items, match only after ", and" is collapsed to
+  " and"; both have published indexes.
 - Food is every leaf under "Food". Energy is every leaf under "Household
   energy" or "Motor fuel". Core is every other leaf, including alcoholic
   beverages and tobacco, as in BLS's own "All items less food and energy".

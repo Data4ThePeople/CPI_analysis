@@ -42,9 +42,9 @@ def main():
     check("Core rounds to 2.6", round(d["published"]["core"], 1), 2.6, 1e-9)
 
     # 2. Items reconcile to the published aggregates.
-    check("Headline: sum of item contributions", sum(i["contrib"] for i in d["items"]), d["published"]["headline"], 0.005)
+    check("Headline: sum of item contributions", sum(i["contrib"] for i in d["items"]), d["published"]["headline"], 0.002)
     check("Core: sum of item contributions",
-          sum(i["contrib_core"] for i in d["items"] if i["contrib_core"] is not None), d["published"]["core"], 0.005)
+          sum(i["contrib_core"] for i in d["items"] if i["contrib_core"] is not None), d["published"]["core"], 0.002)
 
     # 3. Weights: leaves sum to 100 in both files; rolled Sep 2025 weights sum to 100; core share.
     for y in (2024, 2025):
@@ -56,7 +56,7 @@ def main():
     bad = 0
     for i in d["items"]:
         s = idx[f"CUUR0000{i['code']}"]
-        if i["own_index"] and abs(pct(s[T], s[B]) - i["yoy"]) > 1e-3:
+        if i["own_index"] and not i["zero_weight"] and abs(pct(s[T], s[B]) - i["yoy"]) > 1e-3:
             bad += 1
     check("Own-index items: 12-month change matches raw (count of mismatches)", bad, 0, 0)
 

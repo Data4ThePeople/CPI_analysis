@@ -134,14 +134,19 @@ def history(d, name):
     w = d["whatif"]
     f, top = fig("Health insurance and prescription drug prices, 12-month change",
                  f"January 2015 to {month_label(d['month'])}. Dashed lines are each item's 10-year average\n"
-                 "(the September-to-September changes from 2015-16 through 2024-25).",
-                 h=7.2, legend=[("Health insurance", HI_COLOR), ("Prescription drugs", RX_COLOR)])
+                 "(the September-to-September changes from 2015-16 through 2024-25). The gap is October 2025,\n"
+                 "which BLS did not publish.",
+                 h=7.5, legend=[("Health insurance", HI_COLOR), ("Prescription drugs", RX_COLOR)])
     ax = f.add_axes([0.07, 0.10, 0.76, top - 0.12])
     rows = []
     for code, color in (("SEME", HI_COLOR), ("SEMF01", RX_COLOR)):
         ms = sorted(m for m in h[code] if m >= "2015-01")
-        xs = [int(m[:4]) + (int(m[5:]) - 1) / 12 for m in ms]
-        ys = [h[code][m] for m in ms]
+        xs, ys = [], []
+        for k, m in enumerate(ms):
+            x = int(m[:4]) + (int(m[5:]) - 1) / 12
+            if k and x - xs[-1] > 1.5 / 12:      # a missing month (October 2025): break the line
+                xs.append(float("nan")); ys.append(float("nan"))
+            xs.append(x); ys.append(h[code][m])
         ax.plot(xs, ys, color=color, lw=2)
         ax.axhline(w[code]["avg10"], color=color, lw=1.2, ls=(0, (4, 3)))
         ax.text(xs[-1] + 0.15, ys[-1], f"{ys[-1]:+.1f}%", color=INK, fontsize=11, va="center")
