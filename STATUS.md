@@ -6,7 +6,7 @@ Process: ~/.claude/d4tp-process/PROCESS.md
 ## Current
 
 Post: cpi-september-2026
-Step: 2d (reopened: photo hero ready, waiting for Eric)
+Step: 2e (SEO; front matter drafted, text proposals with Eric)
 Since: 2026-10-14
 
 ## Steps
@@ -17,7 +17,7 @@ Since: 2026-10-14
 | 2a | Draft with brackets resolved | 2026-10-14 | Brackets resolved, closing in; 8 charts incl. tie-out and headline/core waterfalls |
 | 2b | Eric's edit, Claude's look-over | 2026-10-14 | 8 findings: 6 applied, title and subtitle set, publish date Oct 15 kept |
 | 2c | Slice markup | 2026-10-14 | 38 slices: 1 drop cap, 15 text, 14 spacers, 5 images, 1 carousel (3), 1 embed, 1 divider |
-| 2d | Hero 1680x1080 + alt text | 2026-10-14 | Balloon still in #hero mode, dark, larger balloon; alt 480 chars |
+| 2d | Hero 1680x1080 + alt text | 2026-10-14 | Re-confirmed: data balloon over Eric's Gemini dawn-town backdrop, composited by build.py; alt 411 chars |
 | 2e | SEO | | |
 | 2f | Pushed to Prismic (draft) | | |
 | 2g | Mailchimp teaser | | |
@@ -63,3 +63,5 @@ None.
   (no axis), 3.74% beside the basket, title and text at left. No later step
   had been confirmed, so nothing is stale. 2e front matter (meta, keywords,
   dataset schema) is drafted in POST.md and resumes after 2d.
+- 2026-10-14 Step 2d re-confirmed by Eric (photo backdrop, top 82% crop,
+  balloon 650px). Back to 2e.
