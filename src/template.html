@@ -82,6 +82,12 @@ body.hero #stage{grid-column:2;grid-row:1 / 6}
 body.hero #side{display:none}
 body.hero footer{grid-column:1;grid-row:5;font-size:13px}
 body.hero .seg,body.hero #source{display:none}
+/* #hero&bare: the balloon alone, no text outside it; #clear: transparent background */
+body.hero.bare #app{grid-template-columns:1fr;padding:30px}
+body.hero.bare header,body.hero.bare #controls,body.hero.bare footer{display:none}
+body.hero.bare #stage{grid-column:1}
+body.clear,body.clear #app{background:transparent}
+html:has(body.clear){background:transparent}
 body.hero header h1{font-size:50px;line-height:1.08;margin-bottom:16px}
 body.hero header p{font-size:19px;line-height:1.45}
 body.hero #legend{font-size:13px}
@@ -142,6 +148,8 @@ const EMBED = (() => { if (location.hash.includes('embed=0')) return false; if (
   try { return window.self !== window.top; } catch (e) { return true; } })();
 if (EMBED) { document.documentElement.setAttribute('data-theme', 'light'); document.body.classList.add('is-embed'); }
 const HERO = /(^|[#&])hero\b/.test(location.hash); if (HERO) document.body.classList.add('hero');
+const BARE = HERO && /bare/.test(location.hash); if (BARE) document.body.classList.add('bare');
+const CLEAR = /clear/.test(location.hash); if (CLEAR) document.body.classList.add('clear');
 const th = location.hash.match(/theme=(light|dark)/); if (th) document.documentElement.setAttribute('data-theme', th[1]);
 
 // Expand the compact payload: per month, one item list per view.
@@ -366,7 +374,7 @@ function render() {
   const axisX = narrow ? 34 : 54;
   // Fixed envelope size so later months are drawn at the same size.
   // The timeline version draws its largest balloon a bit smaller, leaving room for the altitude to move.
-  const envHMax = Math.min(H * (HERO ? 0.66 : SERIES ? 0.44 : 0.48), (W - axisX - 30) / (2 * 0.43) * 0.98);
+  const envHMax = Math.min(H * (BARE ? 0.64 : HERO ? 0.66 : SERIES ? 0.44 : 0.48), (W - axisX - 30) / (2 * 0.43) * 0.98);
   const basketH = Math.max(18, envHMax * 0.07), basketW = envHMax * 0.22;
   const rank = RANK[state.view];
   const order = SERIES ? (a, b) => (rank[b.id] - rank[a.id]) || (b.v - a.v) : (a, b) => b.v - a.v;
@@ -426,7 +434,7 @@ function render() {
   }
 
   // the balloon group, translated to its altitude
-  const cx = HERO ? W * 0.42 : axisX + (W - axisX) * (narrow ? 0.5 : 0.46);
+  const cx = BARE ? W * 0.5 : HERO ? W * 0.42 : axisX + (W - axisX) * (narrow ? 0.5 : 0.46);
   const mover = el('g', { id: 'mover' }, svg);
   const baseY = yOf(V.published);
   const prev = svg.dataset.lastY ? +svg.dataset.lastY : baseY;
@@ -460,7 +468,7 @@ function render() {
   el('path', { d: sackPath, fill: 'none', stroke: css('--sack-edge'), 'stroke-width': 1.8 }, g);
   // Call out the highlighted items (health insurance, prescription drugs), each on the side nearest its box.
   // In the timeline, call an item out only in months when it pulls down by a visible amount.
-  const hl = sackBoxes.filter(b => (DATA.highlight || []).includes(b.d.f) && (!SERIES || b.d.v >= 0.02)).sort((a, b2) => (a.y + a.h / 2) - (b2.y + b2.h / 2));
+  const hl = BARE ? [] : sackBoxes.filter(b => (DATA.highlight || []).includes(b.d.f) && (!SERIES || b.d.v >= 0.02)).sort((a, b2) => (a.y + a.h / 2) - (b2.y + b2.h / 2));
   const last = { L: -Infinity, R: -Infinity };
   for (const b of hl) {
     const mx = b.x + b.w / 2, my = b.y + b.h / 2;
@@ -486,14 +494,15 @@ function render() {
     const a = el('tspan', { x, class: 'big', 'font-size': narrow ? 15 : 18 }, t); a.textContent = big;
     const b2 = el('tspan', { x, dy: narrow ? 15 : 18, 'font-size': 12, fill: css('--ink-2') }, t); b2.textContent = small;
   };
-  if (roomRight) {
+  if (roomRight && !BARE) {
     ann(lx, envTop + envH * 0.40, fmtPts(posSum) + ' pts', `${pos.length} items pushed prices up`, 'start');
     const ny = last.R > -Infinity ? last.R + 40 : sy + sackH * 0.45;
     ann(sx + sackW + 18, ny, fmtPts(-negSum) + ' pts', `${neg.length} items pulled down`, 'start');
   }
   // altitude marker: the published rate at the basket
   const mk = el('g', {}, mover);
-  if (HERO) {
+  if (BARE) {
+  } else if (HERO) {
     const tx = cx - basketW / 2 - 16;
     const h1 = el('text', { x: tx, y: baseY + basketH / 2 - 2, 'text-anchor': 'end', fill: css('--ink'), 'font-size': 26, class: 'big' }, mk);
     h1.textContent = `${V.published.toFixed(2)}%`;
