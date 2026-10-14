@@ -6,7 +6,7 @@ Process: ~/.claude/d4tp-process/PROCESS.md
 ## Current
 
 Post: cpi-september-2026
-Step: 2a (draft in POST.md; edits proposed, waiting for Eric)
+Step: 2b (not started)
 Since: 2026-10-14
 
 ## Steps
@@ -14,7 +14,7 @@ Since: 2026-10-14
 | Step | What | Confirmed | Notes |
 |---|---|---|---|
 | 1  | Exploration and analysis | 2026-10-14 | Sep 2026 balloon, charts 01-04, what-if; monthly animated balloon Oct 2016-Sep 2026 |
-| 2a | Draft with brackets resolved | | |
+| 2a | Draft with brackets resolved | 2026-10-14 | Brackets resolved, closing in; 8 charts incl. tie-out and headline/core waterfalls |
 | 2b | Eric's edit, Claude's look-over | | |
 | 2c | Slice markup | | |
 | 2d | Hero 1680x1080 + alt text | | |
@@ -50,3 +50,6 @@ None.
 - 2026-10-14 2a draft in POST.md: Eric's text verbatim, brackets resolved. New
   charts 01 tie-out, 02 waterfall, 03 fastest-rising; old 01-04 renumbered
   04-07. README.md added (the post links to it). Tie-out 43 of 43.
+- 2026-10-14 Step 2a confirmed by Eric. Core waterfall added (chart 03, later
+  charts 04-08); health insurance method notes replaced by a link to
+  cpi-merry-go-round, method-mix caveat kept in limits; closing in.

@@ -123,7 +123,7 @@ This is a simple swap, not a forecast. It shows how much these two items held do
 
 ## In conclusion…
 
-Enjoy your analysis of the hot air. We’ll update this each month when CPI releases.
+Enjoy your analysis of the hot air. We’ll update this each month when BLS releases the CPI.
 
 ::: divider
 
