@@ -153,10 +153,15 @@ published parent's:
 - splitting the year at the January reweight needs September 2025 and
   December 2025;
 - the August 2025 weight check needs December 2024 and August 2025.
-Two leaves use their own index for the 12-month change but a parent's for one
-of the other jobs: gardening and lawncare services (no December 2024 or
-December 2025 value) and motor vehicle body work (no December 2025 value).
-Both are counted as published items.
+In September 2026, three leaves use their own index for the 12-month change
+but a parent's for one of the other jobs: gardening and lawncare services (no
+December 2024 or December 2025 value; it uses Household furnishings and
+operations, because Household operations is not published those months),
+motor vehicle body work (no December 2025 value) and leased cars and trucks
+(no December 2024 value). They are counted as published items. In such cases
+the leaf keeps its own 12-month change, and only the weight roll or the split
+at the January reset comes from the parent. Which leaves this affects varies
+by month.
 
 **Items without a published index.** 29 leaves (4.2% of September 2025 weight)
 have no index with September 2025 and September 2026 values. They are the 25
@@ -165,8 +170,13 @@ services, repair of household items; household operations was last published
 October 2024), legal services, and services by other medical professionals
 (published every other month). For each nearest published parent, deepest
 first:
-1. The parent's own September 2025 weight is its December 2024 weight
-   rolled forward with its own index.
+1. The parent's September 2025 weight is the sum of its leaves' December
+   2024 weights, rolled forward with the parent's own index. (The sum of
+   leaves, not the parent's printed weight: the two differ by rounding, and
+   the sum keeps the leaves adding to the parent. The independent tie-out
+   found the choice moves month totals by at most 0.0005 points.) Its
+   December 2025 weight is likewise the sum of its leaves' December 2025
+   weights.
 2. Its contribution is computed with the chained formula, one term at a time
    (September to December 2025, then December 2025 to September 2026).
 3. For each term, what the parent's other leaves do not explain goes to the
@@ -179,8 +189,24 @@ Household operations comes out near 7%, against the 1.55% it would get by
 borrowing its parent's change.
 
 **Zero-weight leaves.** Unsampled photography and unsampled recreational
-reading materials have a relative importance of 0.000 in both years. Their
-contribution is set to 0, and they are left out of the viz and the charts.
+reading materials have a relative importance of 0.000 in some Decembers. When
+a leaf is 0.000 in both Decembers a month uses (as both are for September
+2026), its contribution is set to 0. In other months they get a tiny fill
+(never more than 0.0002 points). They are left out of the drawing whenever
+their weight is 0.001% or less.
+
+**Changes shown for small filled items.** A filled leaf's change is its
+contribution divided by its weight. When the weight is very small (under about
+0.01%), rounding in the parent makes that change unstable. For example, the
+tie-out got +29.7% for unsampled public transportation in April 2023 under a
+different reading of the fill rule, where we get +11.1%. These boxes are too
+small to see, and their contributions are under 0.001 points, but their
+colors and tooltip changes should not be read as measured.
+
+**Core weights.** "Rescaled to core" divides by the sum of the core leaves:
+in the first term, their December weights rolled to the base month with the
+core index (SA0L1E); in the second, their December weights. Using BLS's
+printed core weight instead would move core totals by up to 0.0004 points.
 
 **Reconciliation.** Items sum to 3.7380% against the published 3.7377%, and
 to 2.5644% against 2.5644% for core. The independent tie-out of October 14,
@@ -229,7 +255,10 @@ All 119 months pass. The largest gaps are 0.0013 points (headline) and 0.0008
 weights, rolled forward a year with our indexes, are compared with the next
 December BLS printed on the same basis (the regular table in 2016, 2018 and
 2020, the old-basis table in other years). Every year matches within 0.001,
-which is BLS's rounding, over 153 to 179 items a year.
+which is BLS's rounding, over 153 to 179 items a year. The independent
+tie-out also checked parent groups: two are just over 0.001 (housing in
+2015, private transportation in 2018, both 0.00101 to 0.00103), consistent
+with rounding.
 
 **Why stop at October 2016.** Eric asked for up to ten years. The method and
 checks would work further back: the archive has weight tables to 2010 and the
@@ -247,8 +276,8 @@ except to check our core weight.
 
 **Changes over time.** All twelve files, December 2014 to December 2025, have
 the same 293 nodes in the same order and nesting, with 204 leaves. This is
-asserted by `weights.canonical_tree`. Eighteen items were renamed along the
-way and kept their BLS item code, for example "Airline fare" to "Airline
+asserted by `weights.canonical_tree`. Items were renamed along the
+way (15 items, three of them renamed twice) and kept their BLS item code, for example "Airline fare" to "Airline
 fares", "Child care and nursery school" to "Day care and preschool", "Land-line
 telephone services" to "Residential telephone services". Every year's tree is
 relabeled with the December 2025 names, matched by position.

@@ -35,3 +35,9 @@ None.
   and core with health insurance and prescription drugs at their 10-year
   average (September-to-September changes, 2015-16 through 2024-25).
   Interactive HTML plus static dark PNGs.
+- 2026-10-14 Still in Step 1. Eric asked for the balloon animated over time,
+  up to 10 years, only for months that tie out with high confidence. Built
+  October 2016 to September 2026 (119 months; October 2025 was never
+  published) as dist/over-time.html. All months pass the per-month tie-out.
+  A second independent tie-out reproduced the output; method text in
+  DATASETS.md corrected to match the code where it differed.
