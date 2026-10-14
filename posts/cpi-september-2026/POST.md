@@ -121,7 +121,9 @@ Headline CPI would have been 3.91% instead of 3.74%, and core would have been 2.
 
 This is a simple swap, not a forecast. It shows how much these two items held down the September numbers. It does not say what their prices would have done.
 
-<!-- Eric's closing goes here. -->
+## In conclusion…
+
+Enjoy your analysis of the hot air. We’ll update this each month when CPI releases.
 
 ::: divider
 
