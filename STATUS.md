@@ -73,3 +73,6 @@ None.
   Release: 56 slices, 9 images, tags and author empty.
 - 2026-10-14 Step 2f confirmed by Eric. Paused; 2g (Mailchimp teaser) picks up
   October 15, 2026 when Eric publishes.
+- 2026-10-14 Phone fix on the embed (GitHub Pages only; Prismic draft
+  unchanged): one-sentence description under 620px, shorter callouts on
+  narrow screens. Balloon about 15% larger on phones.

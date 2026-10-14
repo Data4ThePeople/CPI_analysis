@@ -360,8 +360,12 @@ function render() {
   $('#title').textContent = DATA.title;
   const verb = V.published >= 0 ? 'rose' : 'fell';
   const what = state.view === 'core' ? 'Core prices (all items less food and energy)' : 'Consumer prices';
-  $('#dek').textContent = `${what} ${verb} ${Math.abs(V.published).toFixed(2)}% in the 12 months to ${M.label}. Each box is one item: its size is how much it added, its color is how much its own price changed. Items that lowered inflation hang below as sandbags.` +
+  // On phones (.long hidden by the container query) only the first sentence shows, leaving room for the chart.
+  const dek = $('#dek'); dek.textContent = `${what} ${verb} ${Math.abs(V.published).toFixed(2)}% in the 12 months to ${M.label}.`;
+  const more = document.createElement('span'); more.className = 'long';
+  more.textContent = ' Each box is one item: its size is how much it added, its color is how much its own price changed. Items that lowered inflation hang below as sandbags.' +
     (SERIES ? ' The balloon grows with the total pushing prices up.' : '');
+  dek.appendChild(more);
   if (HERO) { $('#title').textContent = 'The CPI Hot Air Balloon';
     $('#dek').textContent = `${what} ${verb} ${Math.abs(V.published).toFixed(2)}% in the 12 months to ${M.label}. Each box is one item, sized by how much it added. Items whose prices fell hang below as sandbags.`; }
   if (SERIES) { $('#when').textContent = M.label; $('#note').textContent = M.note || ''; drawStrip(); }
@@ -484,7 +488,7 @@ function render() {
     const t = el('text', { x: tx, y: ty0 - 2, 'text-anchor': anchor, fill: css('--ink'), 'font-size': narrow ? 11.5 : 13,
       stroke: css('--bg'), 'stroke-width': 4, 'stroke-linejoin': 'round', 'paint-order': 'stroke' }, g);   // halo keeps grid lines off the text
     const a = el('tspan', { x: tx, 'font-weight': 700 }, t); a.textContent = b.d.n;
-    const c = el('tspan', { x: tx, dy: narrow ? 13 : 15, fill: css('--ink-2') }, t); c.textContent = `${fmtPct(b.d.y)} price, ${fmtPts(b.d.c)} pts`;
+    const c = el('tspan', { x: tx, dy: narrow ? 13 : 15, fill: css('--ink-2') }, t); c.textContent = narrow ? `${fmtPct(b.d.y)}, ${fmtPts(b.d.c)} pts` : `${fmtPct(b.d.y)} price, ${fmtPts(b.d.c)} pts`;
   }
   // annotations
   const lx = cx + hw(0.45) * envH + 14;
