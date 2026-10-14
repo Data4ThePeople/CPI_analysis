@@ -144,6 +144,21 @@ def main():
                f"Which items pushed U.S. consumer prices up and down in every month from {a} to {b}, "
                "drawn as a hot air balloon that rises and falls with inflation. Built by Data 4 The People.")
 
+    hero()
+
+
+def hero():
+    """The post's hero: the release-month balloon in the page's #hero mode, dark theme,
+    1120x720 CSS pixels at 1.5x = 1680x1080."""
+    from common import CHARTS, SLUG
+    chrome = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+    if not os.path.exists(chrome):
+        return
+    out = CHARTS / f"{SLUG}-hero-source.png"
+    subprocess.run([chrome, "--headless=new", "--disable-gpu", "--hide-scrollbars", "--window-size=1120,720",
+                    "--force-device-scale-factor=1.5", "--virtual-time-budget=3000", f"--screenshot={out}",
+                    f"file://{DIST / 'index.html'}#hero&theme=dark"], capture_output=True, timeout=120)
+    print("wrote", out.name)
 
 if __name__ == "__main__":
     main()

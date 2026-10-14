@@ -6,7 +6,7 @@ date: 2026-10-15
 time: 06:30:00-04:00
 section: Data 4 Thought
 hero: images/cpi-september-2026-hero-1680x1080.png
-hero_alt:
+hero_alt: A hot air balloon on a dark background, titled The CPI Hot Air Balloon. The balloon is a patchwork of red boxes, one for each item whose price rose in the 12 months to September 2026; the largest are gasoline, up 34.2%, and owners' equivalent rent. A sandbag of blue boxes hangs below for items whose prices fell, with health insurance and prescription drugs labeled. The basket sits at 3.74% on a scale of 12-month inflation, above a dashed line at the 2% Federal Reserve target.
 meta_title:
 description:
 keywords:

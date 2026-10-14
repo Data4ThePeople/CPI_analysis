@@ -77,6 +77,13 @@ body.series #timeline{display:flex}
 #strip{flex:1;min-width:0;height:52px;display:block;cursor:pointer;touch-action:none}
 #note{display:none;font-size:11.5px;color:var(--muted);padding-top:3px}
 body.series #note{display:block;min-height:16px}
+/* #hero: a still for the post's hero image; no controls, a larger balloon. */
+body.hero #app{height:100vh;max-width:none;padding:26px 44px 16px}
+body.hero .seg,body.hero #timeline,body.hero #note,body.hero #source{display:none}
+body.hero header h1{font-size:30px}
+body.hero header p{font-size:16px}
+body.hero #controls{margin:6px 0 0}
+body.hero footer{justify-content:flex-end;font-size:12px}
 @container (max-width:620px){
   #when{min-width:84px;font-size:13px}
   #timeline{flex-wrap:wrap;row-gap:4px}
@@ -136,6 +143,7 @@ const DATA = {"title":"What pushed prices up in September 2026","source":"Source
 const EMBED = (() => { if (location.hash.includes('embed=0')) return false; if (location.hash.includes('embed=1')) return true;
   try { return window.self !== window.top; } catch (e) { return true; } })();
 if (EMBED) { document.documentElement.setAttribute('data-theme', 'light'); document.body.classList.add('is-embed'); }
+const HERO = /(^|[#&])hero\b/.test(location.hash); if (HERO) document.body.classList.add('hero');
 const th = location.hash.match(/theme=(light|dark)/); if (th) document.documentElement.setAttribute('data-theme', th[1]);
 
 // Expand the compact payload: per month, one item list per view.
@@ -348,6 +356,8 @@ function render() {
   const what = state.view === 'core' ? 'Core prices (all items less food and energy)' : 'Consumer prices';
   $('#dek').textContent = `${what} ${verb} ${Math.abs(V.published).toFixed(2)}% in the 12 months to ${M.label}. Each box is one item: its size is how much it added, its color is how much its own price changed. Items that lowered inflation hang below as sandbags.` +
     (SERIES ? ' The balloon grows with the total pushing prices up.' : '');
+  if (HERO) { $('#title').textContent = 'The CPI Hot Air Balloon';
+    $('#dek').textContent = `${what} ${verb} ${Math.abs(V.published).toFixed(1)}% in the 12 months to ${M.label}. Each box is one item, sized by how much it added.`; }
   if (SERIES) { $('#when').textContent = M.label; $('#note').textContent = M.note || ''; drawStrip(); }
   $('#source').textContent = DATA.source;
   legend();
@@ -358,7 +368,7 @@ function render() {
   const axisX = narrow ? 34 : 54;
   // Fixed envelope size so later months are drawn at the same size.
   // The timeline version draws its largest balloon a bit smaller, leaving room for the altitude to move.
-  const envHMax = Math.min(H * (SERIES ? 0.44 : 0.48), (W - axisX - 30) / (2 * 0.43) * 0.98);
+  const envHMax = Math.min(H * (HERO ? 0.62 : SERIES ? 0.44 : 0.48), (W - axisX - 30) / (2 * 0.43) * 0.98);
   const basketH = Math.max(18, envHMax * 0.07), basketW = envHMax * 0.22;
   const rank = RANK[state.view];
   const order = SERIES ? (a, b) => (rank[b.id] - rank[a.id]) || (b.v - a.v) : (a, b) => b.v - a.v;
@@ -378,14 +388,14 @@ function render() {
   // Altitude: the basket's top edge sits at the rate on the axis.
   const ax = DATA.axis;
   let yOf;
-  if (!SERIES) {
+  if (!SERIES && !HERO) {
     const top = 10 + above, bottom = H - below - 6;
     yOf = r => bottom - (r - ax.min) / (ax.max - ax.min) * (bottom - top);
   } else {
     // Stretch the axis as far as every month allows: each month's crown must stay
     // below the top edge and its sandbag above the bottom, in both views.
     const lims = [];
-    for (const v of VIEWS) {
+    for (const v of (HERO ? [state.view] : VIEWS)) {
       const Sv = SCALE[v], ppp = shapeTable(envHMax)[N] / Sv.posMax;
       for (const mm of Sv.months) lims.push({ r: mm.rate, up: 10 + envHMax * Math.sqrt(mm.p / Sv.posMax) + ropeH,
         dn: H - 6 - (basketH + tether + sackDims(ppp * mm.n)[1] + 8) });
