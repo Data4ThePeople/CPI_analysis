@@ -1,4 +1,4 @@
-# What moved inflation: the CPI hot air balloon
+# The CPI Hot Air Balloon
 
 Data 4 The People. Each detailed item in the Consumer Price Index (CPI-U, U.S.
 city average, not seasonally adjusted), sized by how much it added to or took

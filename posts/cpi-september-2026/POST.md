@@ -28,7 +28,7 @@ That said, we created a new tool to display CPI over time. We’re quite excited
 
 And the other meaning of the double entendre? This data, in our view, is largely just hot air.
 
-<iframe src="https://data4thepeople.github.io/CPI_analysis/dist/over-time.html" width="100%" height="780" frameborder="0" scrolling="no" title="What moved inflation, October 2016 to September 2026"></iframe>
+<iframe src="https://data4thepeople.github.io/CPI_analysis/dist/over-time.html" width="100%" height="780" frameborder="0" scrolling="no" title="The CPI Hot Air Balloon"></iframe>
 ::: spacer 40px
 
 ## How to read the balloon

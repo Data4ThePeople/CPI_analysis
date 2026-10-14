@@ -138,7 +138,7 @@ def main():
     for row in csv.DictReader(open(PROCESSED / "monthly_summary.csv")):
         if row["note"] and row["status"] != "missing":
             notes[row["month"]] = row["note"]
-    payload = encode(m["months"], m["order"], "What pushed prices up, month by month", notes)
+    payload = encode(m["months"], m["order"], "The CPI Hot Air Balloon", notes)
     payload["missing"] = m["missing"]
     write_page(payload, "over-time.html",
                f"Which items pushed U.S. consumer prices up and down in every month from {a} to {b}, "
