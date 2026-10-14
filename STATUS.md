@@ -76,3 +76,6 @@ None.
 - 2026-10-14 Phone fix on the embed (GitHub Pages only; Prismic draft
   unchanged): one-sentence description under 620px, shorter callouts on
   narrow screens. Balloon about 15% larger on phones.
+- 2026-10-14 Embed restyled at Eric's request: sky-blue gradient background
+  and five soft clouds fixed in the sky (light theme; faint versions in
+  dark). Hero unchanged. Prismic draft unchanged (embed loads from Pages).
