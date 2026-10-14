@@ -53,7 +53,7 @@ The CPI Hot Air Balloon is free to use. It breaks the Consumer Price Index for A
 
 Each box in the balloon is one item in the CPI, such as gasoline, rent or airline fares. There are 204 of them, the most detailed items BLS publishes weights for. The size of a box is how much that item added to the 12-month inflation rate, in percentage points. Its color is how much the item's own price changed over those 12 months, from blue (prices fell) to red (prices rose).
 
-Items whose prices fell hang below the basket as sandbags, sized the same way. The top of the basket sits at that month's inflation rate on the scale at the left, and the dashed green line marks the Federal Reserve's 2% target.
+Items whose prices fell hang below the basket as sandbags, sized the same way. The top of the basket sits at that month's inflation rate on the scale at the left, and the dashed green line marks the Federal Reserve's 2% inflation goal. That goal is set for a different measure, the PCE price index, so the line is a reference point, not a CPI target.
 
 How to use it:
 

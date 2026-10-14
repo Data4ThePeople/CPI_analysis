@@ -79,3 +79,7 @@ None.
 - 2026-10-14 Embed restyled at Eric's request: sky-blue gradient background
   and five soft clouds fixed in the sky (light theme; faint versions in
   dark). Hero unchanged. Prismic draft unchanged (embed loads from Pages).
+- 2026-10-14 Post: target-line sentence now says the 2% goal is for PCE (Eric
+  accepted). Prismic draft as_QxRcAADIAEZ_y updated in place. Embed: one-line
+  short description on phones ("Prices up 3.74% in 12 months to Sep 2026"),
+  tooltip closes on a tap off the boxes.

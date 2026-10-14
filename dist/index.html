@@ -103,7 +103,7 @@ body.hero #legend{font-size:13px}
   #strip{flex:1 1 100%;order:3;height:46px}
   #play{min-width:0;padding:7px 10px}
   header h1{font-size:18px}
-  header p{font-size:12.5px}
+  header p{font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   #legend .lbl{display:none}
   .seg button{padding:6px 9px;font-size:12.5px}
   .long{display:none}
@@ -325,6 +325,8 @@ function moveTip(e) {
   tip.style.left = Math.max(8, x) + 'px'; tip.style.top = Math.max(8, y) + 'px';
 }
 const hideTip = () => { tip.style.display = 'none'; };
+// A tap or click anywhere off a box closes the tooltip (touch screens never send mouseleave).
+document.addEventListener('pointerdown', e => { if (!(e.target.closest && e.target.closest('.tile'))) hideTip(); });
 
 function tile(g, b, view, edge) {
   const fill = colorFor(b.d.y);
@@ -332,6 +334,7 @@ function tile(g, b, view, edge) {
     'aria-label': `${b.d.f}: ${fmtPct(b.d.y)} price change, ${fmtPts(b.d.c)} points` }, g);
   r.addEventListener('mousemove', e => showTip(e, b.d, view));
   r.addEventListener('mouseleave', hideTip);
+  r.addEventListener('click', e => showTip(e, b.d, view));
   r.addEventListener('focus', () => { const bb = r.getBoundingClientRect(); showTip({ clientX: bb.right, clientY: bb.top }, b.d, view); });
   r.addEventListener('blur', hideTip);
   if ((DATA.highlight || []).includes(b.d.f)) { r.classList.add('hl'); }
@@ -370,7 +373,13 @@ function render() {
   const verb = V.published >= 0 ? 'rose' : 'fell';
   const what = state.view === 'core' ? 'Core prices (all items less food and energy)' : 'Consumer prices';
   // On phones (.long hidden by the container query) only the first sentence shows, leaving room for the chart.
-  const dek = $('#dek'); dek.textContent = `${what} ${verb} ${Math.abs(V.published).toFixed(2)}% in the 12 months to ${M.label}.`;
+  const dek = $('#dek');
+  if ($('#app').clientWidth <= 620) {
+    // Phones: one short line, so the chart keeps the same height as the months play.
+    const [yy, mm] = state.month.split('-');
+    const mon = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+mm - 1];
+    dek.textContent = `${state.view === 'core' ? 'Core prices' : 'Prices'} ${V.published >= 0 ? 'up' : 'down'} ${Math.abs(V.published).toFixed(2)}% in 12 months to ${mon} ${yy}`;
+  } else dek.textContent = `${what} ${verb} ${Math.abs(V.published).toFixed(2)}% in the 12 months to ${M.label}.`;
   const more = document.createElement('span'); more.className = 'long';
   more.textContent = ' Each box is one item: its size is how much it added, its color is how much its own price changed. Items that lowered inflation hang below as sandbags.' +
     (SERIES ? ' The balloon grows with the total pushing prices up.' : '');
