@@ -216,7 +216,7 @@ def tieout(name):
                 xs.append(float("nan")); ys.append(float("nan")); ds.append(float("nan"))
             xs.append(x); ys.append(float(r[pk])); ds.append(float(r[ik]))
         ax.plot(xs, ys, color=INK, lw=1.6, zorder=2)
-        ax.scatter(xs, ds, s=9, color=UP, zorder=3, linewidths=0)
+        ax.scatter(xs, ds, s=30, color=UP, zorder=3, edgecolors=BG, linewidths=0.7)
         ax.set_ylim(-0.5, 10)
         ax.set_yticks([0, 2, 4, 6, 8, 10])
         ax.set_yticklabels([f"{v}%" for v in (0, 2, 4, 6, 8, 10)])
