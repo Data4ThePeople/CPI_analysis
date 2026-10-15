@@ -6,7 +6,7 @@ Process: ~/.claude/d4tp-process/PROCESS.md
 ## Current
 
 Post: what-is-driving-cpi
-Step: 2g (not started; resume October 15, 2026 at publish)
+Step: 2g (Mailchimp teaser)
 Since: 2026-10-14
 
 ## Steps
