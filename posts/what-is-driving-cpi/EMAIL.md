@@ -66,4 +66,9 @@ If the image does not show for you, click the button below.
 
 ## 7. Call to action
 
-**[Read the full report](https://www.data4thepeople.com/p/what-is-driving-cpi)**
+**[Visualize CPI (a.k.a., “hot air”)](https://www.data4thepeople.com/p/what-is-driving-cpi)**
+
+Button text:
+```
+Visualize CPI (a.k.a., “hot air”)
+```
