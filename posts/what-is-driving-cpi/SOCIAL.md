@@ -18,30 +18,6 @@ Watch it rise and fall, every month since 2016:
 https://www.data4thepeople.com/p/what-is-driving-cpi
 ```
 
-## X, thread (optional, 3 posts)
-
-1/3 (211 characters). Image: `social/what-is-driving-cpi-balloon.gif`.
-```
-We drew CPI as a hot air balloon. Each box is one of 204 items, sized by how much it added to 12-month inflation. Items whose prices fell hang below as ballast.
-
-Watch it climb through 2022 and settle back down.
-```
-
-2/3 (142 characters). Image: `images/02-waterfall.png`.
-```
-September 2026: headline CPI up 3.7%, core up 2.6%.
-
-Gasoline, up 34.2%, added 1.09 points. Shelter added 1.14. Together, 60% of the increase.
-```
-
-3/3 (239 characters). Image: `images/08-whatif.png`.
-```
-Health insurance (down 9.0%) and prescription drugs (down 4.5%) pulled the other way. At their 10-year average pace, headline CPI would have been 3.9% instead of 3.7%.
-
-In our view, the data is largely just hot air.
-https://www.data4thepeople.com/p/what-is-driving-cpi
-```
-
 ## LinkedIn
 
 Media: `social/what-is-driving-cpi-balloon.gif`. If LinkedIn shows it as a still, use the hero, `images/what-is-driving-cpi-hero-1680x1080.png`, instead. The text is Eric's, from the post and the email, shortened, with the last line pointing to the first comment.
@@ -80,9 +56,4 @@ A hot air balloon made of data floats in a dawn sky over a small American town o
 Waterfall (`images/02-waterfall.png`):
 ```
 A waterfall chart of what added up to 3.7% headline inflation in September 2026. Gasoline added 1.09 percentage points, owners' equivalent rent 0.82, rent of primary residence 0.21, airline fares 0.20, hospital services 0.12 and electricity 0.11. The other 194 items added 1.50 points together. Motor vehicle insurance took away 0.14 points, health insurance 0.08, phones and other information devices 0.06 and prescription drugs 0.04. The total is 3.74 points.
-```
-
-What-if (`images/08-whatif.png`):
-```
-A bar chart comparing published inflation with a what-if for September 2026. Headline CPI was 3.74% as published and would be 3.91% if health insurance and prescription drugs had risen at their 10-year averages. Core CPI was 2.56% as published and would be 2.78%.
 ```
