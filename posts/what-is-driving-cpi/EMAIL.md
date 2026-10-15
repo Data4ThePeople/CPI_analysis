@@ -27,15 +27,9 @@ Yesterday, the Bureau of Labor Statistics released the Consumer Price Index (CPI
 For the new D4TP readers, I will briefly indoctrinate you into my views on CPI – it reflects no one's experience of inflation. We illustrated this three weeks ago using gasoline costs. That post is very much worth reading before attributing much meaning to CPI as a proxy for the inflation real people feel.
 ```
 
-## 4. Charts
+## 4. Chart
 
-First, the tool: `images/09-tool-september-2026.png` (email export `images/09-tool-september-2026-email.jpg`, 188 KB), linked to the post.
-Alt:
-```
-A screenshot of the CPI Hot Air Balloon tool for September 2026, set against a blue sky with clouds. A balloon made of red boxes, one per item whose price rose, floats with its basket at 3.74% on a scale of 12-month inflation; gasoline, up 34.2%, is the largest labeled box. A sandbag of blue boxes hangs below, with health insurance and prescription drugs labeled. Play, speed and timeline controls run along the bottom.
-```
-
-Second: `images/02-waterfall.png`
+`images/02-waterfall.png`
 Alt:
 ```
 A waterfall chart of what added up to 3.7% headline inflation in September 2026. Gasoline added 1.09 percentage points, owners' equivalent rent 0.82, rent of primary residence 0.21, airline fares 0.20, hospital services 0.12 and electricity 0.11. The other 194 items added 1.50 points together. Motor vehicle insurance took away 0.14 points, health insurance 0.08, phones and other information devices 0.06 and prescription drugs 0.04. The total is 3.74 points.
@@ -50,9 +44,24 @@ So we built a new tool. CPI is drawn as a hot air balloon: items whose prices ro
 
 In September 2026, gasoline added 1.09 of the 3.74 points. Health insurance and prescription drugs pulled the other way. If those two had risen at their 10-year average pace, headline CPI would have been 3.9% instead of 3.7%.
 
-And the other meaning of the double entendre? This data, in our view, is largely just hot air. Press Play and watch the balloon climb through 2022.
+And the other meaning of the double entendre? This data, in our view, is largely just hot air.
+
+Click the balloon below to open the tool. Press Play and watch it climb through 2022.
 ```
 
-## 6. Call to action
+## 6. The tool (click to open)
+
+`images/09-tool-september-2026.png` (email export `images/09-tool-september-2026-email.jpg`, 188 KB), linked to the post.
+Alt:
+```
+A screenshot of the CPI Hot Air Balloon tool for September 2026, set against a blue sky with clouds. A balloon made of red boxes, one per item whose price rose, floats with its basket at 3.74% on a scale of 12-month inflation; gasoline, up 34.2%, is the largest labeled box. A sandbag of blue boxes hangs below, with health insurance and prescription drugs labeled. Play, speed and timeline controls run along the bottom.
+```
+
+Line under the image:
+```
+If the image does not show for you, click the button below.
+```
+
+## 7. Call to action
 
 **[Read the full report](https://www.data4thepeople.com/p/what-is-driving-cpi)**
