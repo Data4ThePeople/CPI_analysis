@@ -52,8 +52,3 @@ Hero:
 ```
 A hot air balloon made of data floats in a dawn sky over a small American town of houses, trees in fall color and a lit gas station on the main road. The balloon is a patchwork of red boxes, one for each item whose price rose in the 12 months to September 2026; the largest are gasoline, up 34.2%, and owners' equivalent rent, up 3.3%. Below the basket hangs a sandbag of blue boxes for items whose prices fell.
 ```
-
-Waterfall (`images/02-waterfall.png`):
-```
-A waterfall chart of what added up to 3.7% headline inflation in September 2026. Gasoline added 1.09 percentage points, owners' equivalent rent 0.82, rent of primary residence 0.21, airline fares 0.20, hospital services 0.12 and electricity 0.11. The other 194 items added 1.50 points together. Motor vehicle insurance took away 0.14 points, health insurance 0.08, phones and other information devices 0.06 and prescription drugs 0.04. The total is 3.74 points.
-```
