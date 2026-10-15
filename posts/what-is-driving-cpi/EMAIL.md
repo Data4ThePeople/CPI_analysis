@@ -25,6 +25,12 @@ The CPI Hot Air Balloon
 Yesterday, the Bureau of Labor Statistics released the Consumer Price Index (CPI) for September 2026. This is "the inflation report" that all eyes are on to understand the consumer's experience of inflation.
 
 For the new D4TP readers, I will briefly indoctrinate you into my views on CPI – it reflects no one's experience of inflation. We illustrated this three weeks ago using gasoline costs. That post is very much worth reading before attributing much meaning to CPI as a proxy for the inflation real people feel.
+
+But, alas, so many people think CPI is real, that it has become a very real and important concept. We can simultaneously understand that CPI is not the inflation you and I feel and that it is still extremely important.
+
+And so, here are the main item-level drivers of yesterday’s CPI “inflation” data.
+
+In September 2026, gasoline added 1.09 of the 3.74 points. Health insurance and prescription drugs pulled the other way. If those two had risen at their 10-year average pace, headline CPI would have been 3.9% instead of 3.7%.
 ```
 
 ## 4. Chart
@@ -38,13 +44,9 @@ A waterfall chart of what added up to 3.7% headline inflation in September 2026.
 ## 5. Body, part two
 
 ```
-But, alas, so many people think CPI is real, that it has become a very real and important concept. We can simultaneously understand that CPI is not the inflation you and I feel and that it is still extremely important.
+But this static image, created once a month, missed a golden opportunity to present the data in a way that both hands you the data to explore AND offers an analogy on how we feel about the data.
 
 So we built a new tool. CPI is drawn as a hot air balloon: items whose prices rose lift it up, and items whose prices fell hang below as ballast. Each item is sized by how much it added to the CPI number, and you can switch between headline and core.
-
-In September 2026, gasoline added 1.09 of the 3.74 points. Health insurance and prescription drugs pulled the other way. If those two had risen at their 10-year average pace, headline CPI would have been 3.9% instead of 3.7%.
-
-And the other meaning of the double entendre? This data, in our view, is largely just hot air.
 
 Click the balloon below to open the tool. Press Play and watch it climb through 2022.
 ```
