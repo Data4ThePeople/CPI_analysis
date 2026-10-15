@@ -5,9 +5,9 @@ Process: ~/.claude/d4tp-process/PROCESS.md
 
 ## Current
 
-Post: what-is-driving-cpi
-Step: 2g (Mailchimp teaser)
-Since: 2026-10-14
+Post: what-is-driving-cpi  **COMPLETE**
+Step: none; all steps through 2g confirmed
+Since: 2026-10-15
 
 ## Steps
 
@@ -20,7 +20,7 @@ Since: 2026-10-14
 | 2d | Hero 1680x1080 + alt text | 2026-10-14 | Re-confirmed: data balloon over Eric's Gemini dawn-town backdrop, composited by build.py; alt 411 chars |
 | 2e | SEO | 2026-10-14 | Meta 54/152 chars, 8 keywords, Dataset + WebApplication + 10 FAQ; slug what-is-driving-cpi |
 | 2f | Pushed to Prismic (draft) | 2026-10-14 | Draft as_QxRcAADIAEZ_y, Migration Release, 56 slices, 9 images |
-| 2g | Mailchimp teaser | | |
+| 2g | Mailchimp teaser | 2026-10-15 | EMAIL.md in Eric's words; waterfall chart + tool image at end; hero JPG 206 KB; social GIF 3.0 MB |
 
 ## Stale
 
@@ -85,3 +85,6 @@ None.
   tooltip closes on a tap off the boxes.
 - 2026-10-15 Publication time changed to 5:30 a.m. EDT, October 15, 2026;
   Prismic draft as_QxRcAADIAEZ_y updated in place.
+- 2026-10-15 Step 2g confirmed by Eric. Post complete. Social GIF in
+  social/what-is-driving-cpi-balloon.gif (scripts/gif.py); SOCIAL.md not yet
+  written.
