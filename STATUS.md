@@ -83,3 +83,5 @@ None.
   accepted). Prismic draft as_QxRcAADIAEZ_y updated in place. Embed: one-line
   short description on phones ("Prices up 3.74% in 12 months to Sep 2026"),
   tooltip closes on a tap off the boxes.
+- 2026-10-15 Publication time changed to 5:30 a.m. EDT, October 15, 2026;
+  Prismic draft as_QxRcAADIAEZ_y updated in place.

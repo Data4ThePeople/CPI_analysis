@@ -3,7 +3,7 @@ title: The CPI Hot Air Balloon
 subtitle: Consumer prices rose 3.7% in the 12 months to September 2026, and gasoline and shelter together did more than half the lifting. Our new tool shows every item in the CPI, every month, back to 2016.
 slug: what-is-driving-cpi
 date: 2026-10-15
-time: 06:30:00-04:00
+time: 05:30:00-04:00
 section: Data 4 Thought
 hero: images/what-is-driving-cpi-hero-1680x1080.png
 hero_alt: A hot air balloon made of data floats in a dawn sky over a small American town of houses, trees in fall color and a lit gas station on the main road. The balloon is a patchwork of red boxes, one for each item whose price rose in the 12 months to September 2026; the largest are gasoline, up 34.2%, and owners' equivalent rent, up 3.3%. Below the basket hangs a sandbag of blue boxes for items whose prices fell.
