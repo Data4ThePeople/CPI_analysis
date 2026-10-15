@@ -85,6 +85,11 @@ body.hero #stage{grid-column:2;grid-row:1 / 6}
 body.hero #side{display:none}
 body.hero footer{grid-column:1;grid-row:5;font-size:13px}
 body.hero .seg,body.hero #source{display:none}
+/* #gif: frames for the email and social GIF; no buttons, flat sky (GIF palettes band on gradients) */
+body.gif #app{height:100vh;max-width:none;padding:16px 18px 8px}
+body.gif .seg,body.gif #play,body.gif #source{display:none}
+body.gif #when{font-size:22px;min-width:150px}
+html:has(body.gif){background:#d3e6f6}
 /* #hero&bare: the balloon alone, no text outside it; #clear: transparent background */
 body.hero.bare #app{grid-template-columns:1fr;padding:30px}
 body.hero.bare header,body.hero.bare #controls,body.hero.bare footer{display:none}
@@ -152,6 +157,7 @@ const EMBED = (() => { if (location.hash.includes('embed=0')) return false; if (
 if (EMBED) { document.documentElement.setAttribute('data-theme', 'light'); document.body.classList.add('is-embed'); }
 const HERO = /(^|[#&])hero\b/.test(location.hash); if (HERO) document.body.classList.add('hero');
 const BARE = HERO && /bare/.test(location.hash); if (BARE) document.body.classList.add('bare');
+const GIF = /(^|[#&])gif\b/.test(location.hash); if (GIF) document.body.classList.add('gif');
 const CLEAR = /clear/.test(location.hash); if (CLEAR) document.body.classList.add('clear');
 const th = location.hash.match(/theme=(light|dark)/); if (th) document.documentElement.setAttribute('data-theme', th[1]);
 
@@ -395,7 +401,7 @@ function render() {
   const axisX = narrow ? 34 : 54;
   // Fixed envelope size so later months are drawn at the same size.
   // The timeline version draws its largest balloon a bit smaller, leaving room for the altitude to move.
-  const envHMax = Math.min(H * (BARE ? 0.64 : HERO ? 0.66 : SERIES ? 0.44 : 0.48), (W - axisX - 30) / (2 * 0.43) * 0.98);
+  const envHMax = Math.min(H * (BARE ? 0.64 : HERO ? 0.66 : GIF ? 0.40 : SERIES ? 0.44 : 0.48), (W - axisX - 30) / (2 * 0.43) * 0.98);
   const basketH = Math.max(18, envHMax * 0.07), basketW = envHMax * 0.22;
   const rank = RANK[state.view];
   const order = SERIES ? (a, b) => (rank[b.id] - rank[a.id]) || (b.v - a.v) : (a, b) => b.v - a.v;
