@@ -88,3 +88,10 @@ None.
 - 2026-10-15 Step 2g confirmed by Eric. Post complete. Social GIF in
   social/what-is-driving-cpi-balloon.gif (scripts/gif.py); SOCIAL.md not yet
   written.
+- 2026-11-10 October 2026 update skipped by Eric. BLS never published October
+  2025, so October 2026 12-month changes have no base month for almost every
+  item. Next update is the November 2026 release (September 2025 to November
+  2025 is published, so November 12-month changes tie out). Planned for that
+  update: balloon and CSVs through November, schema refresh, and a ranking of
+  each item's change in weighted contribution from the last 12-month change
+  (September) to November's.
