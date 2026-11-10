@@ -95,3 +95,7 @@ None.
   update: balloon and CSVs through November, schema refresh, and a ranking of
   each item's change in weighted contribution from the last 12-month change
   (September) to November's.
+- 2026-11-10 Checked at release: the BLS API prints no October 2026 12-month
+  change for all items, core, or any item except the 6 series that have an
+  October 2025 index (gasoline, new, used and leased vehicles, and two
+  others). Skip confirmed.
